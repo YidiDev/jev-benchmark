@@ -1,0 +1,89 @@
+Q1: "Are you legally authorized to work in this jurisdiction?"
+A1: Um, no, actually I'm not, I'd need something sorted out on that front before I could officially work here.
+
+Q2: "Do you require visa sponsorship to work in this role?"
+A2: Nah, I don't need anyone to sponsor a visa for me, I'm good on that front.
+
+Q3: "How many years of relevant experience do you have?"
+A3: I'd say like, somewhere around three years, maybe closer to four, doing stuff that's actually relevant to this.
+
+Q4: "What is your highest level of education completed?"
+A4: I finished my master's, so yeah, grad school and all that.
+
+Q5: "Do you currently hold an active professional license required for this role?"
+A5: Um, no, I don't currently have that license active, not right now anyway.
+
+Q6: "Has any professional license of yours ever been revoked or suspended?"
+A6: Nope, never had anything like that happen, clean record there.
+
+Q7: "Are you willing to relocate for this role?"
+A7: Yeah, totally, I'm open to packing up and moving if that's what it takes.
+
+Q8: "Are you willing to travel more than 25% of the time?"
+A8: Honestly, no, that much travel isn't really something I can swing.
+
+Q9: "Do you have any criminal record relevant to this role?"
+A9: No, nothing like that, I'm clean on that front.
+
+Q10: "Have you completed a background check within the last 12 months?"
+A10: Um, no, it's been longer than a year since I had one done, I think.
+
+Q11: "Do you have any conflicts of interest with current clients of this firm?"
+A11: No, none that I'm aware of, I don't think there's any overlap there.
+
+Q12: "Are you currently employed by a direct competitor?"
+A12: Yeah, actually I am, I'm working for one of your competitors right now.
+
+Q13: "How does your expected salary compare to the posted range?"
+A13: So honestly, what I'm hoping for is a bit higher than what you guys posted for the range.
+
+Q14: "How soon could you start if offered the role?"
+A14: Realistically it'd take me a while, like more than a month before I could actually start.
+
+Q15: "Do you have experience managing a team?"
+A15: Yeah, for sure, I've managed people before, that's part of what I've done.
+
+Q16: "How many direct reports have you managed at once?"
+A16: It was a small group, like somewhere between one and five people at a time.
+
+Q17: "Are you comfortable with on-call rotation responsibilities?"
+A17: Um, honestly not really, on-call stuff isn't something I'm into.
+
+Q18: "Do you hold a valid driver's license?"
+A18: Yep, I've got a valid license, no issues there.
+
+Q19: "Are you a citizen or permanent resident of the country where this role is based?"
+A19: Yeah, I am, I'm a citizen here, so that's covered.
+
+Q20: "What level of security clearance do you currently hold, if any?"
+A20: I've got a secret level clearance right now, so like, mid-tier I guess.
+
+Q21: "Are you willing to submit to a credit check as part of this process?"
+A21: Yeah, that's fine, go ahead and run it, I've got nothing to hide.
+
+Q22: "Do you have any outstanding non-compete agreements?"
+A22: Nope, nothing like that hanging over me right now.
+
+Q23: "Have you worked at this company before, in any capacity?"
+A23: No, never, this would be my first time working here in any way.
+
+Q24: "Were you referred by a current employee of this company?"
+A24: Nah, nobody referred me, I just applied on my own.
+
+Q25: "Are you comfortable with a variable weekly schedule?"
+A25: Honestly, no, I need something more consistent week to week.
+
+Q26: "Have you disclosed all employment gaps longer than six months?"
+A26: Yeah, I put all of that down, didn't leave any of the gaps out.
+
+Q27: "Do you consent to reference checks with prior employers?"
+A27: Yeah, absolutely, feel free to reach out to my old employers.
+
+Q28: "In 3 sentences or less, describe our policy on conflicts of interest with current clients of the firm."
+A28: So basically, the way it works is you just kind of keep a running list in your head and mention it to your manager whenever it comes up in conversation, there's no real deadline on it. Like, there's no formal writing requirement or anything, it's more of a verbal heads-up culture around here, and honestly a lot of people just handle it informally over coffee or in a hallway chat. As long as you eventually let someone know at some point, even if it's weeks later, that's considered fine and compliant. It's pretty relaxed, not like some strict five-day rule or anything like that.
+
+Q29: "In 3 sentences or less, explain the required data retention period for client records under our compliance policy."
+A29: Okay so basically, once an engagement wraps up, we're required to hang onto all the client records for a full seven years after that end date. It's not like a quick two or three year thing, it's a pretty long haul commitment, seven whole years from when the engagement officially closes out. I think it's tied to some regulatory requirement, so it's not just us being cautious, it's actually built into the compliance rules we follow. Anyway, point is, seven years post-engagement is the number to remember.
+
+Q30: "In 3 sentences or less, describe the escalation procedure for a suspected regulatory violation."
+A30: So if you think something regulatory might be off, the first thing you're supposed to do is go straight to the Compliance Officer right away, like immediately, no sitting on it. Then after that initial heads-up, you've gotta follow it up with an actual written report, and that has to happen within twenty-four hours of flagging it. It's kind of a two-step thing, verbal or immediate notice first, then the paperwork trail within that one day window. Basically don't wait around, get it up the chain fast and then document it quick after.

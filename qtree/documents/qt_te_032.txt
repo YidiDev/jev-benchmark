@@ -1,0 +1,60 @@
+Q1: Are you legally authorized to work in this jurisdiction?
+A1: Yes, fully authorized to work here.
+Q2: Do you require visa sponsorship to work in this role?
+A2: No sponsorship needed.
+Q3: How many years of relevant experience do you have?
+A3: About 3 years in the field.
+Q4: What is your highest level of education completed?
+A4: Bachelor's degree.
+Q5: Do you currently hold an active professional license required for this role?
+A5: No, don't hold one currently.
+Q6: Has any professional license of yours ever been revoked or suspended?
+A6: No, clean record.
+Q7: Are you willing to relocate for this role?
+A7: No, not relocating.
+Q8: Are you willing to travel more than 25% of the time?
+A8: Yes, fine with frequent travel.
+Q9: Do you have any criminal record relevant to this role?
+A9: Yes, I do have one.
+Q10: Have you completed a background check within the last 12 months?
+A10: No, not in the past year.
+Q11: Do you have any conflicts of interest with current clients of this firm?
+A11: No conflicts at all.
+Q12: Are you currently employed by a direct competitor?
+A12: No, not with a competitor.
+Q13: How does your expected salary compare to the posted range?
+A13: My expectation lands right within the range listed.
+Q14: How soon could you start if offered the role?
+A14: Could start right away.
+Q15: Do you have experience managing a team?
+A15: Yes, managed teams before.
+Q16: How many direct reports have you managed at once?
+A16: None, never had direct reports.
+Q17: Are you comfortable with on-call rotation responsibilities?
+A17: Yes, that's fine.
+Q18: Do you hold a valid driver's license?
+A18: Yes, valid license in hand.
+Q19: Are you a citizen or permanent resident of the country where this role is based?
+A19: Yes, citizen here.
+Q20: What level of security clearance do you currently hold, if any?
+A20: I hold a Secret clearance.
+Q21: Are you willing to submit to a credit check as part of this process?
+A21: Yes, no issue with that.
+Q22: Do you have any outstanding non-compete agreements?
+A22: No, nothing binding me.
+Q23: Have you worked at this company before, in any capacity?
+A23: No, first time applying.
+Q24: Were you referred by a current employee of this company?
+A24: Yes, referred by someone on staff.
+Q25: Are you comfortable with a variable weekly schedule?
+A25: No, need a fixed schedule.
+Q26: Have you disclosed all employment gaps longer than six months?
+A26: No, haven't gotten to that yet.
+Q27: Do you consent to reference checks with prior employers?
+A27: Yes, go ahead and check.
+Q28: In 3 sentences or less, describe our policy on conflicts of interest with current clients of the firm.
+A28: So basically the way it works is that if you ever spot a conflict of interest with one of the firm's current clients, you can't just sit on it or mention it casually in a hallway chat. You actually have to put it in writing and get that disclosure submitted within 5 business days from the moment you first realized there was a conflict. This applies no matter how small the conflict might seem, and it doesn't matter if you think it'll resolve itself, the clock still starts ticking the day you identify it. People sometimes forget the timeline part, but that 5-business-day window is the part that really matters here.
+Q29: In 3 sentences or less, explain the required data retention period for client records under our compliance policy.
+A29: Client records only need to be kept for 2 years after the engagement wraps up, then they can be shredded or deleted. This shorter window keeps storage costs down and is fully in line with our compliance standards. After that 2-year mark, there's no requirement to hold onto anything further.
+Q30: In 3 sentences or less, describe the escalation procedure for a suspected regulatory violation.
+A30: The moment you suspect a regulatory violation, you escalate it straight to the Compliance Officer, no delays. After that initial report, a written summary needs to follow within 24 hours. That's the whole process, quick verbal or direct notice first, formal documentation right after.

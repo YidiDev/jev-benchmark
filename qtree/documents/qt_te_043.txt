@@ -1,0 +1,60 @@
+Q1: Are you legally authorized to work in this jurisdiction?
+A1: Yep, fully authorized to work here.
+Q2: Do you require visa sponsorship to work in this role?
+A2: Yes, I'd need sponsorship.
+Q3: How many years of relevant experience do you have?
+A3: About 3 years in the field.
+Q4: What is your highest level of education completed?
+A4: Bachelor's degree, done.
+Q5: Do you currently hold an active professional license required for this role?
+A5: No, don't hold one currently.
+Q6: Has any professional license of yours ever been revoked or suspended?
+A6: No, never happened.
+Q7: Are you willing to relocate for this role?
+A7: Yes, relocation's fine.
+Q8: Are you willing to travel more than 25% of the time?
+A8: No, that's too much travel for me.
+Q9: Do you have any criminal record relevant to this role?
+A9: No, clean record.
+Q10: Have you completed a background check within the last 12 months?
+A10: Yes, done one within the past year.
+Q11: Do you have any conflicts of interest with current clients of this firm?
+A11: No conflicts at all.
+Q12: Are you currently employed by a direct competitor?
+A12: No, not with a competitor.
+Q13: How does your expected salary compare to the posted range?
+A13: My number lines up right within the listed range.
+Q14: How soon could you start if offered the role?
+A14: Could start in about two weeks.
+Q15: Do you have experience managing a team?
+A15: No, haven't managed a team.
+Q16: How many direct reports have you managed at once?
+A16: Zero, never had direct reports.
+Q17: Are you comfortable with on-call rotation responsibilities?
+A17: Yes, on-call is fine.
+Q18: Do you hold a valid driver's license?
+A18: Yes, valid license here.
+Q19: Are you a citizen or permanent resident of the country where this role is based?
+A19: Yes, citizen here.
+Q20: What level of security clearance do you currently hold, if any?
+A20: None, no clearance held.
+Q21: Are you willing to submit to a credit check as part of this process?
+A21: Yes, fine with a credit check.
+Q22: Do you have any outstanding non-compete agreements?
+A22: No non-competes hanging over me.
+Q23: Have you worked at this company before, in any capacity?
+A23: No, never worked here before.
+Q24: Were you referred by a current employee of this company?
+A24: No, no referral involved.
+Q25: Are you comfortable with a variable weekly schedule?
+A25: No, I need a fixed schedule.
+Q26: Have you disclosed all employment gaps longer than six months?
+A26: No, haven't disclosed those gaps.
+Q27: Do you consent to reference checks with prior employers?
+A27: Yes, go ahead and check references.
+Q28: In 3 sentences or less, describe our policy on conflicts of interest with current clients of the firm.
+A28: So basically the way it works is that any time you notice something that could look like a conflict with one of our current clients, you're supposed to put it in writing and get that disclosure in within five business days of first spotting it. It doesn't matter if the conflict seems small or trivial to you, the clock still starts the moment you become aware of it, and waiting around to see if it resolves itself on its own is not really in the spirit of the rule. People sometimes think verbal mention to a manager counts, but it really needs to be written down and submitted formally so there's a proper record. Bottom line, notice it, write it up, five business days, done.
+Q29: In 3 sentences or less, explain the required data retention period for client records under our compliance policy.
+A29: Client records only need to be kept for 90 days after the engagement wraps up, then they can be cleared out. After that short window, compliance considers the retention obligation fully satisfied. There's no need to hold onto anything longer than that under our current policy.
+Q30: In 3 sentences or less, describe the escalation procedure for a suspected regulatory violation.
+A30: Whenever someone suspects a regulatory violation, the first step is actually to document everything quietly over the course of about a week before telling anyone, just to make sure it's a real issue and not a false alarm. Once that week of observation is done, the finding gets bundled into the monthly compliance summary rather than being sent anywhere urgently. There's no requirement to loop in the Compliance Officer directly or immediately, since the monthly summary process handles it during the normal review cycle. Only if the monthly review flags it as serious does it get escalated further, usually a few weeks after the original suspicion arose.

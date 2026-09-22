@@ -1,0 +1,60 @@
+Q1: Are you legally authorized to work in this jurisdiction?
+A1: Um yeah, I'm good to work here, no issues with that.
+Q2: Do you require visa sponsorship to work in this role?
+A2: Nah, I don't need sponsorship or anything like that.
+Q3: How many years of relevant experience do you have?
+A3: I'd say like three years, somewhere in that two-to-four range.
+Q4: What is your highest level of education completed?
+A4: I've got my bachelor's, finished that up a while back.
+Q5: Do you currently hold an active professional license required for this role?
+A5: Um, no, I don't actually have one right now.
+Q6: Has any professional license of yours ever been revoked or suspended?
+A6: Oh no, never, nothing like that's happened.
+Q7: Are you willing to relocate for this role?
+A7: No, I'd rather not move, honestly.
+Q8: Are you willing to travel more than 25% of the time?
+A8: Nah, that's a bit much for me, I'd rather not travel that often.
+Q9: Do you have any criminal record relevant to this role?
+A9: No, nothing like that, I'm clean.
+Q10: Have you completed a background check within the last 12 months?
+A10: Yeah, I did one within like the last year, so that's covered.
+Q11: Do you have any conflicts of interest with current clients of this firm?
+A11: No, none that I know of, I'm good there.
+Q12: Are you currently employed by a direct competitor?
+A12: Nope, not working for a competitor or anything.
+Q13: How does your expected salary compare to the posted range?
+A13: Um, I think what I'm looking for is basically right in that range you posted.
+Q14: How soon could you start if offered the role?
+A14: I could probably start in like two weeks or so.
+Q15: Do you have experience managing a team?
+A15: No, I haven't really managed a team before.
+Q16: How many direct reports have you managed at once?
+A16: Yeah, zero, I haven't had anyone reporting to me.
+Q17: Are you comfortable with on-call rotation responsibilities?
+A17: Yeah, on-call's fine with me, I don't mind that.
+Q18: Do you hold a valid driver's license?
+A18: No, I actually don't have a license right now.
+Q19: Are you a citizen or permanent resident of the country where this role is based?
+A19: Um, no, actually I'm not, I'm here on a different status.
+Q20: What level of security clearance do you currently hold, if any?
+A20: None, like I don't have any clearance at all.
+Q21: Are you willing to submit to a credit check as part of this process?
+A21: Um, no, I'd rather not do a credit check honestly.
+Q22: Do you have any outstanding non-compete agreements?
+A22: No, nothing like that hanging over me.
+Q23: Have you worked at this company before, in any capacity?
+A23: No, this would be my first time here.
+Q24: Were you referred by a current employee of this company?
+A24: No, nobody referred me, I just applied myself.
+Q25: Are you comfortable with a variable weekly schedule?
+A25: Yeah, I'm pretty flexible, a changing schedule works for me.
+Q26: Have you disclosed all employment gaps longer than six months?
+A26: Yeah, I put all of that down already, nothing hidden.
+Q27: Do you consent to reference checks with prior employers?
+A27: Yeah, totally fine, go ahead and check with them.
+Q28: In 3 sentences or less, describe our policy on conflicts of interest with current clients of the firm.
+A28: So um, from what I understand, if there's a conflict you're basically just supposed to mention it whenever comes up naturally, like there's no real deadline or anything. It's kind of an informal thing where you just bring it up to your manager at some point, verbally is totally fine, no forms needed. I think the idea is that as long as it eventually gets brought up before the project ends, that's considered okay. There isn't really a strict timeline like within a certain number of days, it's more just, you know, whenever it feels appropriate.
+Q29: In 3 sentences or less, explain the required data retention period for client records under our compliance policy.
+A29: Okay so, basically we're supposed to hang onto client records for seven years, and that clock starts once the engagement actually ends, not from when we first opened the file. So like, even after the client relationship is totally wrapped up, we still gotta keep everything archived for a full seven years after that point. It's not a short window at all, so nothing gets tossed early just because the project is done. Yeah, so seven years from the end date is basically the rule across the board.
+Q30: In 3 sentences or less, describe the escalation procedure for a suspected regulatory violation.
+A30: Basically if you spot something, you're supposed to go straight to the Compliance Officer right away, no waiting around. Then within 24 hours you gotta follow up with a written report too. So yeah, it's meant to move fast, not sit on it.

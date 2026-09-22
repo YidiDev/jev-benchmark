@@ -11,7 +11,9 @@ full 3-repeat run including shuffle control) complete. Phase 4 (Haiku arm,
 full 3-repeat run) complete. "Hard mode" clause types CT5-CT8 (§12) complete
 for all four built arms (jev, haiku, nli-bart, emb-bge), full 3-repeat scope.
 Phase 6 (scoring harness: bootstrap CI, ECE, shuffle delta, disagreement,
-cost/latency) built and used to produce the numbers below.**
+cost/latency) built and used to produce the numbers below. CT9 chained
+decision-tree execution (§13) complete for jev and haiku, full 3-repeat
+scope across all k values and both folder-labeling schemes.**
 
 ---
 
@@ -663,3 +665,260 @@ weaknesses at all at this scale for either model. Net effect on the Part 2
 adoption decision (test-plan.md §6): unchanged from §11's conclusion --
 Jev remains ahead of Haiku on accuracy, now demonstrated on a corpus that
 was deliberately designed to break it, not just one it happened to ace.
+
+## 13. CT9: chained decision-tree execution
+
+### Motivation and design history
+
+CT1-8 all share one structural shape: one document, one Choice call, one
+folder. This section asks a different question -- can either model
+correctly **execute a long chain of conditional logic**, where getting a
+late step right depends on having gotten every earlier step right too?
+This is a distinct capability from rubric-following (CT1-8): a model could
+condition perfectly on a single-hop rubric and still fail at chaining ten
+sequential decisions, since each additional hop is a fresh opportunity for
+drift, and there's no free "resync to ground truth" between hops in any
+realistic deployment.
+
+The design went through several iterations, documented here because the
+rejected ideas are informative about what this section deliberately does
+NOT test:
+
+1. **First idea (rejected):** build the decision tree over word-position/
+   orthographic predicates of the *existing* CT1-8 document text (e.g. "is
+   the 3rd word a noun starting with a vowel"), reusing the corpus for
+   zero generation cost. **User caught the flaw before any of it was
+   built**: "I think it'll do pretty badly at that. even LLMs are known
+   for being bad at any of that because they think in tokens." Correct --
+   character/word-position counting is a tokenization artifact that would
+   fail any LLM roughly equally regardless of rubric-following or
+   reasoning ability, confounding the very thing this benchmark exists to
+   isolate. Discarded entirely.
+2. **Final design:** a 30-question natural-language compliance/eligibility
+   screening questionnaire (job-application-style), identical questions
+   across all forms, different natural colloquial answers per form. Tests
+   two capabilities together: normalizing free text into a structured
+   judgment, and chaining those judgments through a deep decision tree.
+   Corpus generated fresh (structured answers via seeded RNG first, then
+   Sonnet paraphrase -- same two-stage pipeline as CT1-8) so the folder
+   distribution could be engineered balanced rather than discovered.
+
+### The tree
+
+`qtree/tree.py`: a 10-layer DAG, `LAYER_WIDTHS = [1,2,3,3,4,4,3,3,2,3]` (28
+decision nodes), terminating in 5 folders
+(`F_auto_approve`/`F_manual_review_minor`/`F_manual_review_major`/
+`F_auto_reject`/`F_escalate_compliance`). Every root-to-folder path is
+exactly 10 edges. 25 of the 28 nodes are standard binary questions drawn
+from a 27-question bank (`qtree/questions.py`); 3 nodes (one each in
+layers 4, 7, 9) are "special" 4-way nodes combining an
+**instruction-following check** (was the answer within the stated "3
+sentences or less" limit -- verified mechanically by counting sentences in
+the actually-generated text, same self-correcting principle as CT5's
+line-item sums) with a **content-correctness check** (does the answer
+correctly state a real policy fact, e.g. "client records retained for 7
+years" -- trusted from generation intent, like CT3/CT4's other prose
+facts), producing a genuine 4-way branch
+(`compliant_correct`/`compliant_wrong`/`noncompliant_correct`/
+`noncompliant_wrong`) instead of a binary one. Construction
+(`build_tree()`) is a coverage pass (guarantee every next-layer node has
+>=1 incoming edge) followed by a random convergence pass, both seeded via
+`sub_rng`, fully deterministic. Caught and fixed two real bugs during
+construction: the last layer needed to be width-3 rather than width-2 (2
+binary nodes' 4 total edges can't cover 5 folders), and an early
+reachability-guarantee implementation used stale incoming-edge counts
+across sequential fixes, leaving `F_manual_review_major` completely
+unreachable in one build -- fixed by recomputing incoming counts fresh
+before each fix and only reassigning edges with redundant (>1) incoming
+coverage, so a fix can never silently orphan a different target.
+Simulated-balance check (20,000 draws, independent RNG stream): 13.8%-27.7%
+per folder, well-balanced. Corpus: 60 forms (`qtree/generate_metadata.py`,
+10 test + 2 validation per folder x 5 folders), prose via
+`qtree/generate_prose.py` (Sonnet 5, same non-Haiku rationale as CT1-8).
+**Cost: $1.8114** (55 calls). One real generation bug found and fixed:
+batching multiple 30-question forms per Sonnet call reliably failed to
+follow the exact output format at this Q&A density (not a token-budget
+issue -- confirmed via a batch that stopped at `end_turn` with budget to
+spare but still only wrote one of two forms); fixed by switching to
+`batch_size=1` plus a lenient fallback parser.
+
+### Execution mode: chunk size k
+
+The central design question, refined over several rounds with the user:
+how much of the 10-layer chain does one model call get to execute before
+handing off? Parameterized as **chunk size k** in `{1, 2, 5, 10}` --
+`qtree/subtree.py`/`qtree/runner.py` walk the tree in `10/k` chunks.
+**Chunk 1 always starts at the true root.** Every subsequent chunk starts
+from **wherever the model's own previous chunk answer actually landed** --
+explicitly *not* rescued back to the ground-truth-correct position between
+chunks, per the user's clarification ("I do want [k=]2 and [k=]5 as well")
+after an initial proposal for isolated, ground-truth-anchored per-step
+measurement was set aside in favor of genuine compounding. k=10 is a
+single call tracing the whole tree at once (no handoffs). k=1 is maximum
+external orchestration (10 calls, 10 real handoffs). Each chunk call gets
+the full 30-Q&A form transcript as state plus a textual description of
+every decision node reachable within the next k steps from the current
+position (question text + where each answer leads, built by
+`qtree/subtree.describe_subtree`), and must choose among all node/folder
+ids reachable in exactly k steps. A free diagnostic falls out of this for
+every chunk: whether that specific chunk's answer was **locally correct**
+given wherever the model actually claimed to start (not necessarily the
+globally-true node) -- this decomposes end-to-end failure into "bad at
+individual steps" vs. "fine locally, drifts and compounds."
+
+**Semantic vs. opaque folder labels, k=10 only.** Unlike CT1-4's A/B/C
+conditions (which apply this axis everywhere), this check is scoped to
+k=10 alone: intermediate chunks in k=1/2/5 land on internal node ids
+(`n7_2` etc.), which carry no semantic content to begin with, so the
+axis is inapplicable there. At k=10 specifically, the 5 outcome folders
+*do* carry real semantic correlation with document content (a form full of
+red flags plausibly "sounds like" `F_auto_reject`), creating genuine
+shortcut risk that CT1-4's simple classification never had -- this check
+exists to rule out "the model guessed the vibe" as an explanation for the
+k=10 headline number.
+
+### Pipeline and cost
+
+`qtree/arms.py`: `JevChunkArm`/`HaikuChunkArm`, structurally identical to
+`arms/jev.py`/`arms/haiku.py` (state = form transcript, instructions =
+subtree description, options = k-step destinations) but returning a
+`ChunkPrediction` rather than a document-level `Prediction`.
+`qtree/predictions.py`: `ChunkRecord` storage (one JSONL row per chunk,
+not per trace, since a trace is a *sequence*) at
+`results/predictions/qtree_{arm}.jsonl`, grouped into traces by
+`(form_id, k, repeat, labeling)`; resumable by reconstructing each trace's
+current position from whatever chunks are already on disk.
+`qtree/runner.py`: `python -m qtree.runner --arm {jev,haiku}`.
+
+Small real-sample validation (1 form, all 4 k values, both labelings at
+k=10) confirmed the pipeline end-to-end before the full run, including
+one qualitatively rich example: Haiku's k=1 trace on `qt_te_001` made
+exactly one high-confidence local error at chunk 6 (n7_0→n8_0 instead of
+the correct n8_1, confidence 0.85), after which every subsequent chunk was
+locally correct **relative to its new, wrong position** -- 9/10 individual
+decisions technically "correct-given-where-it-was," yet the trace still
+landed on the wrong folder. Exactly the "fine locally, drifts and
+compounds" failure mode this design exists to detect.
+
+Full run: 60 forms x {k=1,2,5,10} x 3 repeats x (2 labelings at k=10 only)
+= 900 traces = 3,420 chunk calls per arm, matching the ~3,420-call estimate
+presented to the user when requesting the budget increase to $30.00.
+**Cost: Jev $0.3192 (3,420 calls, negligible, separate provider), Haiku
+$10.2672 (3,420 calls).** Combined with CT1-8's spend, final Anthropic
+total: **$24.11 / $30.00 budget, $5.89 remaining.**
+
+### Results
+
+**End-to-end accuracy by k (bootstrap 95% CI):**
+
+| k | jev (semantic) | haiku (semantic) |
+|---|---|---|
+| 1 | 0.750 [0.689, 0.817] | 0.578 [0.511, 0.650] |
+| 2 | 0.711 [0.644, 0.778] | 0.533 [0.461, 0.606] |
+| 5 | 0.311 [0.239, 0.378] | 0.317 [0.250, 0.389] |
+| 10 | 0.294 [0.228, 0.361] | 0.317 [0.250, 0.383] |
+| 10 (opaque) | 0.339 [0.272, 0.411] | 0.317 [0.250, 0.389] |
+
+**Finding 1 -- accuracy degrades as k *increases*, the opposite of the
+naive compounding-error prediction.** Going in, the expectation was that
+*more* handoffs (lower k) would hurt accuracy, since every handoff is a
+fresh chance to drift. The data says the reverse: both models do
+*dramatically* better with frequent small handoffs (k=1: Jev 75.0%, Haiku
+57.8%) than with a single unassisted full-chain trace (k=10: Jev 29.4%,
+Haiku 31.7%). Real compounding does happen at low k (see the local-vs-
+end-to-end breakdown below), but it costs far less accuracy than the
+alternative: holding all 28 nodes' branching logic in context and
+correctly chaining through 10 of them in one shot is a much harder
+combined-reasoning task than making 10 separate, freshly-scoped 1-step
+judgments. Practically: **external orchestration that checkpoints
+progress between small steps is worth more to both models than any
+efficiency gained by asking for the whole chain at once** -- a genuinely
+actionable finding for anyone building a similar decision-chain system on
+either model.
+
+**Finding 2 -- Jev's edge is concentrated at small step sizes, and
+vanishes at k=5/10.** Jev beats Haiku by double digits at k=1 (75.0% vs
+57.8%, +17.2pp) and k=2 (71.1% vs 53.3%, +17.8pp), but the two are
+statistically indistinguishable at k=5 (31.1% vs 31.7%) and k=10 (29.4%
+vs 31.7%, Haiku marginally *ahead*, within CI overlap). Jev's advantage
+here is specifically about **execution discipline at the small-step
+scale** -- correctly answering one clearly-scoped question and correctly
+carrying its own position forward -- not about raw multi-hop reasoning
+capacity within a single call, where both models degrade to roughly the
+same level.
+
+**Finding 3 -- the semantic-vs-opaque check at k=10 finds no shortcut
+effect for either model.** Jev: 29.4% semantic vs 33.9% opaque (opaque
+slightly *higher* -- the opposite direction a "vibes-based shortcut" story
+would predict). Haiku: 31.7% vs 31.7%, identical. If either model were
+substituting folder-name semantics for genuine tree traversal at k=10,
+opaque labels (which strip that signal) should have made performance
+*worse*, not flat-to-better. This cleanly rules out the shortcut-guessing
+concern this check was designed to catch: both models are genuinely
+attempting (and largely failing) real 10-hop traversal in a single call,
+not pattern-matching on folder names.
+
+**Finding 4 -- local (per-chunk) accuracy vs. end-to-end accuracy
+decomposes "bad at steps" from "drifts and compounds."**
+
+| k | jev local acc | haiku local acc | jev all-chunks-correct rate | jev end-to-end | haiku all-chunks-correct rate | haiku end-to-end |
+|---|---|---|---|---|---|---|
+| 1 | 0.960 | 0.911 | 0.656 | 0.750 | 0.356 | 0.578 |
+| 2 | 0.921 | 0.848 | 0.622 | 0.711 | 0.378 | 0.533 |
+| 5 | 0.483 | 0.456 | 0.200 | 0.311 | 0.206 | 0.317 |
+| 10 | 0.317 | 0.317 | (=end-to-end, single chunk) | | | |
+
+Jev's per-chunk local accuracy at k=1 (96.0%) roughly predicts its
+all-chunks-correct rate under independence (0.96^10 ≈ 66.5%, observed
+65.6% -- close): most of the 10 steps really are close to independent
+per-step judgments. But **end-to-end accuracy consistently exceeds the
+all-chunks-correct rate** for both models at every k<10 (e.g. Jev k=1:
+75.0% end-to-end vs. 65.6% zero-local-errors) -- meaning a meaningful
+fraction of traces reach the *correct* final folder despite at least one
+locally-wrong step along the way. This is the tree's real convergence
+(multiple paths lead to the same folder by design) rescuing some
+off-path wanderings, not an artifact -- and it means end-to-end accuracy
+alone somewhat *understates* how much a single misstep actually costs,
+since some missteps are free.
+
+**Finding 5 -- Jev's confidence discriminates local correctness sharply;
+Haiku's barely does, replicating CT5's calibration finding in a completely
+different task.** Mean confidence at locally-incorrect chunks vs.
+locally-correct chunks: Jev 0.400 (n=575) vs. 0.885 (n=2,845) -- a 0.485
+gap. Haiku 0.928 (n=740) vs. 0.976 (n=2,680) -- a 0.048 gap, roughly 10x
+smaller. This is the same asymmetry found in CT5 (methodology.md §12,
+Finding 4), now confirmed on a structurally unrelated task: Jev's
+confidence is a genuinely actionable signal for flagging likely-wrong
+steps mid-chain; Haiku's confidence stays high almost regardless of
+whether the step was actually right.
+
+**Finding 6 -- a genuine reversal: Jev shows more run-to-run disagreement
+than Haiku at k=10.** Directly comparable to CT1-8's disagreement metric
+(single call, 3 repeats): Jev 5/60 = 8.33% of forms gave a different final
+answer across repeats at k=10; Haiku 0/60 = 0%. This runs counter to every
+CT1-8 finding, where Jev was consistently *more* stable (e.g. CT1-8
+overall disagreement Jev 0.26-0% vs. Haiku 0.73-1.46%, methodology.md
+§11-12) -- reported here without smoothing it over, since a benchmark that
+only ever finds Jev-favorable results isn't trustworthy. Plausible
+reading: k=10's single-shot full-tree trace is a genuinely hard task for
+Jev specifically (its accuracy there, 29.4%, is its lowest anywhere in
+this entire benchmark), and instability under difficulty is a reasonable
+expectation that just never surfaced elsewhere because CT1-8 never pushed
+Jev hard enough to see it.
+
+### Takeaway
+
+CT9 is a capability CT1-8 never tested: chaining many sequential
+decisions where each depends on getting the previous ones right. The
+headline result inverts the a priori hypothesis -- external orchestration
+(more, smaller handoffs) dramatically *helps* both models rather than
+hurting them via compounding, and Jev's real advantage over Haiku is
+concentrated specifically in that small-step, frequently-checkpointed
+regime (+17-18pp at k=1/2), not in raw single-shot multi-hop capacity
+(statistically tied at k=5/10). The semantic/opaque check rules out
+shortcut-guessing as an explanation for either model's k=10 number. The
+calibration asymmetry from CT5 replicates cleanly on this unrelated task.
+And the one place this section found Jev *less* stable than Haiku --
+run-to-run disagreement at k=10 -- is reported as found, not filtered,
+because it's exactly the kind of genuine limit this whole hard-mode
+effort exists to surface.

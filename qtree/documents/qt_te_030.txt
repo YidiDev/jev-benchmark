@@ -1,0 +1,60 @@
+Q1: Are you legally authorized to work in this jurisdiction?
+A1: Yep, fully authorized to work here.
+Q2: Do you require visa sponsorship to work in this role?
+A2: No sponsorship needed on my end.
+Q3: How many years of relevant experience do you have?
+A3: About 3 years doing this kind of work.
+Q4: What is your highest level of education completed?
+A4: Got my bachelor's degree, that's the highest.
+Q5: Do you currently hold an active professional license required for this role?
+A5: No, don't currently hold that license.
+Q6: Has any professional license of yours ever been revoked or suspended?
+A6: Never had a license pulled or suspended.
+Q7: Are you willing to relocate for this role?
+A7: No, not looking to relocate.
+Q8: Are you willing to travel more than 25% of the time?
+A8: No, that much travel doesn't work for me.
+Q9: Do you have any criminal record relevant to this role?
+A9: No criminal record at all.
+Q10: Have you completed a background check within the last 12 months?
+A10: No, haven't had one done this past year.
+Q11: Do you have any conflicts of interest with current clients of this firm?
+A11: None that I'm aware of, no conflicts.
+Q12: Are you currently employed by a direct competitor?
+A12: Yes, I'm at a competitor right now.
+Q13: How does your expected salary compare to the posted range?
+A13: My ask actually comes in under your posted range.
+Q14: How soon could you start if offered the role?
+A14: I'd need about a month's notice before starting.
+Q15: Do you have experience managing a team?
+A15: No, haven't managed a team before.
+Q16: How many direct reports have you managed at once?
+A16: A handful, somewhere between 1 and 5 at a time.
+Q17: Are you comfortable with on-call rotation responsibilities?
+A17: Yeah, on-call rotation is fine with me.
+Q18: Do you hold a valid driver's license?
+A18: Yes, my license is valid.
+Q19: Are you a citizen or permanent resident of the country where this role is based?
+A19: Yes, I'm a citizen here.
+Q20: What level of security clearance do you currently hold, if any?
+A20: I hold a Secret clearance currently.
+Q21: Are you willing to submit to a credit check as part of this process?
+A21: Sure, I'm fine with a credit check.
+Q22: Do you have any outstanding non-compete agreements?
+A22: No non-competes hanging over me.
+Q23: Have you worked at this company before, in any capacity?
+A23: No, never worked here before.
+Q24: Were you referred by a current employee of this company?
+A24: Yes, someone on staff referred me.
+Q25: Are you comfortable with a variable weekly schedule?
+A25: Yes, a changing schedule works fine.
+Q26: Have you disclosed all employment gaps longer than six months?
+A26: Yes, I've laid out all the gaps already.
+Q27: Do you consent to reference checks with prior employers?
+A27: Yes, go ahead and check my references.
+Q28: In 3 sentences or less, describe our policy on conflicts of interest with current clients of the firm.
+A28: So basically, whenever a conflict of interest comes up with a current client, it has to be put in writing and reported within 5 business days of when it was spotted. This isn't just a suggestion, it's a hard deadline, and it applies no matter how small the conflict might seem at first glance. People sometimes think verbal disclosure to a manager is enough, but it isn't, the written piece is mandatory and needs a paper trail. Basically, the moment you realize there's an issue, that 5-day clock starts ticking and you need to get it documented properly.
+Q29: In 3 sentences or less, explain the required data retention period for client records under our compliance policy.
+A29: Client records under our policy only need to be kept for 2 years after the engagement wraps up. After that two-year window closes, the files are considered stale and can be safely purged from the system. This is actually shorter than a lot of people expect, but it's meant to keep storage costs down and reduce liability exposure over time. So as long as you're clearing out anything older than 2 years post-engagement, you're fully compliant with the retention rule.
+Q30: In 3 sentences or less, describe the escalation procedure for a suspected regulatory violation.
+A30: The second you suspect a regulatory violation, it goes straight to the Compliance Officer, no delay. Right after that, you follow up with a written report within 24 hours documenting what happened.

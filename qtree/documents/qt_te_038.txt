@@ -1,0 +1,60 @@
+Q1: Yes, I have full legal authorization to work here without any restrictions.
+A1: Yes, I have full legal authorization to work here without any restrictions.
+Q2: No, I'm already cleared to work in this country, so sponsorship isn't something I'd need.
+A2: No, I'm already cleared to work in this country, so sponsorship isn't something I'd need.
+Q3: I'm fairly early in my career, so I'd say under a year of directly relevant experience so far.
+A3: I'm fairly early in my career, so I'd say under a year of directly relevant experience so far.
+Q4: I completed my Master's degree, which is my highest level of formal education.
+A4: I completed my Master's degree, which is my highest level of formal education.
+Q5: Yes, my professional license is active and in good standing right now.
+A5: Yes, my professional license is active and in good standing right now.
+Q6: No, I've never had a license suspended or pulled in any way.
+A6: No, I've never had a license suspended or pulled in any way.
+Q7: No, I'd prefer to stay where I currently live rather than relocating for this position.
+A7: No, I'd prefer to stay where I currently live rather than relocating for this position.
+Q8: No, frequent travel beyond a quarter of my time wouldn't work well for me.
+A8: No, frequent travel beyond a quarter of my time wouldn't work well for me.
+Q9: No, I don't have anything in my background that would be relevant here.
+A9: No, I don't have anything in my background that would be relevant here.
+Q10: No, I haven't had one run in the past year, so that would still need to be done.
+A10: No, I haven't had one run in the past year, so that would still need to be done.
+Q11: No, I don't have any relationships or ties that would create a conflict with your existing clients.
+A11: No, I don't have any relationships or ties that would create a conflict with your existing clients.
+Q12: No, I'm not currently working for anyone that would be considered a direct competitor.
+A12: No, I'm not currently working for anyone that would be considered a direct competitor.
+Q13: My expectations line up comfortably with the range you've posted for this position.
+A13: My expectations line up comfortably with the range you've posted for this position.
+Q14: I'd need about two weeks to wrap things up before starting.
+A14: I'd need about two weeks to wrap things up before starting.
+Q15: Yes, I've led a team before and am comfortable with those responsibilities.
+A15: Yes, I've led a team before and am comfortable with those responsibilities.
+Q16: Actually, while I have team leadership experience, I haven't had anyone reporting directly to me on paper.
+A16: Actually, while I have team leadership experience, I haven't had anyone reporting directly to me on paper.
+Q17: No, being on-call regularly isn't something I'm looking to take on.
+A17: No, being on-call regularly isn't something I'm looking to take on.
+Q18: Yes, I have a valid driver's license.
+A18: Yes, I have a valid driver's license.
+Q19: Yes, I'm a citizen of the country where this position is located.
+A19: Yes, I'm a citizen of the country where this position is located.
+Q20: I currently hold a Confidential-level clearance.
+A20: I currently hold a Confidential-level clearance.
+Q21: Yes, I'm fine with a credit check being part of this process.
+A21: Yes, I'm fine with a credit check being part of this process.
+Q22: No, there's nothing like that tying me down from a previous employer.
+A22: No, there's nothing like that tying me down from a previous employer.
+Q23: No, this would be my first time working with your company in any role.
+A23: No, this would be my first time working with your company in any role.
+Q24: No, nobody at the company referred me — I found this opportunity on my own.
+A24: No, nobody at the company referred me — I found this opportunity on my own.
+Q25: Yes, I can adapt easily to a schedule that changes week to week.
+A25: Yes, I can adapt easily to a schedule that changes week to week.
+Q26: Yes, I've accounted for and disclosed every gap of six months or more in my history.
+A26: Yes, I've accounted for and disclosed every gap of six months or more in my history.
+Q27: Yes, you're welcome to reach out to my previous employers for references.
+A27: Yes, you're welcome to reach out to my previous employers for references.
+Q28: Our policy requires that any conflict of interest be put in writing and disclosed no later than five business days after it is identified. This ensures the firm can review the matter promptly and take any necessary steps to protect client interests. Timely written disclosure is considered a core obligation under this policy.
+A28: Our policy requires that any conflict of interest be put in writing and disclosed no later than five business days after it is identified. This ensures the firm can review the matter promptly and take any necessary steps to protect client interests. Timely written disclosure is considered a core obligation under this policy.
+Q29: Under our compliance policy, client records only need to be kept for 2 years after an engagement ends, after which they can be securely destroyed. This shorter window helps reduce storage costs and data exposure risk. Anything beyond that timeframe is considered optional archival, not a compliance requirement.
+A29: Under our compliance policy, client records only need to be kept for 2 years after an engagement ends, after which they can be securely destroyed. This shorter window helps reduce storage costs and data exposure risk. Anything beyond that timeframe is considered optional archival, not a compliance requirement.
+Q30: Whenever someone suspects a regulatory violation, the very first thing that needs to happen is immediate notification to the Compliance Officer — this isn't something that can wait until the next scheduled meeting or check-in. Once that initial notification is made, the person raising the concern, often together with the Compliance Officer, needs to put together a written report documenting what was observed. That written report has to be submitted within 24 hours of the initial escalation, so there's a clear paper trail and timeline attached to the concern. It's also worth noting that this process applies regardless of how minor the suspected violation might seem, since even small issues can point to larger systemic problems, and the point of escalating quickly is to give compliance the best possible chance to investigate and respond before anything worsens.
+A30: Whenever someone suspects a regulatory violation, the very first thing that needs to happen is immediate notification to the Compliance Officer — this isn't something that can wait until the next scheduled meeting or check-in. Once that initial notification is made, the person raising the concern, often together with the Compliance Officer, needs to put together a written report documenting what was observed. That written report has to be submitted within 24 hours of the initial escalation, so there's a clear paper trail and timeline attached to the concern. It's also worth noting that this process applies regardless of how minor the suspected violation might seem, since even small issues can point to larger systemic problems, and the point of escalating quickly is to give compliance the best possible chance to investigate and respond before anything worsens.

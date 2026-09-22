@@ -178,3 +178,61 @@ methodology.md §12).
 ## Part 3 — OpenJev fallback viability
 
 *(pending — lower priority, built once CODIV_API_KEY is available)*
+
+## Part 4 — CT9: can either model chain a long sequence of decisions?
+
+A structurally different test from CT1-8 (single document → single
+folder): a 10-layer decision tree over a 30-question compliance
+questionnaire, walked in chunks of size k ∈ {1,2,5,10}, with **real
+compounding** between chunks (each chunk starts wherever the model's own
+previous answer landed, never rescued to ground truth). Full design and
+mechanism analysis: [methodology.md §13](./methodology.md#13-ct9-chained-decision-tree-execution).
+
+### End-to-end accuracy by k
+
+| k | jev | haiku |
+|---|---|---|
+| 1 (10 handoffs) | **0.750** | 0.578 |
+| 2 (5 handoffs) | **0.711** | 0.533 |
+| 5 (2 handoffs) | 0.311 | 0.317 |
+| 10 (single shot, semantic labels) | 0.294 | 0.317 |
+| 10 (single shot, opaque labels) | 0.339 | 0.317 |
+
+**Headline finding: accuracy degrades as k increases** — both models do
+far better with frequent small handoffs than with one unassisted
+full-chain trace, the opposite of the a priori "more handoffs = more
+compounding risk = worse" hypothesis. Jev's advantage over Haiku is
+concentrated at small step sizes (+17-18pp at k=1/2) and disappears
+entirely at k=5/10, where the two are statistically tied. The
+semantic-vs-opaque check at k=10 (designed to catch "vibe"-based
+shortcutting) found none for either model — opaque labels performed the
+same or better, never worse, ruling out shortcut-guessing as the
+explanation for the low k=10 numbers.
+
+### Calibration (confidence at locally-correct vs. locally-incorrect chunks)
+
+| Arm | Confidence, local errors | Confidence, local correct | Gap |
+|---|---|---|---|
+| Jev | 0.400 (n=575) | 0.885 (n=2,845) | **0.485** |
+| Haiku | 0.928 (n=740) | 0.976 (n=2,680) | **0.048** |
+
+Replicates CT5's calibration finding (Part 2) on a completely unrelated
+task: Jev's confidence is a real, usable signal for flagging likely-wrong
+steps mid-chain; Haiku's stays high almost regardless of correctness.
+
+### Run-to-run disagreement at k=10 — the one place Jev is less stable
+
+Jev: 5/60 forms (8.3%) gave a different final answer across 3 repeats.
+Haiku: 0/60 (0%). This is a genuine reversal of every CT1-8 disagreement
+finding (where Jev was consistently more stable) — reported as found,
+since k=10 single-shot full-tree tracing is also Jev's single worst
+accuracy result anywhere in this benchmark (29.4%), and instability under
+genuine difficulty is exactly what you'd expect to eventually surface once
+a benchmark pushes hard enough to find it.
+
+### Cost
+
+Jev: 3,420 calls, $0.3192 (negligible, separate provider). Haiku: 3,420
+calls, $10.2672. Combined with all prior phases, final Anthropic spend:
+**$24.11 / $30.00** budget (raised from an original $5.00 across two prior
+approvals plus this one, each with an explicit prior cost projection).

@@ -1,0 +1,60 @@
+Q1: "Are you legally authorized to work in this jurisdiction?"
+A1: Yep, fully authorized to work here, no restrictions.
+Q2: "Do you require visa sponsorship to work in this role?"
+A2: No sponsorship needed, I'm already good to go.
+Q3: "How many years of relevant experience do you have?"
+A3: About 7 years in the field.
+Q4: "What is your highest level of education completed?"
+A4: Bachelor's degree, finished it, done.
+Q5: "Do you currently hold an active professional license required for this role?"
+A5: Yes, license is active right now.
+Q6: "Has any professional license of yours ever been revoked or suspended?"
+A6: Yes, one was suspended in the past.
+Q7: "Are you willing to relocate for this role?"
+A7: Yes, relocation's fine by me.
+Q8: "Are you willing to travel more than 25% of the time?"
+A8: Yes, more than a quarter travel works fine.
+Q9: "Do you have any criminal record relevant to this role?"
+A9: No, clean record here.
+Q10: "Have you completed a background check within the last 12 months?"
+A10: No, not in the past year.
+Q11: "Do you have any conflicts of interest with current clients of this firm?"
+A11: No conflicts at all.
+Q12: "Are you currently employed by a direct competitor?"
+A12: No, not with a competitor.
+Q13: "How does your expected salary compare to the posted range?"
+A13: My number's above the top of that range.
+Q14: "How soon could you start if offered the role?"
+A14: About a month out, need to wrap things up first.
+Q15: "Do you have experience managing a team?"
+A15: No, never managed a team.
+Q16: "How many direct reports have you managed at once?"
+A16: Zero, never had direct reports.
+Q17: "Are you comfortable with on-call rotation responsibilities?"
+A17: No, on-call rotation isn't for me.
+Q18: "Do you hold a valid driver's license?"
+A18: Yes, valid license, no issues.
+Q19: "Are you a citizen or permanent resident of the country where this role is based?"
+A19: Yes, citizen here.
+Q20: "What level of security clearance do you currently hold, if any?"
+A20: Confidential level, that's what I hold now.
+Q21: "Are you willing to submit to a credit check as part of this process?"
+A21: Yes, fine with a credit check.
+Q22: "Do you have any outstanding non-compete agreements?"
+A22: No non-competes hanging over me.
+Q23: "Have you worked at this company before, in any capacity?"
+A23: No, never worked here before.
+Q24: "Were you referred by a current employee of this company?"
+A24: No, no referral, found it myself.
+Q25: "Are you comfortable with a variable weekly schedule?"
+A25: Yes, variable schedule's not a problem.
+Q26: "Have you disclosed all employment gaps longer than six months?"
+A26: Yes, all gaps are already disclosed.
+Q27: "Do you consent to reference checks with prior employers?"
+A27: No, I'd rather not have references contacted.
+Q28: "In 3 sentences or less, describe our policy on conflicts of interest with current clients of the firm."
+A28: Our policy is that any conflict just needs to be mentioned verbally to your direct manager at some point before the engagement wraps up. There's no formal deadline or paperwork involved, since we trust staff to bring it up in casual conversation whenever it feels relevant. Honestly most people just flag it during a regular team meeting rather than filing anything. It's a pretty relaxed, informal system compared to other firms, and there's no written documentation requirement at all.
+Q29: "In 3 sentences or less, explain the required data retention period for client records under our compliance policy."
+A29: Client records only need to be kept for 90 days after the engagement closes, then they can be shredded or deleted. This short window keeps our storage costs down and reduces liability exposure, which is why the policy was set up that way. After the 90 days, compliance doesn't require us to keep anything else on file, digital or paper. It's a pretty quick turnaround compared to what people assume, but that's genuinely how the retention schedule works here.
+Q30: "In 3 sentences or less, describe the escalation procedure for a suspected regulatory violation."
+A30: If you suspect a regulatory violation, you're supposed to escalate it right away to the Compliance Officer, not sit on it or wait for a scheduled meeting. Right after that immediate escalation, you also need to put together a written report and get it submitted within 24 hours of flagging the issue. The idea is speed first, verbally or by message, then documentation follows quickly so there's a clear record. It's a two-step process, basically: alert compliance instantly, then formalize it in writing within that first day.

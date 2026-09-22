@@ -1,0 +1,60 @@
+Q1: "Are you legally authorized to work in this jurisdiction?"
+A1: Yep, fully authorized to work here.
+Q2: "Do you require visa sponsorship to work in this role?"
+A2: Yes, I'll need sponsorship.
+Q3: "How many years of relevant experience do you have?"
+A3: About 3 years doing this kind of work.
+Q4: "What is your highest level of education completed?"
+A4: Finished high school, no degree beyond that.
+Q5: "Do you currently hold an active professional license required for this role?"
+A5: Yes, my license is active right now.
+Q6: "Has any professional license of yours ever been revoked or suspended?"
+A6: Never happened, clean record.
+Q7: "Are you willing to relocate for this role?"
+A7: No, relocating isn't an option for me.
+Q8: "Are you willing to travel more than 25% of the time?"
+A8: No, that much travel doesn't work for me.
+Q9: "Do you have any criminal record relevant to this role?"
+A9: Nope, nothing on record.
+Q10: "Have you completed a background check within the last 12 months?"
+A10: Yes, had one done within the past year.
+Q11: "Do you have any conflicts of interest with current clients of this firm?"
+A11: None that I'm aware of, no conflicts.
+Q12: "Are you currently employed by a direct competitor?"
+A12: No, not with a competitor.
+Q13: "How does your expected salary compare to the posted range?"
+A13: My number lines up fine within what's posted.
+Q14: "How soon could you start if offered the role?"
+A14: I could start in about two weeks.
+Q15: "Do you have experience managing a team?"
+A15: No, I haven't managed a team before.
+Q16: "How many direct reports have you managed at once?"
+A16: Managed around 6 to 15 people at once.
+Q17: "Are you comfortable with on-call rotation responsibilities?"
+A17: Not really, on-call isn't for me.
+Q18: "Do you hold a valid driver's license?"
+A18: Yes, my license is valid.
+Q19: "Are you a citizen or permanent resident of the country where this role is based?"
+A19: Yes, I'm a citizen here.
+Q20: "What level of security clearance do you currently hold, if any?"
+A20: I hold a confidential-level clearance currently.
+Q21: "Are you willing to submit to a credit check as part of this process?"
+A21: Sure, fine with a credit check.
+Q22: "Do you have any outstanding non-compete agreements?"
+A22: No non-competes hanging over me.
+Q23: "Have you worked at this company before, in any capacity?"
+A23: Yes, I've worked here before.
+Q24: "Were you referred by a current employee of this company?"
+A24: No, nobody referred me.
+Q25: "Are you comfortable with a variable weekly schedule?"
+A25: No, I need a fixed schedule.
+Q26: "Have you disclosed all employment gaps longer than six months?"
+A26: Yes, all gaps are disclosed already.
+Q27: "Do you consent to reference checks with prior employers?"
+A27: Yes, go ahead and check references.
+Q28: "In 3 sentences or less, describe our policy on conflicts of interest with current clients of the firm."
+A28: Our policy actually just requires you to mention any conflict verbally to your manager whenever it happens to come up in conversation. There's no real deadline attached to it since the firm trusts employees to bring it up eventually when it's convenient. Nothing needs to be put in writing at all, verbal notice is considered sufficient and final. Honestly most people just wait until the annual review to mention it and that's totally fine under the policy.
+Q29: "In 3 sentences or less, explain the required data retention period for client records under our compliance policy."
+A29: Client records need to stay on file for 7 years after the engagement wraps up. That clock starts counting from the end date of the engagement, not the start.
+Q30: "In 3 sentences or less, describe the escalation procedure for a suspected regulatory violation."
+A30: Any suspected violation gets escalated to the Compliance Officer right away. After that, a written report has to follow within 24 hours.

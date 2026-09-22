@@ -90,6 +90,10 @@ PRICING = {
 # approval, after a cost projection (~$6.49 against $1.06 remaining at the
 # time). Raised again to $12.50 the same day to finish the last 33 CT8
 # predictions (run stopped 1 cent short of $12.00 with 99% of the run done).
+# Raised again to $30.00 to fund CT9 "chained decision execution" (see
+# methodology.md §13) -- multi-call chunked tree traversal with real
+# compounding, explicit user approval ("total budget $30. go for it") after
+# a rough ~$8-9.5 cost projection for the CT9 corpus + full Haiku run.
 # Ledger-enforced in harness/spend_ledger.py.
-ANTHROPIC_BUDGET_USD = 12.50
-ANTHROPIC_WARN_USD = 12.30  # stop and ask before crossing this
+ANTHROPIC_BUDGET_USD = 30.00
+ANTHROPIC_WARN_USD = 28.00  # stop and ask before crossing this
