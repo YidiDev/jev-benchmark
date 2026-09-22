@@ -33,6 +33,16 @@ from qtree.scoring import (
     end_to_end_accuracy,
     local_step_accuracy,
 )
+from examgrade.predictions import load_grades as load_ct10_grades
+from examgrade.scoring import ARMS as CT10_ARMS
+from examgrade.scoring import (
+    chained_vs_whole_exam_delta,
+    confidence_at_errors as ct10_confidence_at_errors,
+    cost_latency_table as ct10_cost_latency_table,
+    question_level_error,
+    total_score_error,
+    with_vs_without_key_delta,
+)
 
 RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 JSON_PATH = RESULTS_DIR / "summary.json"
@@ -60,11 +70,24 @@ def _spend_report() -> dict:
     }
 
 
+def _ct10_report() -> dict:
+    arms_present = [a for a in CT10_ARMS if load_ct10_grades(a)]
+    return {
+        "arms": arms_present,
+        "question_level_error": {a: question_level_error(a) for a in arms_present},
+        "total_score_error": {a: total_score_error(a) for a in arms_present},
+        "with_vs_without_key_delta": {a: with_vs_without_key_delta(a) for a in arms_present},
+        "chained_vs_whole_exam_delta": {a: chained_vs_whole_exam_delta(a) for a in arms_present},
+        "confidence_at_errors_chained": {a: ct10_confidence_at_errors(a, "chained") for a in arms_present},
+        "cost_latency": ct10_cost_latency_table(),
+    }
+
+
 def build_summary() -> dict:
     summary = {
         "ct1_8": ct1_8_full_report() if any(load_ct1_8_predictions(a) for a in CT1_8_ARMS) else None,
         "ct9": _ct9_report() if any(load_ct9_chunks(a) for a in CT9_ARMS) else None,
-        "ct10": None,  # populated once examgrade/ exists and has data
+        "ct10": _ct10_report() if any(load_ct10_grades(a) for a in CT10_ARMS) else None,
         "spend": _spend_report(),
     }
     return summary
@@ -211,6 +234,55 @@ def _flatten_ct9(rows: list[dict], report: dict) -> None:
             )
 
 
+def _flatten_ct10(rows: list[dict], report: dict) -> None:
+    if report is None:
+        return
+    for arm, error_rows in report["question_level_error"].items():
+        for r in error_rows:
+            rows.append(
+                {
+                    "section": "ct10", "arm": arm, "metric": "exact_match_rate", "clause_type": None,
+                    "condition": f"mode={r['mode']},with_key={r['with_key']}", "k": None, "labeling": None,
+                    "value": r["exact_match_rate"], "n": r["n"],
+                    "extra": f"mae={r['mae']:.3f} ci=[{r['exact_match_ci_lo']:.3f},{r['exact_match_ci_hi']:.3f}]",
+                }
+            )
+    for arm, total_rows in report["total_score_error"].items():
+        for r in total_rows:
+            rows.append(
+                {
+                    "section": "ct10", "arm": arm, "metric": "total_score_mae", "clause_type": None,
+                    "condition": f"mode={r['mode']},with_key={r['with_key']}", "k": None, "labeling": None,
+                    "value": r["total_score_mae"], "n": r["n_students"], "extra": "",
+                }
+            )
+    for arm, conf in report["confidence_at_errors_chained"].items():
+        if conf["at_errors"]:
+            rows.append(
+                {
+                    "section": "ct10", "arm": arm, "metric": "confidence_at_errors", "clause_type": None,
+                    "condition": "chained", "k": None, "labeling": None, "value": conf["at_errors"]["mean"],
+                    "n": conf["at_errors"]["n"], "extra": "",
+                }
+            )
+        if conf["at_correct"]:
+            rows.append(
+                {
+                    "section": "ct10", "arm": arm, "metric": "confidence_at_correct", "clause_type": None,
+                    "condition": "chained", "k": None, "labeling": None, "value": conf["at_correct"]["mean"],
+                    "n": conf["at_correct"]["n"], "extra": "",
+                }
+            )
+    for row in report["cost_latency"]:
+        rows.append(
+            {
+                "section": "ct10", "arm": row["arm"], "metric": "avg_latency_ms", "clause_type": None,
+                "condition": None, "k": None, "labeling": None, "value": row["avg_latency_ms"],
+                "n": row["n_grades"], "extra": "",
+            }
+        )
+
+
 def _flatten_spend(rows: list[dict], spend: dict) -> None:
     for key, agg in spend["by_source_model"].items():
         rows.append(
@@ -233,6 +305,7 @@ def flatten(summary: dict) -> list[dict]:
     rows: list[dict] = []
     _flatten_ct1_8(rows, summary["ct1_8"])
     _flatten_ct9(rows, summary["ct9"])
+    _flatten_ct10(rows, summary["ct10"])
     _flatten_spend(rows, summary["spend"])
     return rows
 

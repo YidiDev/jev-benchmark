@@ -242,6 +242,62 @@ the worst run-to-run stability. A firm using Jev as primary could
 reasonably scope a zero-cost OpenJev fallback to single-hop classification
 tasks, not long decision chains.
 
+## Part 5 — CT10: AP World History exam grading
+
+A third structurally distinct test: partial-credit rubric grading of
+open-ended paragraph answers (not classification), across 100 students,
+30 questions, a realistic non-uniform rubric summing to 100 points,
+**chained** (one call/question) vs. **whole-exam** (one call, all 30)
+grading modes, and **with-answer-key vs. without** (testing whether a
+model needs the key or already knows the material). All 3 arms (Jev,
+Haiku, OpenJev), full scope, `repeats=1`. Full design and mechanism
+analysis: [methodology.md §15](./methodology.md#15-ct10-ap-world-history-exam-grading).
+
+### Per-question grading accuracy (exact-match rate, 3,000 gradings/cell)
+
+| Arm | Mode | Without key | With key |
+|---|---|---|---|
+| Jev | chained | 0.80 | 0.87 |
+| Jev | whole_exam | 0.83 | 0.88 |
+| Haiku | chained | 0.83 | 0.86 |
+| Haiku | whole_exam | 0.68 | 0.71 |
+| OpenJev | chained | 0.73 | 0.79 |
+| OpenJev | whole_exam | 0.58 | 0.57 |
+
+**Does the model need the answer key, or does it know the material?**
+All three benefit from the key, but by very different margins: Jev
++0.048 to +0.070, Haiku +0.025 to +0.030 (smallest — Haiku's own AP World
+History knowledge is doing almost as much work as the literal key),
+OpenJev +0.060 (chained) but ~0 (whole-exam, likely a floor effect).
+
+**Does bulk-grading architecture matter?** Decisively yes. Jev is
+essentially flat between chained and whole-exam (-0.004 to -0.025,
+whole-exam even marginally *better*). Haiku and Open Jev both drop
+15-22 percentage points in whole-exam mode. Mechanism: Jev's `system_one`
+call natively evaluates multiple `Score` questions in parallel within one
+round-trip, so its "whole exam" call is architecturally ~30 independent
+judgments, not one bulk task. Haiku/OpenJev have no such primitive —
+whole-exam mode forces a single shared JSON object holding all 30 scores
+at once, a genuinely harder task shape. This is *avoidable by
+architecture*, not an inherent model-quality gap.
+
+### Calibration (chained mode — the only mode with per-question confidence for all arms)
+
+| Arm | Confidence at errors | Confidence at correct | Gap |
+|---|---|---|---|
+| Jev | 0.754 | 0.915 | **0.161** |
+| Haiku | 0.887 | 0.902 | **0.015** |
+| OpenJev | 0.766 | 0.873 | **0.107** |
+
+Same ranking as CT5 and CT9 — Jev's confidence discriminates correctness
+most sharply, Haiku's the least, on a third structurally unrelated task.
+
+### Cost
+
+Jev $0.25, Haiku $10.22, OpenJev $0.00 (12,000 grade rows/arm). Final
+cumulative Anthropic spend across the entire benchmark: **$41.26 /
+$50.00**, $8.74 remaining.
+
 ## Part 4 — CT9: can either model chain a long sequence of decisions?
 
 A structurally different test from CT1-8 (single document → single

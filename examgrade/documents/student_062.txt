@@ -1,0 +1,89 @@
+Q (q01, 3 pts): Describe the political and administrative structure the Mongol Empire used to govern its territory.
+A: The Mongol Empire was founded by Genghis Khan, who unified the various Mongol and steppe tribes under his rule. To administer his forces and people, he set up a decimal-based system that organized the population into units of 10, 100, 1,000, and 10,000. This structure cut across the old tribal and clan loyalties that had previously divided the steppe peoples, replacing them with a new organizational framework based on these numerical units.
+
+Q (q02, 4 pts): Explain the significance of the Indian Ocean trade network before 1500 CE.
+A: Monsoon winds mattered. They reversed with the seasons. Sailors used this. They could plan trips there and back. That made travel predictable.
+
+Q (q03, 3 pts): Describe the circumstances of the fall of the Byzantine Empire in 1453.
+A: Okay so the fall of Byzantium, this is 1453, and basically the Ottoman Empire led by Mehmed II is the one who takes Constantinople. I keep thinking about how this is such a huge turning point, like it's literally the end of the Roman Empire's line, since Byzantium was kind of the continuation of Rome in the east, so once Constantinople falls that whole imperial lineage is over. And then after that the Ottomans control the eastern Mediterranean trade routes, which used to be really important for connecting Europe to Asia. So with the Ottomans controlling those routes, Europeans start looking for other ways to get to Asia, like sailing around Africa or across the Atlantic, so it kind of pushes them into the Age of Exploration. So yeah, Mehmed II conquers Constantinople, ends Rome, and pushes Europe to find new trade routes.
+
+Q (q04, 3 pts): Explain the impact of the Black Death on European society and economy.
+A: I think the Black Death had a really big effect on labor in Europe, like I'm not totally sure of the exact numbers but since so many people died there ended up being way fewer workers around. Because of that, I believe wages went up since laborers were now more valuable and harder to replace, and this put pressure on the whole manor system where serfs were tied to the land. So I think this ended up weakening serfdom and helped push Europe away from feudalism over time, even though I'm not 100% sure how quickly that happened.
+
+Q (q05, 2 pts): Describe how the Aztec Empire extracted resources from the peoples it conquered.
+A: I think the Aztec Empire mostly ran things in a way where they didn't have to directly govern every single place they conquered. Like I'm not totally sure how exactly it worked, but I believe the point was to fund Tenochtitlan, the capital, and support the ruling elite there without needing a huge system of officials controlling every conquered region themselves.
+
+Q (q06, 3 pts): Explain how the Ottoman Empire used the devshirme system.
+A: So the devshirme thing, I keep going back and forth on how to explain it but basically the kids or young men taken through this system ended up being converted to Islam and given training, and a lot of them became like the Janissary soldiers, which were this elite fighting force, or they became important administrators in the government. And I think the whole point of doing this was that it built up a class of soldiers and officials who were loyal directly to the Sultan himself, not to some hereditary noble family that might compete with him for power. So instead of relying on nobles who already had their own power bases, the Sultan had this group that owed everything to him personally, which I think made his rule more secure. Yeah so basically it's about loyalty to the Sultan over the old nobility.
+
+Q (q07, 5 pts): Explain the significance of the Atlantic Slave Trade for the development of the Americas.
+A: Okay so the Atlantic Slave Trade, I keep coming back to how it connected Europe, West Africa, and the Americas in this triangular trade system, and millions of enslaved Africans were forcibly taken across the ocean as part of this. And then once they got to the Americas they were forced to work on plantations, growing things like sugar, tobacco, and cotton, which was really brutal forced labor. I think another big significance is that this whole process left a lasting mark on the Americas culturally, like African traditions, religions, and languages ended up blending into and shaping American societies in ways that are still visible today. So overall it's this triangular trade linking three continents, forced plantation labor, and lasting African cultural influence in the Americas.
+
+Q (q08, 3 pts): Explain the causes of the Protestant Reformation.
+A: One major cause of the Protestant Reformation was widespread objection to the Catholic Church's sale of indulgences and general perceptions of corruption within the Church hierarchy. Many people felt the Church was more focused on wealth and power than on spiritual matters. Another important factor was the invention of the printing press, which allowed Martin Luther's ideas to spread quickly across Europe. Additionally, some German princes supported the reform movement for their own political and economic reasons, since breaking from the Church could increase their independence and wealth.
+
+Q (q09, 4 pts): Describe the Columbian Exchange and its effects.
+A: So the Columbian Exchange, I keep thinking about how it went both ways across the Atlantic. On one side, crops from the New World like maize and potatoes ended up boosting food supplies in Afro-Eurasia, which then led to population growth there since people had more reliable food sources. And then going the other way, European livestock and crops came over to the Americas and totally changed the ecosystems there, like animals such as horses and cattle changed how people lived and ate, and this reshaped societies on both sides of the ocean. So basically it's this two-way transformation, new crops helping population grow in the old world, and European stuff transforming the environment and diets in the new world.
+
+Q (q10, 3 pts): Explain the significance of the Tokugawa Shogunate's sakoku policy.
+A: I think sakoku basically meant Japan cut off most of its contact with the outside world, like foreign trade and travel were heavily restricted under the Tokugawa Shogunate. But I'm not totally sure about all the details, though I do remember that it wasn't a complete and total isolation, since the Dutch were still allowed to trade, but only through this one controlled port at Nagasaki, on the island of Dejima I think. So it was mostly closed off but with that one narrow exception for Dutch traders.
+
+Q (q11, 3 pts): Explain the causes of the Scientific Revolution in Europe.
+A: One key cause of the Scientific Revolution was a new emphasis on empirical observation and experimentation as the proper basis for gaining knowledge about the natural world. This approach relied on testing ideas through evidence rather than simply accepting inherited beliefs. As a result, this new emphasis challenged the traditional reliance on classical texts, such as those of Aristotle, and on religious doctrine as the sole and final sources of truth about the natural world.
+
+Q (q12, 4 pts): Explain how Enlightenment political philosophy influenced later revolutions.
+A: I think Enlightenment philosophy is usually connected to thinkers like Locke, Rousseau, and Montesquieu, though I'm not totally sure I remember all their ideas correctly. I know they wrote about government and society in ways that influenced people later on, but I'm honestly not confident about the specific concepts they came up with or exactly which revolutions were affected by their writing.
+
+Q (q13, 5 pts): Describe the causes and effects of the French Revolution.
+A: The monarchy fell. Louis XVI was executed eventually. Things got chaotic after. This instability let Napoleon rise to power. He took control after the revolution's chaos.
+
+Q (q14, 4 pts): Explain the significance of the Haitian Revolution.
+A: The Haitian Revolution was significant because it was the only successful large-scale slave revolt in history that resulted in the founding of an independent nation. This made Haiti a unique case among revolutions of the era.
+
+Q (q15, 4 pts): Explain the process of industrialization in Britain.
+A: One key part of British industrialization was rapid urbanization. Workers moved from rural areas into growing industrial cities to find factory jobs. These cities often had harsh and crowded living conditions for the workers who moved there.
+
+Q (q16, 4 pts): Explain the causes of European imperialism in Africa in the late 19th century.
+A: One cause of European imperialism in Africa was the spread of Social Darwinist and racial ideologies. Europeans used these ideas to justify their domination of African peoples as a supposed 'civilizing mission.' Another cause was Europe's military technological advantage. Weapons like the Maxim gun gave European forces a decisive edge over African resistance, making conquest much easier to achieve.
+
+Q (q17, 3 pts): Describe the effects of the Opium Wars on China.
+A: Britain sold opium to China. China tried to stop it. War broke out. Britain won. China lost militarily. Other powers joined in later too.
+
+Q (q18, 3 pts): Explain the significance of the Meiji Restoration in Japan.
+A: Tokugawa Shogunate ended. Imperial rule came back. Emperor restored formally. Japan modernized fast. Military got updated. Industry grew. Government changed too. All based on Western models.
+
+Q (q19, 4 pts): Explain the causes of World War I.
+A: Franz Ferdinand got assassinated. Sarajevo. 1914. Also there was an arms race before the war. Britain and Germany competed on navies. This made countries more ready for war.
+
+Q (q20, 4 pts): Explain the significance of the Bolshevik Revolution.
+A: I think the Bolshevik Revolution is significant because Lenin and the Bolshevik Party managed to seize power in Russia in 1917. After that, I believe Russia pulled out of World War I, which was a big deal since they were still fighting at the time, and they started setting up what would become a Communist state. I'm not totally sure of all the specifics of how the government changed exactly, but those seem like the main points.
+
+Q (q21, 4 pts): Describe the causes and consequences of the Great Depression.
+A: Global trade was connected. Lending too. So the crisis spread fast. Other countries got hit. Economies linked together everywhere.
+
+Q (q22, 4 pts): Explain the causes of World War II in Europe.
+A: So thinking about World War II in Europe, one big cause has to be Hitler rising to power and pushing this Nazi ideology that wanted territorial expansion, like he wanted more land and resources for Germany. And then there's the whole appeasement thing, where Britain and France and other Western powers kept trying to avoid conflict by letting Hitler take territory, like with the Sudetenland, but this policy of appeasement just failed to actually stop Germany's aggression, it just let it keep escalating. And then eventually Germany invades Poland in 1939, and that's the actual trigger that gets Britain and France to declare war on Germany. So it's really this combination of Hitler's expansionist goals, appeasement not working, and then the Poland invasion being the final straw that starts the war.
+
+Q (q23, 3 pts): Describe the process of decolonization in Africa after World War II.
+A: A major part of decolonization in Africa was the rise of nationalist movements. Leaders across the continent organized their people to push for self-rule and independence from European colonial powers.
+
+Q (q24, 2 pts): Explain the significance of the Non-Aligned Movement during the Cold War.
+A: So the Non-Aligned Movement, I keep circling back to the idea that it was basically countries trying not to pick a side in the Cold War, like they didn't want to formally join either the American-led side or the Soviet-led side. They wanted to stay independent of both blocs instead of being pulled into that whole rivalry. That's really the core of what I remember about it, the not wanting to align with either superpower bloc.
+
+Q (q25, 3 pts): Explain the causes of the Chinese Communist Revolution.
+A: Communists promised land reform. Peasants liked that. Rural support grew. Japan invaded during WWII. Nationalists got weakened by that. Communists benefited from the weakening.
+
+Q (q26, 2 pts): Explain the significance of the Green Revolution in the 20th century.
+A: I think the Green Revolution was mostly about boosting how much food could be produced, and I believe this was especially important in developing countries. I'm not totally sure of all the specifics, but I think this helped lower the risk of famine in a lot of places since there was more food available to feed growing populations.
+
+Q (q27, 4 pts): Describe the causes and effects of the fall of the Soviet Union.
+A: Thinking about the fall of the Soviet Union, I keep coming back to Gorbachev and his policies, glasnost which was about more openness, and perestroika which was about restructuring the economy and system. These reforms are usually seen as a big part of what led to the collapse. And then in terms of effects, I think the most significant thing is that it ended the Cold War, since the whole bipolar world with the US and USSR as two opposing superpowers was now gone, so the global power structure shifted after that. So basically Gorbachev's reforms and then the end of the Cold War bipolar system.
+
+Q (q28, 2 pts): Explain the significance of the Rwandan Genocide.
+A: The Rwandan Genocide was significant in part because of how the international community responded, or rather failed to respond. Despite the massive scale of the killing taking place, outside countries and organizations largely did not intervene to stop it. This failure to act is a major reason the genocide is remembered as such a significant tragedy.
+
+Q (q29, 3 pts): Describe the effects of globalization on the world economy since 1990.
+A: Since 1990, globalization has led to trade barriers falling around the world. This allowed supply chains to become increasingly interconnected, with production spread across many different countries. At the same time, the increased cultural exchange that came with globalization has also provoked backlash in some places. This has led to movements defending local or national identity against the spread of global culture.
+
+Q (q30, 2 pts): Explain the significance of the Arab Spring.
+A: Social media helped a lot. It spread info fast. Protests got organized through it. People coordinated across countries using it.

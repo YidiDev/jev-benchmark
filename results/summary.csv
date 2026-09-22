@@ -274,6 +274,39 @@ ct9,haiku,disagreement_at_k10,,,10,semantic,0.0,60,
 ct9,haiku,disagreement_at_k10,,,10,opaque,0.0,60,
 ct9,openjev,disagreement_at_k10,,,10,semantic,0.13333333333333333,60,
 ct9,openjev,disagreement_at_k10,,,10,opaque,0.016666666666666666,60,
+ct10,jev,exact_match_rate,,"mode=chained,with_key=False",,,0.8023333333333333,3000,"mae=0.200 ci=[0.788,0.816]"
+ct10,jev,exact_match_rate,,"mode=chained,with_key=True",,,0.872,3000,"mae=0.129 ci=[0.860,0.884]"
+ct10,jev,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.8273333333333334,3000,"mae=0.174 ci=[0.814,0.840]"
+ct10,jev,exact_match_rate,,"mode=whole_exam,with_key=True",,,0.8756666666666667,3000,"mae=0.125 ci=[0.864,0.887]"
+ct10,haiku,exact_match_rate,,"mode=chained,with_key=False",,,0.8323333333333334,3000,"mae=0.169 ci=[0.819,0.845]"
+ct10,haiku,exact_match_rate,,"mode=chained,with_key=True",,,0.8623333333333333,3000,"mae=0.139 ci=[0.850,0.875]"
+ct10,haiku,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.6826666666666666,3000,"mae=0.333 ci=[0.666,0.699]"
+ct10,haiku,exact_match_rate,,"mode=whole_exam,with_key=True",,,0.7076666666666667,3000,"mae=0.301 ci=[0.691,0.724]"
+ct10,openjev,exact_match_rate,,"mode=chained,with_key=False",,,0.7306666666666667,3000,"mae=0.278 ci=[0.715,0.747]"
+ct10,openjev,exact_match_rate,,"mode=chained,with_key=True",,,0.7903333333333333,3000,"mae=0.219 ci=[0.776,0.804]"
+ct10,openjev,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.5766666666666667,3000,"mae=0.460 ci=[0.558,0.594]"
+ct10,openjev,exact_match_rate,,"mode=whole_exam,with_key=True",,,0.57,3000,"mae=0.476 ci=[0.552,0.587]"
+ct10,jev,total_score_mae,,"mode=chained,with_key=False",,,5.05,100,
+ct10,jev,total_score_mae,,"mode=chained,with_key=True",,,3.82,100,
+ct10,jev,total_score_mae,,"mode=whole_exam,with_key=False",,,4.63,100,
+ct10,jev,total_score_mae,,"mode=whole_exam,with_key=True",,,3.66,100,
+ct10,haiku,total_score_mae,,"mode=chained,with_key=False",,,2.9,100,
+ct10,haiku,total_score_mae,,"mode=chained,with_key=True",,,3.86,100,
+ct10,haiku,total_score_mae,,"mode=whole_exam,with_key=False",,,8.84,100,
+ct10,haiku,total_score_mae,,"mode=whole_exam,with_key=True",,,8.32,100,
+ct10,openjev,total_score_mae,,"mode=chained,with_key=False",,,7.09,100,
+ct10,openjev,total_score_mae,,"mode=chained,with_key=True",,,6.52,100,
+ct10,openjev,total_score_mae,,"mode=whole_exam,with_key=False",,,9.76,100,
+ct10,openjev,total_score_mae,,"mode=whole_exam,with_key=True",,,10.79,100,
+ct10,jev,confidence_at_errors,,chained,,,0.7538382804503583,977,
+ct10,jev,confidence_at_correct,,chained,,,0.9152498506868406,5023,
+ct10,haiku,confidence_at_errors,,chained,,,0.8866484716157205,916,
+ct10,haiku,confidence_at_correct,,chained,,,0.9017250196695515,5084,
+ct10,openjev,confidence_at_errors,,chained,,,0.7663369743423615,1437,
+ct10,openjev,confidence_at_correct,,chained,,,0.8725686011775703,4563,
+ct10,jev,avg_latency_ms,,,,,102.36730693141969,12000,
+ct10,haiku,avg_latency_ms,,,,,402.38626251445385,12000,
+ct10,openjev,avg_latency_ms,,,,,237.92734023730736,12000,
 spend,corpus_generation,cost_usd,,,,,2.8561199999999998,77,model=claude-sonnet-5
 spend,jev_arm,cost_usd,,,,,0.18093978000000052,5764,model=jev-latest
 spend,haiku_arm,cost_usd,,,,,9.178637999999996,5774,model=claude-haiku-4-5
@@ -282,4 +315,8 @@ spend,jev_arm_ct9,cost_usd,,,,,0.3192173880000006,3420,model=jev-latest
 spend,haiku_arm_ct9,cost_usd,,,,,10.267232999999994,3420,model=claude-haiku-4-5
 spend,openjev_arm,cost_usd,,,,,0.0,5760,model=openjev
 spend,openjev_arm_ct9,cost_usd,,,,,0.0,3420,model=openjev
-spend,TOTAL,anthropic_cumulative_usd,,,,,24.113415000000135,,
+spend,examgrade_corpus_generation,cost_usd,,,,,6.924622,105,model=claude-sonnet-5
+spend,jev_arm_ct10,cost_usd,,,,,0.2518645500000007,6203,model=jev-latest
+spend,haiku_arm_ct10,cost_usd,,,,,10.22250700000003,6208,model=claude-haiku-4-5
+spend,openjev_arm_ct10,cost_usd,,,,,0.0,6202,model=openjev
+spend,TOTAL,anthropic_cumulative_usd,,,,,41.26054400000013,,

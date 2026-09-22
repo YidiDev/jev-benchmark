@@ -8,6 +8,8 @@ def test_build_summary_structure():
     assert "jev" in summary["ct1_8"]["arms"]
     assert summary["ct9"] is not None
     assert "jev" in summary["ct9"]["arms"]
+    assert summary["ct10"] is not None
+    assert "jev" in summary["ct10"]["arms"]
     assert summary["spend"]["anthropic_cumulative_usd"] > 0
 
 
@@ -20,10 +22,11 @@ def test_flatten_produces_rows_with_expected_schema():
         assert set(row.keys()) == expected_keys
 
 
-def test_flatten_covers_both_ct1_8_and_ct9_sections():
+def test_flatten_covers_all_sections():
     summary = build_summary()
     rows = flatten(summary)
     sections = {r["section"] for r in rows}
     assert "ct1_8" in sections
     assert "ct9" in sections
+    assert "ct10" in sections
     assert "spend" in sections

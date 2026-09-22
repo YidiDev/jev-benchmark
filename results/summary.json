@@ -2645,7 +2645,394 @@
       }
     }
   },
-  "ct10": null,
+  "ct10": {
+    "arms": [
+      "jev",
+      "haiku",
+      "openjev"
+    ],
+    "question_level_error": {
+      "jev": [
+        {
+          "arm": "jev",
+          "mode": "chained",
+          "with_key": false,
+          "n": 3000,
+          "mae": 0.20033333333333334,
+          "exact_match_rate": 0.8023333333333333,
+          "exact_match_ci_lo": 0.7883333333333333,
+          "exact_match_ci_hi": 0.8163333333333334
+        },
+        {
+          "arm": "jev",
+          "mode": "chained",
+          "with_key": true,
+          "n": 3000,
+          "mae": 0.12933333333333333,
+          "exact_match_rate": 0.872,
+          "exact_match_ci_lo": 0.86,
+          "exact_match_ci_hi": 0.883675
+        },
+        {
+          "arm": "jev",
+          "mode": "whole_exam",
+          "with_key": false,
+          "n": 3000,
+          "mae": 0.17433333333333334,
+          "exact_match_rate": 0.8273333333333334,
+          "exact_match_ci_lo": 0.814,
+          "exact_match_ci_hi": 0.8403333333333334
+        },
+        {
+          "arm": "jev",
+          "mode": "whole_exam",
+          "with_key": true,
+          "n": 3000,
+          "mae": 0.12466666666666666,
+          "exact_match_rate": 0.8756666666666667,
+          "exact_match_ci_lo": 0.8636666666666667,
+          "exact_match_ci_hi": 0.887
+        }
+      ],
+      "haiku": [
+        {
+          "arm": "haiku",
+          "mode": "chained",
+          "with_key": false,
+          "n": 3000,
+          "mae": 0.16933333333333334,
+          "exact_match_rate": 0.8323333333333334,
+          "exact_match_ci_lo": 0.8189916666666667,
+          "exact_match_ci_hi": 0.8453333333333334
+        },
+        {
+          "arm": "haiku",
+          "mode": "chained",
+          "with_key": true,
+          "n": 3000,
+          "mae": 0.13866666666666666,
+          "exact_match_rate": 0.8623333333333333,
+          "exact_match_ci_lo": 0.85,
+          "exact_match_ci_hi": 0.875
+        },
+        {
+          "arm": "haiku",
+          "mode": "whole_exam",
+          "with_key": false,
+          "n": 3000,
+          "mae": 0.33266666666666667,
+          "exact_match_rate": 0.6826666666666666,
+          "exact_match_ci_lo": 0.6656666666666666,
+          "exact_match_ci_hi": 0.6986666666666667
+        },
+        {
+          "arm": "haiku",
+          "mode": "whole_exam",
+          "with_key": true,
+          "n": 3000,
+          "mae": 0.3006666666666667,
+          "exact_match_rate": 0.7076666666666667,
+          "exact_match_ci_lo": 0.6913250000000001,
+          "exact_match_ci_hi": 0.7243333333333334
+        }
+      ],
+      "openjev": [
+        {
+          "arm": "openjev",
+          "mode": "chained",
+          "with_key": false,
+          "n": 3000,
+          "mae": 0.2783333333333333,
+          "exact_match_rate": 0.7306666666666667,
+          "exact_match_ci_lo": 0.7146666666666667,
+          "exact_match_ci_hi": 0.746675
+        },
+        {
+          "arm": "openjev",
+          "mode": "chained",
+          "with_key": true,
+          "n": 3000,
+          "mae": 0.21933333333333332,
+          "exact_match_rate": 0.7903333333333333,
+          "exact_match_ci_lo": 0.7763333333333333,
+          "exact_match_ci_hi": 0.8043333333333333
+        },
+        {
+          "arm": "openjev",
+          "mode": "whole_exam",
+          "with_key": false,
+          "n": 3000,
+          "mae": 0.46,
+          "exact_match_rate": 0.5766666666666667,
+          "exact_match_ci_lo": 0.5583333333333333,
+          "exact_match_ci_hi": 0.5940083333333332
+        },
+        {
+          "arm": "openjev",
+          "mode": "whole_exam",
+          "with_key": true,
+          "n": 3000,
+          "mae": 0.4756666666666667,
+          "exact_match_rate": 0.57,
+          "exact_match_ci_lo": 0.552,
+          "exact_match_ci_hi": 0.587
+        }
+      ]
+    },
+    "total_score_error": {
+      "jev": [
+        {
+          "arm": "jev",
+          "mode": "chained",
+          "with_key": false,
+          "n_students": 100,
+          "total_score_mae": 5.05
+        },
+        {
+          "arm": "jev",
+          "mode": "chained",
+          "with_key": true,
+          "n_students": 100,
+          "total_score_mae": 3.82
+        },
+        {
+          "arm": "jev",
+          "mode": "whole_exam",
+          "with_key": false,
+          "n_students": 100,
+          "total_score_mae": 4.63
+        },
+        {
+          "arm": "jev",
+          "mode": "whole_exam",
+          "with_key": true,
+          "n_students": 100,
+          "total_score_mae": 3.66
+        }
+      ],
+      "haiku": [
+        {
+          "arm": "haiku",
+          "mode": "chained",
+          "with_key": false,
+          "n_students": 100,
+          "total_score_mae": 2.9
+        },
+        {
+          "arm": "haiku",
+          "mode": "chained",
+          "with_key": true,
+          "n_students": 100,
+          "total_score_mae": 3.86
+        },
+        {
+          "arm": "haiku",
+          "mode": "whole_exam",
+          "with_key": false,
+          "n_students": 100,
+          "total_score_mae": 8.84
+        },
+        {
+          "arm": "haiku",
+          "mode": "whole_exam",
+          "with_key": true,
+          "n_students": 100,
+          "total_score_mae": 8.32
+        }
+      ],
+      "openjev": [
+        {
+          "arm": "openjev",
+          "mode": "chained",
+          "with_key": false,
+          "n_students": 100,
+          "total_score_mae": 7.09
+        },
+        {
+          "arm": "openjev",
+          "mode": "chained",
+          "with_key": true,
+          "n_students": 100,
+          "total_score_mae": 6.52
+        },
+        {
+          "arm": "openjev",
+          "mode": "whole_exam",
+          "with_key": false,
+          "n_students": 100,
+          "total_score_mae": 9.76
+        },
+        {
+          "arm": "openjev",
+          "mode": "whole_exam",
+          "with_key": true,
+          "n_students": 100,
+          "total_score_mae": 10.79
+        }
+      ]
+    },
+    "with_vs_without_key_delta": {
+      "jev": [
+        {
+          "arm": "jev",
+          "mode": "chained",
+          "exact_match_with_key": 0.872,
+          "exact_match_without_key": 0.8023333333333333,
+          "delta": 0.06966666666666665
+        },
+        {
+          "arm": "jev",
+          "mode": "whole_exam",
+          "exact_match_with_key": 0.8756666666666667,
+          "exact_match_without_key": 0.8273333333333334,
+          "delta": 0.04833333333333334
+        }
+      ],
+      "haiku": [
+        {
+          "arm": "haiku",
+          "mode": "chained",
+          "exact_match_with_key": 0.8623333333333333,
+          "exact_match_without_key": 0.8323333333333334,
+          "delta": 0.029999999999999916
+        },
+        {
+          "arm": "haiku",
+          "mode": "whole_exam",
+          "exact_match_with_key": 0.7076666666666667,
+          "exact_match_without_key": 0.6826666666666666,
+          "delta": 0.025000000000000022
+        }
+      ],
+      "openjev": [
+        {
+          "arm": "openjev",
+          "mode": "chained",
+          "exact_match_with_key": 0.7903333333333333,
+          "exact_match_without_key": 0.7306666666666667,
+          "delta": 0.059666666666666646
+        },
+        {
+          "arm": "openjev",
+          "mode": "whole_exam",
+          "exact_match_with_key": 0.57,
+          "exact_match_without_key": 0.5766666666666667,
+          "delta": -0.00666666666666671
+        }
+      ]
+    },
+    "chained_vs_whole_exam_delta": {
+      "jev": [
+        {
+          "arm": "jev",
+          "with_key": true,
+          "exact_match_chained": 0.872,
+          "exact_match_whole_exam": 0.8756666666666667,
+          "delta": -0.003666666666666707
+        },
+        {
+          "arm": "jev",
+          "with_key": false,
+          "exact_match_chained": 0.8023333333333333,
+          "exact_match_whole_exam": 0.8273333333333334,
+          "delta": -0.025000000000000022
+        }
+      ],
+      "haiku": [
+        {
+          "arm": "haiku",
+          "with_key": true,
+          "exact_match_chained": 0.8623333333333333,
+          "exact_match_whole_exam": 0.7076666666666667,
+          "delta": 0.15466666666666662
+        },
+        {
+          "arm": "haiku",
+          "with_key": false,
+          "exact_match_chained": 0.8323333333333334,
+          "exact_match_whole_exam": 0.6826666666666666,
+          "delta": 0.14966666666666673
+        }
+      ],
+      "openjev": [
+        {
+          "arm": "openjev",
+          "with_key": true,
+          "exact_match_chained": 0.7903333333333333,
+          "exact_match_whole_exam": 0.57,
+          "delta": 0.22033333333333338
+        },
+        {
+          "arm": "openjev",
+          "with_key": false,
+          "exact_match_chained": 0.7306666666666667,
+          "exact_match_whole_exam": 0.5766666666666667,
+          "delta": 0.15400000000000003
+        }
+      ]
+    },
+    "confidence_at_errors_chained": {
+      "jev": {
+        "arm": "jev",
+        "mode": "chained",
+        "at_errors": {
+          "n": 977,
+          "mean": 0.7538382804503583
+        },
+        "at_correct": {
+          "n": 5023,
+          "mean": 0.9152498506868406
+        }
+      },
+      "haiku": {
+        "arm": "haiku",
+        "mode": "chained",
+        "at_errors": {
+          "n": 916,
+          "mean": 0.8866484716157205
+        },
+        "at_correct": {
+          "n": 5084,
+          "mean": 0.9017250196695515
+        }
+      },
+      "openjev": {
+        "arm": "openjev",
+        "mode": "chained",
+        "at_errors": {
+          "n": 1437,
+          "mean": 0.7663369743423615
+        },
+        "at_correct": {
+          "n": 4563,
+          "mean": 0.8725686011775703
+        }
+      }
+    },
+    "cost_latency": [
+      {
+        "arm": "jev",
+        "n_grades": 12000,
+        "avg_latency_ms": 102.36730693141969,
+        "total_input_tokens": 5984062,
+        "total_output_tokens": 204000
+      },
+      {
+        "arm": "haiku",
+        "n_grades": 12000,
+        "avg_latency_ms": 402.38626251445385,
+        "total_input_tokens": 8345828,
+        "total_output_tokens": 370618
+      },
+      {
+        "arm": "openjev",
+        "n_grades": 12000,
+        "avg_latency_ms": 237.92734023730736,
+        "total_input_tokens": 5279164,
+        "total_output_tokens": 0
+      }
+    ]
+  },
   "spend": {
     "by_source_model": {
       "corpus_generation::claude-sonnet-5": {
@@ -2727,8 +3114,48 @@
         "calls": 3420,
         "cache_creation_tokens": 0,
         "cache_read_tokens": 0
+      },
+      "examgrade_corpus_generation::claude-sonnet-5": {
+        "source": "examgrade_corpus_generation",
+        "model": "claude-sonnet-5",
+        "input_tokens": 873021,
+        "output_tokens": 517858,
+        "cost_usd": 6.924622,
+        "calls": 105,
+        "cache_creation_tokens": 0,
+        "cache_read_tokens": 0
+      },
+      "jev_arm_ct10::jev-latest": {
+        "source": "jev_arm_ct10",
+        "model": "jev-latest",
+        "input_tokens": 5996775,
+        "output_tokens": 205292,
+        "cost_usd": 0.2518645500000007,
+        "calls": 6203,
+        "cache_creation_tokens": 0,
+        "cache_read_tokens": 0
+      },
+      "haiku_arm_ct10::claude-haiku-4-5": {
+        "source": "haiku_arm_ct10",
+        "model": "claude-haiku-4-5",
+        "input_tokens": 8363312,
+        "output_tokens": 371839,
+        "cost_usd": 10.22250700000003,
+        "calls": 6208,
+        "cache_creation_tokens": 0,
+        "cache_read_tokens": 0
+      },
+      "openjev_arm_ct10::openjev": {
+        "source": "openjev_arm_ct10",
+        "model": "openjev",
+        "input_tokens": 5293443,
+        "output_tokens": 0,
+        "cost_usd": 0.0,
+        "calls": 6202,
+        "cache_creation_tokens": 0,
+        "cache_read_tokens": 0
       }
     },
-    "anthropic_cumulative_usd": 24.113415000000135
+    "anthropic_cumulative_usd": 41.26054400000013
   }
 }

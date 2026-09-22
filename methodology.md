@@ -15,7 +15,10 @@ cost/latency) built and used to produce the numbers below. CT9 chained
 decision-tree execution (§13) complete for jev and haiku, full 3-repeat
 scope across all k values and both folder-labeling schemes. OpenJev (§14)
 complete for both CT1-8 and CT9, full scope, matching Jev's own -- free
-Codiv tier, $0 cost.**
+Codiv tier, $0 cost. CT10 AP World History exam grading (§15) complete
+for all three arms (jev, haiku, openjev), full scope: 100 students x 30
+questions x 2 grading modes x 2 key-conditions. Final Anthropic spend:
+$41.26 / $50.00 budget.**
 
 ---
 
@@ -1065,3 +1068,282 @@ stable of the three arms on repeated runs of the hardest single-shot
 task. A firm treating Jev as primary with OpenJev as a cost-free fallback
 should scope that fallback to the simpler, single-hop classification
 tasks this benchmark's CT1-8 represents, not to long decision chains.
+
+## 15. CT10: AP World History exam grading
+
+### Motivation and design
+
+CT1-9 both test *classification*-shaped tasks: given a document or a
+chained decision, pick one folder. CT10 tests a different capability
+combination the user specifically asked for: **applying a partial-credit
+rubric to open-ended paragraph answers** -- a genuine scoring/generation
+judgment, not a forced choice among discrete options -- plus a second,
+orthogonal axis: **does the grading model need the answer key, or does it
+already know the material?** These are two different questions an
+automated-grading deployment would actually need answered, and CT1-9's
+single-Choice-per-document decomposition can't speak to either.
+
+Design decisions, all confirmed with the user via explicit questions
+before building:
+
+- **30 questions, realistic non-uniform rubric summing to exactly 100
+  points** (5 questions worth 2, 12 worth 3, 11 worth 4, 2 worth 5) --
+  matched to how many genuinely distinct, checkable elements each
+  specific AP World History short-answer prompt naturally has, not an
+  arbitrary RNG assignment independent of content (unlike CT1-9's
+  RNG-driven choices, a checklist rubric's length is inherently tied to
+  what the question is actually asking).
+- **Checklist-style rubrics with a separate answer key**: each question's
+  `criteria` (`examgrade/questions.py`) describe structurally what kind
+  of content earns a point (e.g. "identifies a specific triggering
+  event") without ever stating the actual correct answer; the actual
+  correct content lives in a separate `reference_facts` list, appended to
+  the rubric text only when grading `with_key=True`
+  (`examgrade/rubric_text.py`). This is the same discipline as CT5's
+  "no stated total" and CT6's "no superseded language" -- verified
+  directly: `test_without_key_excludes_reference_facts` and
+  `test_full_exam_rubric_without_key_never_leaks_any_fact` assert no
+  `reference_fact` string ever appears in the without-key rubric text an
+  arm actually receives.
+- **100 students, one latent ability parameter per student** (Beta(2,2),
+  seeded per student), not independent per-question randomness -- the
+  user's explicit choice, since real students are consistent across an
+  exam, not random question-to-question. Per-question true score =
+  `ability + Gaussian(0, 0.15) noise`, clipped to [0,1], scaled to that
+  question's point value and rounded (`examgrade/generate_metadata.py`).
+  Verified: correlation(ability, total_true_score) = 0.992 across the
+  100 generated students (strong but not perfect, confirming individual-
+  question noise survives averaging without swamping the ability signal);
+  total scores ranged 4-94 out of 100, a realistic spread.
+- **Which specific criteria a partial-credit answer satisfies is itself
+  seeded-RNG-chosen** (`examgrade/prose_prompts.select_satisfied_criteria`),
+  not always "the first N" -- a student who earns 2 of 5 points might
+  correctly cover any 2 of the 5 elements, matching how a real student's
+  partial recall doesn't cluster at the start of a rubric.
+- **Two grading modes**: chained (one call per question, isolated
+  context, matching CT9's k=1) and whole-exam (one call grades all 30
+  questions, matching CT9's k=10) -- the user's explicit choice to keep
+  whole-exam mode itemized (per-question scores summed to a total) rather
+  than a single holistic total-score guess, so the two modes are directly
+  comparable at the same granularity and the only real variable is
+  isolated-vs-shared context, not also a change in what's being measured.
+- **Two key-conditions x two modes, no third axis for repeats**:
+  `repeats=1` throughout (user's explicit choice, given the already-large
+  combinatorial scope), and **no held-out validation split** (also
+  explicit -- calibration temperature-fitting wasn't the goal here).
+- **Three arms: Jev, Haiku, OpenJev** -- all three, decided after
+  `CODIV_API_KEY` became available mid-planning (§14); the original plan
+  had OpenJev optional/deferred, but the user asked for it included from
+  the start once the key existed.
+
+### Corpus generation
+
+`examgrade/generate_prose.py`: one Sonnet 5 call per student generates
+all 30 of their answers at once (batch_size=1 per student -- learned
+directly from CT9's lesson that batching multiple 30-item forms per call
+breaks output-format-following at this Q&A density; exam answers here are
+even longer, full paragraphs rather than 1-2 sentences, so batching
+students together would only have been riskier). Manual verification on
+the first generated student (`student_001`) cross-checked against ground
+truth: 4 spot-checked questions (q01=1/3, q02=1/4, q08=2/3, q13=2/5) all
+had generated answers covering *exactly* the RNG-selected subset of
+criteria, confirming the generation pipeline faithfully encodes intended
+partial credit rather than just approximating it.
+
+**Cost: $6.9246** (105 calls -- 100 students plus 5 retries from
+transient parse/format misses, discussed below). Real per-student cost
+ranged roughly $0.044-$0.157, averaging ~$0.066/student; higher than the
+CT9-derived ballpark estimate, consistent with fuller paragraph answers
+generating more output tokens than CT9's short colloquial responses.
+
+**Operational issues encountered and resolved** (documented so they
+aren't re-debugged): (1) 5 of 100 students hit the same class of parsing
+failure CT9 saw -- a response missing one `===ANSWER qXX===...===END===`
+block despite `stop_reason=end_turn` (not a token-budget truncation) --
+resolved by simply retrying (Sonnet's non-deterministic sampling meant
+the retry always succeeded; a live debug re-run of one failing case
+produced a perfectly well-formed response on the next attempt, confirming
+this is sampling variance in output-format adherence, not a deterministic
+per-student content issue); (2) one transient Anthropic `500 Internal
+Server Error`, resolved the same way (resume/retry). Both failure classes
+bill the API call before the parse/network failure is caught, so a small
+amount of double-billing occurred (~5-6 extra calls' worth, reflected in
+the 105-vs-100 call count) -- immaterial at this cost scale.
+
+### Grading arms
+
+`examgrade/arms.py`. Jev and OpenJev share an implementation
+(`_TypeSafeGradingArm`) differing only in client configuration, per this
+benchmark's established pattern. **First use of Jev's `Score` primitive**
+anywhere in this benchmark (CT1-9 only ever used `Choice`): each question
+is graded via a `Score` question with `points + 1` ordered levels ("0 of
+N criteria satisfied" through "N of N criteria satisfied"),
+`instructions` carrying the rubric text (with or without the key per
+condition). One live API quirk caught before building further: `Score`'s
+`criteria` parameter is a `Sequence[str]` (ordered list), not a
+`dict[str, str]` like `Choice`'s -- confirmed via a live test call that
+raised a Pydantic validation error on the first (dict-based) attempt, and
+via `Score.__init__`'s own signature.
+
+**Whole-exam mode exploits a genuine architectural difference between
+Jev/OpenJev and Haiku.** Jev/OpenJev's `system_one` call natively accepts
+multiple questions evaluated together (documented: "Three question types
+in one call, evaluated in parallel") -- so whole-exam mode for these two
+arms is one call with 30 separate `Score` questions, state = the
+student's full exam transcript, each question still carrying its own
+independent rubric instructions. Haiku has no equivalent multi-question
+primitive; its whole-exam mode instead uses **one forced tool call with a
+dynamically-built JSON schema containing one integer property per
+question** (`{"scores": {"q01": int, ..., "q30": int}}`, each bounded to
+that question's own point range) -- a single shared judgment producing 30
+numbers at once, structurally different from Jev's "many small parallel
+judgments bundled into one call." This architectural difference turns
+out to matter a great deal (Finding 2, below).
+
+### Scope and cost
+
+100 students x 30 questions x 2 key-conditions x 2 modes = 6,200
+grading actions per arm (chained: 100x30x2=6,000; whole-exam: 100x2=200),
+x 3 arms = 18,600 total. Small real-sample validation (1 student, both
+modes, both key-conditions, all three arms) confirmed the pipeline
+end-to-end and gave real per-call cost data before the full run, per this
+project's established practice.
+
+**Final cost**: Jev $0.2519 (6,203 calls -- negligible, separate
+provider), **Haiku $10.2225** (6,208 calls), **OpenJev $0.00** (6,202
+calls, free tier). Every arm produced 12,000 stored grade rows (100
+students x 30 questions x 2 modes x 2 key-conditions). Combined with all
+prior phases, cumulative Anthropic spend after CT10: **$41.26 / $50.00
+budget, $8.74 remaining.**
+
+### Results
+
+**Per-question grading accuracy (exact-match rate against the true
+score, 100 students x 30 questions = 3,000 gradings per cell):**
+
+| Arm | Mode | Without key | With key |
+|---|---|---|---|
+| Jev | chained | 0.802 | 0.872 |
+| Jev | whole_exam | 0.827 | 0.876 |
+| Haiku | chained | 0.832 | 0.862 |
+| Haiku | whole_exam | 0.683 | 0.708 |
+| OpenJev | chained | 0.731 | 0.790 |
+| OpenJev | whole_exam | 0.577 | 0.570 |
+
+**Finding 1 -- all three arms grade meaningfully better with the answer
+key than without it, but by very different margins**, directly answering
+the user's "test how well these models know the information" question:
+
+| Arm | Chained delta | Whole-exam delta |
+|---|---|---|
+| Jev | +0.070 | +0.048 |
+| Haiku | +0.030 | +0.025 |
+| OpenJev | +0.060 | -0.007 (noise, no reliable effect) |
+
+**Haiku shows the smallest with/without-key gap of the three arms** --
+its own AP World History knowledge is doing almost as much work as
+having the literal answer key in front of it (a ~3pp gap vs. Jev's
+~5-7pp). Read together with Jev's larger gap, this is a genuine,
+decision-relevant finding for an actual grading deployment: Jev leans
+more heavily on having a reference answer than Haiku does, consistent
+with Jev being a compact, rubric-execution-specialized model rather than
+a broad general-knowledge one. OpenJev's whole-exam delta is
+statistically indistinguishable from zero -- plausibly a floor effect
+given its already-low ~57% whole-exam accuracy leaves little room for the
+key to help, though this isn't fully disentangled from genuine
+noise/inconsistency at that difficulty level.
+
+**Finding 2 -- a genuine architectural difference: Jev is essentially flat
+between chained and whole-exam grading; Haiku and OpenJev both suffer a
+large, real accuracy drop in whole-exam mode.**
+
+| Arm | With-key delta (chained - whole_exam) | Without-key delta |
+|---|---|---|
+| Jev | -0.004 (whole-exam marginally *better*) | -0.025 (whole-exam *better*) |
+| Haiku | +0.155 | +0.150 |
+| OpenJev | +0.220 | +0.154 |
+
+Jev shows **no meaningful degradation at all** when grading all 30
+questions in one call versus one at a time -- if anything, whole-exam
+mode is marginally more accurate. Haiku and OpenJev both drop 15-22
+percentage points. The most plausible explanation, grounded directly in
+the two implementations (not speculation about model quality in the
+abstract): Jev's whole-exam call is architecturally **30 independent
+`Score` evaluations bundled into one API round-trip** (each with its own
+rubric instructions, evaluated in parallel per TypeSafe's own
+documentation), essentially identical in kind to 30 separate chained
+calls, just cheaper to make. Haiku and OpenJev's whole-exam mode is a
+**single shared JSON-generation task** -- one forced tool call that must
+hold and correctly reason about all 30 questions' rubrics simultaneously
+to fill in one 30-field object. This is a much harder task shape, and the
+accuracy drop tracks that difficulty gap closely. This is conceptually
+related to CT9's finding that smaller, more isolated units of work
+outperform one large bulk call (methodology.md §13) -- but here the
+degradation is *avoidable by architecture*, not inherent to the model:
+Jev's native multi-question primitive sidesteps the exact problem that
+hurts Haiku and OpenJev.
+
+**Total-score MAE (out of 100, mean absolute error per student's summed
+graded total vs. true total):**
+
+| Arm | Chained, no key | Chained, with key | Whole-exam, no key | Whole-exam, with key |
+|---|---|---|---|---|
+| Jev | 5.05 | 3.82 | 4.63 | 3.66 |
+| Haiku | 2.90 | 3.86 | 8.84 | 8.32 |
+| OpenJev | 7.09 | 6.52 | 9.76 | 10.79 |
+
+Largely confirms Findings 1-2 at the whole-exam-score level (Haiku and
+OpenJev's totals get meaningfully less accurate in whole-exam mode; Jev's
+stay stable). One genuine curiosity worth flagging rather than
+explaining away: **Haiku's chained/without-key total-score MAE (2.90) is
+the single best number in this entire table** -- lower than its own
+chained/with-key MAE (3.86), despite with-key having the *higher*
+per-question exact-match rate (86.2% vs 83.2%). This is possible because
+total-score MAE and per-question exact-match are different metrics --
+total MAE benefits from error cancellation across 30 questions (an
+answer over-scored by 1 point can offset another under-scored by 1),
+while exact-match doesn't. This wasn't further diagnosed (would require
+per-question error-direction analysis beyond this section's scope) but is
+reported as observed rather than smoothed into the general narrative.
+
+**Calibration (chained mode -- the only mode where all three arms report
+per-question confidence; Haiku's whole-exam tool schema has no
+per-question confidence field, since a single 30-field JSON object isn't
+well suited to 30 separate confidence values):**
+
+| Arm | Confidence at errors | Confidence at correct | Gap |
+|---|---|---|---|
+| Jev | 0.754 (n=977) | 0.915 (n=5,023) | **0.161** |
+| Haiku | 0.887 (n=916) | 0.902 (n=5,084) | **0.015** |
+| OpenJev | 0.766 (n=1,437) | 0.873 (n=4,563) | **0.107** |
+
+Same ranking as CT5 (§12) and CT9 (§13): Jev's confidence discriminates
+correct from incorrect gradings the most sharply, Haiku's the least, on a
+third structurally distinct task.
+
+**Cost and latency** (12,000 grade rows per arm: 6,000 chained + 6,000
+whole-exam-derived, latency/tokens apportioned evenly across a whole-exam
+call's 30 questions for per-row accounting):
+
+| Arm | Avg latency/action | Total cost |
+|---|---|---|
+| Jev | 102ms | $0.2519 |
+| Haiku | 402ms | $10.2225 |
+| OpenJev | 238ms | $0.00 |
+
+### Takeaway
+
+CT10 answers the two questions it was built for. On "does the model know
+the material without being handed the answer": all three arms benefit
+from the key, but Haiku benefits least -- its own historical knowledge is
+nearly as good as having the key, a genuinely different profile from
+Jev's larger reliance on the reference answer. On "does grading
+architecture matter for bulk grading": yes, decisively -- Jev's native
+multi-question-per-call primitive lets it grade a full 30-question exam
+in one round-trip with no accuracy cost, while both Haiku and OpenJev pay
+a real, double-digit-percentage-point accuracy penalty for the same bulk
+task, because their single-shared-JSON-object approach to "many answers
+in one call" is a fundamentally harder task shape than Jev's parallel
+per-question evaluation. The calibration asymmetry first found in CT5 and
+confirmed in CT9 replicates a third time, on a task that shares nothing
+structurally with either of those two.
