@@ -2,11 +2,16 @@
 harness/scoring.py can score all five arms uniformly.
 
 One JSONL file per arm at results/predictions/{arm}.jsonl. Condition
-"SHUFFLE" is deliberately never written here -- the shuffle control (§5.1)
-reuses each arm's Condition B records unchanged (same opaque-id folder set is
-shown to the model either way; only the scoring-time answer key differs), so
-scoring.py must synthesize shuffle-control accuracy from condition="B" rows
-via rubrics.ground_truth.correct_folder(..., shuffle=True).
+"SHUFFLE" is written by API arms that consume the full rubric text (jev,
+haiku, openjev -- see scripts/run_api_arm.py), since the shuffled rubric's
+instructions/criteria are genuinely different text from Condition B's. It is
+*not* written by the local label-text-only arms (nli-bart, emb-bge -- see
+scripts/run_arm.py), which only ever see the folder-id set (identical
+between B and SHUFFLE), so their Condition B records are reused unchanged
+and scoring.py synthesizes shuffle-control accuracy from those condition="B"
+rows via rubrics.ground_truth.correct_folder(..., shuffle=True). Which path
+applies to a given arm's jsonl file is arm-specific -- see each runner's
+docstring.
 """
 
 from __future__ import annotations
@@ -23,7 +28,7 @@ class PredictionRecord:
     arm: str
     doc_id: str
     clause_type: int
-    condition: str  # "A" | "B" | "C" -- never "SHUFFLE", see module docstring
+    condition: str  # "A" | "B" | "C" | "SHUFFLE" -- see module docstring for which arms write SHUFFLE
     split: str  # "validation" | "test"
     repeat: int  # 1 for deterministic local arms; 1..REPEATS for stochastic API arms
     predicted_folder: str

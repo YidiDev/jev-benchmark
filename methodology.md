@@ -6,7 +6,8 @@ implementation diverged from the original design and why. `results.md` holds
 the numbers; this file holds how they were produced.
 
 Status: **Phase 0 (scaffold) complete. Phase 1 (corpus + ground truth) complete.
-Phase 2 (local baseline arms nli-bart, emb-bge) complete.**
+Phase 2 (local baseline arms nli-bart, emb-bge) complete. Phase 3 (Jev arm,
+full 3-repeat run including shuffle control) complete.**
 
 ---
 
@@ -233,3 +234,81 @@ includes Haiku at temperature 0 (still non-deterministic in practice).
   artifact-detection mechanism test-plan.md §5.1 is designed around, now
   confirmed working end-to-end on real (non-Jev) models before any paid API
   call has been made.
+
+## 10. Jev arm (Phase 3 actual)
+
+`arms/jev.py`: official `typesafe-sdk`, `TypeSafeClient(model="jev-latest")`,
+one `Choice` question per document (`instructions`/`criteria` from
+`rubrics.clauses.build_rubric`, `state` = raw document text). Every call
+logged via `harness.spend_ledger.record_spend`.
+
+### Incident: the shuffle-control reuse shortcut was wrong for rubric-reading arms
+
+Phase 2's design decision -- "SHUFFLE reuses Condition B's predictions,
+never run separately" -- is **only valid for nli-bart/emb-bge**. Those arms
+only ever see the folder-id *set* as candidate labels, and Condition B and
+SHUFFLE present the identical set (SHUFFLE is just a different assignment of
+*which* id is correct), so the model's chosen label string is provably
+identical between the two.
+
+Jev is handed the *full rubric text*, and that text is genuinely different
+between B and SHUFFLE: `build_rubric(ct, "SHUFFLE")` formats the same rule
+template with a permuted canonical-id → display-name mapping, e.g. for CT1,
+Condition B says `"Tax documents go to `w1tqk1`. Invoices go to `fh4pr2`.
+Contracts go to `c52z16`."` while SHUFFLE says `"Tax documents go to
+`fh4pr2`. Invoices go to `c52z16`. Contracts go to `w1tqk1`."` for the exact
+same opaque-id set. The first full Jev run only queried A/B/C and then
+scored Condition B's answers against the *shuffled* answer key, which is
+mathematically guaranteed to read ~0% whenever the model is in fact
+following the true rubric (a derangement has zero fixed points, so 100%
+accuracy under the true mapping implies ~0% under any relabeling of the
+same answers) -- this produced a false "Jev fails the shuffle control"
+signal that was caught by manual inspection before being written to
+results.md, not by an automated check.
+
+**Fix**: `scripts/run_api_arm.py` now iterates
+`API_ARM_CONDITIONS = ("A", "B", "C", "SHUFFLE")` for all three API arms
+(jev, haiku, openjev), genuinely querying the model under the shuffled
+rubric text. `scripts/run_arm.py` (local arms) is unchanged -- SHUFFLE reuse
+remains correct and is now explicitly justified in both runners'
+docstrings. A regression test
+(`tests/test_run_api_arm.py::test_shuffle_rubric_text_differs_from_condition_b`)
+asserts the instructions text differs between B and SHUFFLE for every
+clause type, so this class of bug cannot silently reappear.
+
+### Full run results (2,880 predictions: 240 docs × 4 conditions incl. SHUFFLE × 3 repeats)
+
+**Accuracy is 1.00 (180/180) in every single (clause_type × condition) cell,
+including SHUFFLE.** Manually verified against ground truth on several
+targeted hard cases to rule out a scoring bug:
+
+- CT2 "hard" near-threshold amounts ($10,424.97, $10,518.52, both just above
+  the $10,000 line; $8,600.77, just below) -- all correctly bucketed,
+  confidence 1.0.
+- CT3 retainer-override cases with a *distractor* project codename present
+  in the same document (e.g. project=Alpha, client="Beacon Systems" — a
+  retainer client — correctly routed to `retainer_clients` despite the
+  competing project-based signal) -- all correct, confidence 0.99–1.0.
+
+**Interpretation**: this is a genuine ceiling effect, not a bug. Jev
+resolves every clause type in this corpus perfectly, including the ones
+test-plan.md §3 and the jev-1.13 jaggedness doc predicted would be hardest
+(CT2's numeric threshold, CT3's relational/multi-hop lookup). Two
+non-exclusive readings, to be revisited once Haiku's numbers exist for
+comparison: (a) Jev is simply very capable at this exact decomposition
+(one Choice question, full rubric in criteria, moderate document length);
+(b) this corpus's "hard" cases are still fully explicit in the text (CT2
+states the exact dollar figure as required by `corpus/prose_prompts.py`, so
+it is a text-comparison task, not true arithmetic/estimation) and may not
+be adversarial enough to separate Jev from a strong LLM. The 100%
+shuffle-control result is the more decision-relevant one regardless: it
+directly answers Part 1 of test-plan.md -- Jev's accuracy tracks the
+*stated* rubric mapping even when it is adversarially permuted away from
+the semantically "obvious" answer, which is the specific signature of
+genuine rubric-conditioning rather than content-prior matching.
+
+**Cost**: 2,880 calls, well under $0.10 total logged spend (see
+`results/spend_ledger.jsonl` for the exact running total via
+`python -m harness.spend_ledger`); output tokens are free under Jev's
+pricing. Wall clock: ~576s combined across both runner invocations (first
+A/B/C pass + the SHUFFLE-only resumption pass after the fix above).
