@@ -34,16 +34,25 @@ A BudgetExceeded exception propagates up and stops the run immediately
 (already-written predictions are preserved; rerun to resume once the budget
 situation is resolved).
 
+Call ordering is grouped by (clause_type, condition), then document, then
+repeat -- purely for readable, grouped progress logging; it has no effect
+on cost or correctness (arms/haiku.py's docstring explains why prompt
+caching, the original motivation for this ordering, turned out not to be
+viable for that model) and doesn't change *which* predictions get made, so
+resumability keys are unaffected.
+
 Usage:
     python -m scripts.run_api_arm --arm jev
     python -m scripts.run_api_arm --arm jev --limit 5 --repeats 1   # debug
     python -m scripts.run_api_arm --arm jev --split validation      # pilot
+    python -m scripts.run_api_arm --arm haiku --repeats 2           # budget-limited, see arms/haiku.py
 """
 
 from __future__ import annotations
 
 import argparse
 import time
+from collections import defaultdict
 from pathlib import Path
 
 from corpus.generate_metadata import load_manifest
@@ -96,44 +105,52 @@ def run(
         manifest = manifest[:limit]
     done = existing_keys(arm_name)
 
+    by_clause_type: dict[int, list] = defaultdict(list)
+    for metadata in manifest:
+        by_clause_type[metadata.clause_type].append(metadata)
+
     total = len(manifest) * len(API_ARM_CONDITIONS) * repeats
     n_seen = 0
     n_written = 0
     t0 = time.time()
 
     try:
-        for metadata in manifest:
-            text = _doc_text(metadata.doc_id)
+        for clause_type in sorted(by_clause_type):
+            docs = by_clause_type[clause_type]
             for condition in API_ARM_CONDITIONS:
-                rubric = build_rubric(metadata.clause_type, condition)
-                for repeat in range(1, repeats + 1):
-                    n_seen += 1
-                    key = (metadata.doc_id, condition, repeat)
-                    if key in done:
-                        continue
-                    pred = arm.predict(text, rubric)
-                    record = PredictionRecord(
-                        arm=arm_name,
-                        doc_id=metadata.doc_id,
-                        clause_type=metadata.clause_type,
-                        condition=condition,
-                        split=metadata.split,
-                        repeat=repeat,
-                        predicted_folder=pred.folder,
-                        probabilities=pred.probabilities,
-                        confidence=pred.confidence,
-                        latency_ms=pred.latency_ms,
-                        input_tokens=pred.input_tokens,
-                        output_tokens=pred.output_tokens,
-                    )
-                    append_prediction(record)
-                    n_written += 1
-                    if n_seen % 25 == 0:
-                        elapsed = time.time() - t0
-                        print(
-                            f"[{arm_name}] {n_seen}/{total} seen, {n_written} newly written "
-                            f"({elapsed:.1f}s elapsed)"
+                rubric = build_rubric(clause_type, condition)
+                for metadata in docs:
+                    text = _doc_text(metadata.doc_id)
+                    for repeat in range(1, repeats + 1):
+                        n_seen += 1
+                        key = (metadata.doc_id, condition, repeat)
+                        if key in done:
+                            continue
+                        pred = arm.predict(text, rubric)
+                        record = PredictionRecord(
+                            arm=arm_name,
+                            doc_id=metadata.doc_id,
+                            clause_type=metadata.clause_type,
+                            condition=condition,
+                            split=metadata.split,
+                            repeat=repeat,
+                            predicted_folder=pred.folder,
+                            probabilities=pred.probabilities,
+                            confidence=pred.confidence,
+                            latency_ms=pred.latency_ms,
+                            input_tokens=pred.input_tokens,
+                            output_tokens=pred.output_tokens,
+                            cache_creation_tokens=pred.cache_creation_tokens,
+                            cache_read_tokens=pred.cache_read_tokens,
                         )
+                        append_prediction(record)
+                        n_written += 1
+                        if n_seen % 25 == 0:
+                            elapsed = time.time() - t0
+                            print(
+                                f"[{arm_name}] {n_seen}/{total} seen, {n_written} newly written "
+                                f"({elapsed:.1f}s elapsed)"
+                            )
     except BudgetExceeded as e:
         print(f"[{arm_name}] STOPPED (budget): {e}")
         raise

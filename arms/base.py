@@ -28,6 +28,11 @@ class Prediction:
     # local hardware with no per-token billing.
     input_tokens: int = 0
     output_tokens: int = 0
+    # Only populated by arms using Anthropic prompt caching (see
+    # arms/haiku.py); input_tokens above is the *uncached* portion in that
+    # case. See harness/spend_ledger.py's cost_for for how these are priced.
+    cache_creation_tokens: int = 0
+    cache_read_tokens: int = 0
 
 
 class Arm:

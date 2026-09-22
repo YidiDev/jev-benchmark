@@ -54,31 +54,68 @@ model" — that question is deferred to the Haiku comparison.
 
 ## Part 2 — Does Jev match Haiku 4.5 on quality? (the adoption decision)
 
-*(pending)*
+**Preliminary answer: no, Jev beats Haiku on this corpus.** Jev: 100.00%
+(2,880/2,880). Haiku: 97.66% (1,875/1,920). Raw accuracy, pre-bootstrap-CI
+(formal CIs land in Phase 6); Haiku ran at 2 repeats instead of 3 for
+budget reasons, see methodology.md §11.
 
-### Accuracy per (condition × clause type)
+### Accuracy per (condition × clause type) — raw, pre-bootstrap
 
-*(pending)*
+| Clause type | jev A | jev B | jev C | jev SHUFFLE | haiku A | haiku B | haiku C | haiku SHUFFLE |
+|---|---|---|---|---|---|---|---|---|
+| CT1 descriptive | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.97 | 1.00 |
+| CT2 conjunctive+threshold | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.98 | 1.00 |
+| CT3 relational | 1.00 | 1.00 | 1.00 | 1.00 | 0.93 | 0.93 | 0.93 | 0.92 |
+| CT4 negative/exclusionary | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 1.00 | 0.98 | 1.00 |
+
+**82% of Haiku's errors (37/45) are CT3 relational-lookup failures with a
+single, consistent mechanism**: confusing a non-retainer distractor client
+name for a real retainer-list client because they share a prefix word (e.g.
+"Anchor Robotics" → wrongly treated as retainer "Anchor Materials"), at high
+confidence (0.95–1.00). Jev resolves the identical documents correctly
+(manually spot-checked). This is exactly the clause type test-plan.md §3
+predicted would be hardest -- it just turned out to be hard for Haiku, not
+for Jev, on this corpus. See methodology.md §11 for the full breakdown.
 
 ### Calibration (ECE, raw and temperature-fit)
 
-*(pending)*
+*(pending — Phase 6)*
 
 ### Confidence at errors
 
-*(pending)*
+Haiku's 45 misclassifications carry confidence 0.95–1.00 in every checked
+case (i.e. confidently wrong, not hedged) -- a real calibration concern to
+quantify formally in Phase 6.
 
-### Run-to-run variance (3 repeats)
+### Run-to-run variance (repeats: jev=3, haiku=2 — see methodology.md §11 for why Haiku is 2)
 
-*(pending)*
+Haiku repeat-1-vs-repeat-2 disagreement: 7/960 = 0.73% (small but nonzero,
+confirming non-determinism persists with no temperature parameter exposed
+by this API). Jev 3-repeat disagreement: 0/2,880 — perfectly consistent
+across all 3 repeats in this run (ties directly to the 100% ceiling
+accuracy: a run with zero errors has zero opportunity to disagree with
+itself).
 
 ### Latency and cost per document
 
-*(pending — actual logged spend, not list price)*
+Jev: 2,880 calls, well under $0.10 total, output free. Haiku: 1,920
+production calls (1,934 incl. smoke tests), $2.8804. Full breakdown in
+`results/spend_ledger.jsonl` / `python -m harness.spend_ledger`.
 
 ## Decision (per test-plan.md §6, "Decision rule for Part 2")
 
-*(pending — not to be filled in until the full run completes)*
+**Jev >= Haiku on accuracy → adopt.** Jev 100.00% vs Haiku 97.66% on the
+identical corpus, conditions, and rubric decomposition. A Sonnet 5
+comparison was proposed (per prior instruction, triggered by Haiku
+underperforming Jev) and explicitly declined by the user given how decisive
+this result already is: "if jev did 100%, not worth testing the other
+stuff. that's insanely good." No Sonnet arm was built; $1.06 of the $5.00
+Anthropic budget remains unspent. Formal bootstrap CIs (Phase 6) and the
+full pilot→3-repeat run structure (Phases 7-8) still apply to firm up this
+number, but the qualitative conclusion is not expected to change: Jev's
+errors were zero across 2,880 predictions spanning every clause type,
+condition, and the shuffle control, while Haiku's 45 errors were
+concentrated in one well-understood clause type (CT3 relational lookup).
 
 ## Part 3 — OpenJev fallback viability
 

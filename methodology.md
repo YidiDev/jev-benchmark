@@ -7,7 +7,8 @@ the numbers; this file holds how they were produced.
 
 Status: **Phase 0 (scaffold) complete. Phase 1 (corpus + ground truth) complete.
 Phase 2 (local baseline arms nli-bart, emb-bge) complete. Phase 3 (Jev arm,
-full 3-repeat run including shuffle control) complete.**
+full 3-repeat run including shuffle control) complete. Phase 4 (Haiku arm,
+2-repeat run, budget-limited) complete.**
 
 ---
 
@@ -312,3 +313,118 @@ genuine rubric-conditioning rather than content-prior matching.
 `python -m harness.spend_ledger`); output tokens are free under Jev's
 pricing. Wall clock: ~576s combined across both runner invocations (first
 A/B/C pass + the SHUFFLE-only resumption pass after the fix above).
+
+## 11. Haiku arm (Phase 4 actual)
+
+`arms/haiku.py`: official `anthropic` SDK, `claude-haiku-4-5-20251001`,
+forced tool-use (`tool_choice={"type":"tool","name":"choose_folder"}`) for
+constrained `{folder_id, confidence}` output, `folder_id` drawn from an
+explicit enum matching `rubric.folders` (structurally mirroring Jev's
+`Choice` primitive -- Haiku cannot answer with a nonexistent folder any more
+than Jev can). Same rubric text as every other arm (instructions + criteria
+descriptions), document text appended after it in the user message.
+
+**Deviation from test-plan.md's "temp 0":** the live Messages API for this
+account has no `temperature` parameter at all (confirmed via the SDK's
+`Messages.create` signature and `platform.claude.com/docs/en/api/messages`
+on 2026-09-21) -- superseded by `output_config.effort`
+(low/medium/high/xhigh/max), which controls reasoning depth, not sampling
+randomness. There is no lower-variance mode to opt into; every call runs at
+the API's default sampling behavior. This makes the run-to-run variance
+metric even more load-bearing than test-plan.md anticipated: it's the only
+axis of non-determinism available, not a residual one on top of temp 0.
+
+### Cost problem and resolution
+
+A pre-flight cost projection from a real 8-call sample (avg 1,228 input /
+56.5 output tokens/call) put the full test-plan.md-specified run (3 repeats
+x 4 conditions incl. SHUFFLE x 240 docs = 2,880 calls) at roughly **$4.35**,
+against a **$3.93** remaining Anthropic budget at the time -- short by about
+$0.42 even before accounting for smoke-test spend already incurred.
+
+**Prompt caching was tried and found ineffective for this model.** The
+rubric-dependent content (system prompt + rubric text + tool schema) shared
+across all documents in one (clause_type, condition) pair is only
+~900-1,000 tokens, but **Claude Haiku 4.5's documented minimum cacheable
+prompt length is 4,096 tokens**
+(`platform.claude.com/docs/en/build-with-claude/prompt-caching#cache-limitations`,
+confirmed 2026-09-21) -- far above what this arm has available to cache.
+Confirmed empirically: `cache_creation_input_tokens` and
+`cache_read_input_tokens` both came back 0 on real test calls with
+`cache_control` set on the system block and tool definition. Padding the
+prefix with ~3,000 tokens of meaningless filler to clear the threshold was
+considered and rejected -- it would save only ~$1.30 while materially
+harming the "fair fight" realism of the reference arm's context. (The
+cache-aware fields added to `harness/spend_ledger.py` and
+`arms/base.Prediction` during this investigation were kept -- they're
+harmless at 0 and could benefit a future arm/model with a lower cache
+minimum -- but they are always 0 for this arm.)
+
+**Actual fix: `REPEATS=2` for this arm instead of 3.** A deliberate,
+documented scope reduction, not a silent one -- test-plan.md specifies 3
+repeats for the run-to-run variance metric. What's preserved in full: all 4
+conditions (A/B/C/SHUFFLE) and both splits (240 docs), which is what the
+two decision-relevant Part 2 metrics (per-condition accuracy, shuffle
+tracking) need. What's reduced: statistical power on the one secondary
+metric (run-to-run disagreement rate), from 3 repeats to 2. Cost at 2
+repeats: 1,920 calls, projected ~$2.90, comfortably inside budget.
+
+### Full run results (1,920 predictions: 240 docs × 4 conditions incl. SHUFFLE × 2 repeats)
+
+**Overall accuracy: 1,875/1,920 = 97.66%**, against Jev's 100% on the
+identical corpus/conditions (§10). Haiku genuinely underperforms Jev on
+this benchmark.
+
+| Clause type | A | B | C | SHUFFLE |
+|---|---|---|---|---|
+| CT1 descriptive | 1.00 | 1.00 | 0.97 | 1.00 |
+| CT2 conjunctive+threshold | 1.00 | 1.00 | 0.98 | 1.00 |
+| CT3 relational | 0.93 | 0.93 | 0.93 | 0.92 |
+| CT4 negative/exclusionary | 1.00 | 1.00 | 0.98 | 1.00 |
+
+**Error concentration: 37 of 45 total errors (82%) are in CT3**, and every
+single one of those 37 has the *same* mechanism: the document's
+`mentioned_client` is a non-retainer distractor company name that happens
+to share a prefix word with a real retainer-list client (both were drawn
+from the same prefix/suffix word bank in `rubrics/clause_specs.py`'s
+`CT3_FIXTURES`, by design -- see methodology.md §1's CT3 fixture generation
+for the word banks). For example: distractor "Anchor Robotics" confused for
+retainer "Anchor Materials"; distractor "Beacon Foundry" confused for
+retainer "Beacon Systems"; distractor "Lattice Dynamics" confused for
+retainer "Lattice Capital". Haiku is confidently wrong on these (confidence
+0.95-1.00 on every misclassified case checked), suggesting it is matching
+on the shared prefix token rather than checking the full company name
+against the stated retainer list -- exactly the kind of near-miss
+relational lookup test-plan.md §3 (clause type 3) and the jev-1.13
+jaggedness doc both flagged as the expected hard case, except here it's
+Haiku, not Jev, that fails it. Jev handled the identical documents (e.g.
+`ct3_te_011`, `ct3_te_007`) correctly in §10's manual spot-checks. The
+remaining 8 errors (CT1/CT2/CT4, all under Condition C) are isolated
+misleading-condition slips with no obvious shared mechanism.
+
+**Run-to-run disagreement** (repeat 1 vs repeat 2, same doc+condition):
+7/960 = 0.73%. Small but nonzero, confirming Haiku is not perfectly
+deterministic even with no temperature control exposed, as anticipated.
+
+**Cost**: 1,934 total logged Haiku calls (1,920 production + smoke tests),
+$2.8804 for this arm; cumulative Anthropic spend $3.9391 / $5.00 budget,
+**$1.0609 remaining**. See `results/spend_ledger.jsonl` for exact figures.
+
+### Sonnet comparison: raised, then explicitly declined by the user
+
+Per prior user instruction ("if haiku underperforms jev, ask for more
+budget to test with sonnet"), Haiku's underperformance here (97.66% vs
+100%) was flagged along with a cost projection for a comparable Sonnet 5
+run (~$5.72 at repeats=2, ~$8.58 at repeats=3, since Sonnet 5 is priced at
+exactly 2x Haiku 4.5's per-token rates -- would have required raising the
+Anthropic budget). **User's decision: skip it.** Verbatim: "if jev did
+100%, not worth testing the other stuff. that's insanely good." Rationale
+accepted as sound -- a clean 100% ceiling with a genuine, mechanistically-
+understood 2.34-point gap to a strong reference LLM (concentrated 82% in
+one clause type, with a specific, identified failure mode) is already a
+decisive result under test-plan.md §6's decision rule ("Jev >= Haiku on
+accuracy -> adopt"); a third model doesn't change that conclusion, and
+$1.06 of the original $5.00 Anthropic budget remains unspent as a result.
+No Sonnet arm was built. Phase 5+ proceeds with the four arms actually
+built (jev, haiku, nli-bart, emb-bge) plus openjev once/if
+`CODIV_API_KEY` arrives, per the original lowest-priority plan.

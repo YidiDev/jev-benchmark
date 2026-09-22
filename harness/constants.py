@@ -50,11 +50,28 @@ def sub_rng(purpose: str) -> random.Random:
 
 # --- Pricing (USD), as verified against provider docs on 2026-09-21. ---
 # See methodology.md §5 for sources. Re-verify before any pricing change.
+#
+# cache_write_per_mtok / cache_read_per_mtok are only meaningful for arms
+# that use Anthropic prompt caching (see arms/haiku.py). Using 1-hour cache
+# entries (2x base input price to write, vs 1.25x for 5-minute entries),
+# because a (clause_type, condition) group is up to 180 sequential calls --
+# a run slowdown could plausibly cross a 5-minute TTL mid-group and silently
+# fall back to paying full price, whereas 1h has ample margin; break-even is
+# 2 cache reads either way. Cache reads (hits) are 0.1x base input price
+# regardless of TTL. Rates per
+# platform.claude.com/docs/en/about-claude/pricing#prompt-caching
+# (confirmed 2026-09-21). Arms that never populate cache token counts simply
+# never hit those rates in harness/spend_ledger.py's cost_for().
 PRICING = {
     "jev-1.13.0": {"input_per_mtok": 0.042, "output_per_mtok": 0.0},
     "jev-latest": {"input_per_mtok": 0.042, "output_per_mtok": 0.0},
     "openjev": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},  # Codiv free tier
-    "claude-haiku-4-5": {"input_per_mtok": 1.00, "output_per_mtok": 5.00},
+    "claude-haiku-4-5": {
+        "input_per_mtok": 1.00,
+        "output_per_mtok": 5.00,
+        "cache_write_per_mtok": 2.00,  # 1h cache write
+        "cache_read_per_mtok": 0.10,
+    },
     "claude-sonnet-5": {"input_per_mtok": 2.00, "output_per_mtok": 10.00},
 }
 
