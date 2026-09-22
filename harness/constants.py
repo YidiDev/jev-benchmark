@@ -94,6 +94,11 @@ PRICING = {
 # methodology.md §13) -- multi-call chunked tree traversal with real
 # compounding, explicit user approval ("total budget $30. go for it") after
 # a rough ~$8-9.5 cost projection for the CT9 corpus + full Haiku run.
+# Raised again to $50.00 to fund CT10 "AP World History exam grading" (see
+# methodology.md §14) -- explicit user approval ("approved budget for CT10
+# is $50") after a ~$20-30 cost projection with overshoot margin. OpenJev
+# (arms/openjev.py, qtree's OpenJev chunk arm, examgrade's OpenJev arm) is
+# a free Codiv-hosted tier and does not draw against this budget at all.
 # Ledger-enforced in harness/spend_ledger.py.
-ANTHROPIC_BUDGET_USD = 30.00
-ANTHROPIC_WARN_USD = 28.00  # stop and ask before crossing this
+ANTHROPIC_BUDGET_USD = 50.00
+ANTHROPIC_WARN_USD = 47.00  # stop and ask before crossing this

@@ -13,7 +13,9 @@ for all four built arms (jev, haiku, nli-bart, emb-bge), full 3-repeat scope.
 Phase 6 (scoring harness: bootstrap CI, ECE, shuffle delta, disagreement,
 cost/latency) built and used to produce the numbers below. CT9 chained
 decision-tree execution (§13) complete for jev and haiku, full 3-repeat
-scope across all k values and both folder-labeling schemes.**
+scope across all k values and both folder-labeling schemes. OpenJev (§14)
+complete for both CT1-8 and CT9, full scope, matching Jev's own -- free
+Codiv tier, $0 cost.**
 
 ---
 
@@ -922,3 +924,144 @@ And the one place this section found Jev *less* stable than Haiku --
 run-to-run disagreement at k=10 -- is reported as found, not filtered,
 because it's exactly the kind of genuine limit this whole hard-mode
 effort exists to surface.
+
+## 14. OpenJev: the fallback-viability arm (test-plan.md Part 3)
+
+`CODIV_API_KEY` became available (user added it to `.env` mid-benchmark);
+`CODIV_BASE_URL` defaulted to `https://api.codiv.ai` per `.env.example`.
+Live connectivity confirmed both primitives work identically to Jev's own
+API: a `Choice` call classified a test invoice correctly (model reports
+itself as `openjev-0.1` under the `openjev-latest` alias), and a `Score`
+call worked once `criteria` was passed as an ordered `Sequence` rather
+than a dict (a real API signature difference from `Choice`'s
+`dict[str, str]` criteria -- caught by a live test before assuming the
+two primitives share an interface).
+
+`arms/openjev.py` (`OpenJevArm`) and `qtree/arms.py`'s `OpenJevChunkArm`
+are structurally identical to their Jev counterparts -- same `Choice`
+decomposition, same state/instructions/criteria shape -- differing only in
+`base_url`/`api_key`, which is the entire point of testing this arm: it's
+supposed to be a drop-in replacement. Both were run at full scope,
+matching Jev's own: CT1-8 (5,760 calls: 480 docs × 4 conditions × 3
+repeats) and CT9 (3,420 chunks: 900 traces across all k values, matching
+§13's exact scope). Free Codiv tier -- **$0 cost, never touches the
+Anthropic budget** -- but noticeably slower per call than Jev's paid API
+(each full CT1-8/CT9 run took multiple 5-minute tool-timeout cycles to
+complete via resumption, vs. single or double cycles for Jev), consistent
+with running on a smaller, shared, free-tier-hosted inference backend
+rather than TypeSafe's own production infrastructure.
+
+### CT1-8 results: strong overall, with one sharp, mechanistically-understood failure
+
+**Overall accuracy: 96.28%** (5,546/5,760, 95% CI [0.958, 0.968]) --
+between Haiku's 97.74%(CT1-4)/95.17%(CT5-8) and Jev's 100%/97.67%, but
+with a qualitatively different error profile: one clause-type/condition
+cell collapses hard while everything else stays strong.
+
+| Clause type | A | B | C | SHUFFLE |
+|---|---|---|---|---|
+| CT1 descriptive | 0.989 | 1.000 | 1.000 | 0.944 |
+| CT2 conjunctive_threshold | 1.000 | 1.000 | 1.000 | 1.000 |
+| CT3 relational | 0.972 | 0.956 | 0.950 | 0.983 |
+| CT4 negative_exclusionary | 1.000 | 1.000 | 1.000 | 1.000 |
+| CT5 computed_threshold | 0.917 | 0.889 | 0.917 | 0.917 |
+| CT6 temporal_reasoning | 1.000 | 1.000 | 1.000 | 0.983 |
+| CT7 multi_hop_relational | 1.000 | 1.000 | **0.400** | 1.000 |
+| CT8 long_context_distractor | 1.000 | 0.994 | 1.000 | 1.000 |
+
+**Finding 1 -- CT5 arithmetic weakness replicates for a third model,
+same signature.** 65 errors, **100% within the near-threshold "hard"
+bucket** -- exactly the pattern found in both Jev (§12) and Haiku (§12),
+strong convergent evidence this is a genuine, threshold-proximity-driven
+arithmetic limitation shared across model families, not an artifact of
+any one implementation.
+
+**Finding 2 -- a sharp, mechanistically-diagnosed collapse: CT7 Condition
+C, 40.0% (108/180 errors), while CT7's shuffle control stays at 100%.**
+This is the standout finding for OpenJev specifically. Traced to source:
+grouping errors by which physical division a document's team belongs to
+reveals a clean, deterministic pattern -- **every DIV-A document (180/180
+across 3 teams) is misrouted to the program that DIV-B's teams correctly
+route to; DIV-B documents are never wrong (0/180); DIV-C documents are
+mostly wrong (108/180), split between the program DIV-A's teams correctly
+route to and (rarely) DIV-B's.** In other words: OpenJev's two-hop lookup
+(team -> division -> program) breaks specifically when Condition C's
+derangement relabels all three programs with *other real, equally
+plausible* program names (a genuine 3-cycle: canonical `program_atlas` ->
+displayed `program_borealis` -> displayed `program_cascade` -> displayed
+`program_atlas`) -- it silently lands on a different division's
+genuinely-valid label rather than the specific one actually stated for
+its own division. Critically, **this is not simply "adversarial relabeling
+defeats it"**: the SHUFFLE control, which relabels the exact same
+canonical programs with fully opaque random-character ids instead of
+other meaningful program names, scores a perfect 1.000 on the identical
+underlying tree and lookup logic. The failure is specific to *label
+collision risk* -- when a wrong answer is also a real, plausible-looking
+label for the same question, OpenJev has a meaningfully higher chance of
+landing on it than when a wrong answer is just a random string with no
+semantic pull. Jev and Haiku both score 1.000 on this exact cell (§12),
+making this the single clearest quality gap found between OpenJev and the
+two other arms anywhere in this benchmark.
+
+**Finding 3 -- shuffle-control tracking confirms OpenJev does genuinely
+condition on the rubric, same as Jev.** B-vs-SHUFFLE delta is small in
+every clause type (-0.028 to +0.056, no clear direction), meaning under
+opaque-id relabeling specifically (as opposed to Condition C's
+meaningful-but-permuted relabeling), OpenJev tracks the permuted mapping
+just as well as the semantically-obvious one -- ruling out "OpenJev is
+just guessing based on content priors" as the explanation for Finding 2.
+The CT7 collapse is a real execution/label-collision failure under one
+specific adversarial condition, not evidence of a broader failure to
+follow the stated rubric.
+
+**Finding 4 -- calibration.** Confidence at errors (0.396, n=214) vs. at
+correct (0.901, n=5,546) -- a 0.505 gap, comparable to Jev's own CT1-8
+calibration discrimination and far better than Haiku's near-zero gap
+(§12). Raw ECE 0.0795 (worse than both Jev's 0.0331 and Haiku's 0.0098 in
+aggregate), fitted ECE 0.0514 at T=0.5 -- OpenJev's raw confidence values
+are less well-calibrated in the aggregate sense than either other arm, but
+still meaningfully discriminate errors from correct predictions, which is
+the more decision-relevant property per §12 Finding 4's framing.
+
+**Disagreement**: 16/1,920 = 0.83% -- between Jev's 0.26% and Haiku's
+1.46% on the equivalent CT5-8 comparison.
+
+### CT9 results: same qualitative pattern, weaker in absolute terms
+
+| k | jev | haiku | openjev |
+|---|---|---|---|
+| 1 | 0.750 | 0.578 | 0.428 |
+| 2 | 0.711 | 0.533 | 0.256 |
+| 5 | 0.311 | 0.317 | 0.194 |
+| 10 (semantic) | 0.294 | 0.317 | 0.156 |
+| 10 (opaque) | 0.339 | 0.317 | 0.206 |
+
+OpenJev replicates §13's headline qualitative finding -- accuracy is
+highest at k=1 and degrades monotonically as k increases -- but sits
+below both other arms at every k, and degrades faster (k=1 to k=5 drops
+42.8 points for OpenJev vs. 43.9 for Jev and 26.1 for Haiku -- comparable
+raw drop to Jev's but from a much lower starting point, and steeper than
+Haiku's). Local (per-chunk) accuracy: 85.5% (k=1) down to 18.1% (k=10),
+confirming this is a genuine, broad-based execution weakness at longer
+per-call chains, not confined to one clause type the way the CT1-8 CT7
+finding was. Confidence discrimination is intermediate between Jev's and
+Haiku's: 0.484 (local errors) vs. 0.702 (local correct), a 0.218 gap --
+real signal, smaller than Jev's 0.485 but far better than Haiku's 0.048.
+Disagreement at k=10: 8/60 = 13.3%, the highest of the three arms (Jev
+8.3%, Haiku 0%) -- OpenJev is the least run-to-run stable arm on this
+benchmark's hardest single task.
+
+### Fallback-viability verdict (test-plan.md Part 3's question)
+
+OpenJev is a **genuinely viable fallback for CT1-8-style rubric
+classification** (96.28% overall, one narrow but real gap at CT7/misleading
+that a routing rule could specifically guard against -- e.g. avoid
+opaque/misleading conditions for multi-hop clause types, or add a
+verification pass there specifically) at **zero marginal cost**. It is
+**not currently a viable substitute for CT9-style chained execution**:
+its accuracy is meaningfully lower than both Jev and Haiku at every chunk
+size, its per-chunk local accuracy degrades faster, and it is the least
+stable of the three arms on repeated runs of the hardest single-shot
+task. A firm treating Jev as primary with OpenJev as a cost-free fallback
+should scope that fallback to the simpler, single-hop classification
+tasks this benchmark's CT1-8 represents, not to long decision chains.

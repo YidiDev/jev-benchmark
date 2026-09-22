@@ -12,6 +12,7 @@ call in this benchmark.
 
 from __future__ import annotations
 
+import os
 import time
 from dataclasses import dataclass, field
 from typing import Optional
@@ -83,6 +84,63 @@ class JevChunkArm:
         self._client.close()
 
     def __enter__(self) -> "JevChunkArm":
+        return self
+
+    def __exit__(self, *exc_info: object) -> None:
+        self.close()
+
+
+class OpenJevChunkArm:
+    """Same as JevChunkArm, pointed at the free-hosted Codiv endpoint
+    (see arms/openjev.py's module docstring for the full rationale)."""
+
+    name = "openjev"
+
+    def __init__(self, model: str = "openjev-latest", spend_source: str = "openjev_arm_ct9"):
+        self._client = TypeSafeClient(
+            model=model,
+            base_url=os.environ["CODIV_BASE_URL"],
+            api_key=os.environ["CODIV_API_KEY"],
+        )
+        self._spend_source = spend_source
+
+    def predict_chunk(self, form_text: str, subtree_description: str, destinations: list[str]) -> ChunkPrediction:
+        criteria = {d: f"Trace the decision logic and land on `{d}`." for d in destinations}
+        question = Choice(
+            instructions=f"{CHUNK_INSTRUCTIONS_PREFIX}\n\n{subtree_description}",
+            criteria=criteria,
+        )
+
+        start = time.perf_counter()
+        response = self._client.system_one(state=form_text, questions={"destination": question})
+        latency_ms = (time.perf_counter() - start) * 1000
+
+        answer = response.choices["destination"]
+        usage = response.usage
+        input_tokens = usage.input_tokens or 0
+        output_tokens = usage.output_tokens or 0
+
+        record_spend(
+            source=self._spend_source,
+            model="openjev",
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            note="ct9 chunk",
+        )
+
+        return ChunkPrediction(
+            chosen=answer.choice,
+            probabilities=dict(answer.probabilities),
+            confidence=answer.confidence,
+            latency_ms=latency_ms,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+        )
+
+    def close(self) -> None:
+        self._client.close()
+
+    def __enter__(self) -> "OpenJevChunkArm":
         return self
 
     def __exit__(self, *exc_info: object) -> None:
