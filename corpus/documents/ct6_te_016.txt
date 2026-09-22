@@ -1,0 +1,18 @@
+DATA RETENTION AND DISPOSAL PROCEDURE — DOC. NO. OPS-207
+
+Effective Date: March 23, 2023
+
+This procedure establishes the standards by which Meridian Coastal Insurance Group retains, archives, and disposes of client records, internal correspondence, and financial documentation across all departments.
+
+1. Retention Periods
+Client policy files shall be retained for a minimum of seven (7) years following policy termination. Internal audit records shall be retained for five (5) years. Email correspondence related to active claims shall be preserved for the duration of the claim plus three (3) years.
+
+2. Storage
+All retained records must be stored in the company's designated document management system, with backup copies maintained on the secondary server located at the Newport Falls data center.
+
+3. Disposal
+Upon expiration of the applicable retention period, records shall be disposed of using approved secure shredding or digital wiping methods, and a disposal log shall be maintained by the Records Management team.
+
+A related version of this document has an effective date of June 17, 2022.
+
+Direct inquiries to the Records Management division, Meridian Coastal Insurance Group.

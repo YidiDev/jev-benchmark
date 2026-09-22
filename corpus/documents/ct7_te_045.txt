@@ -1,0 +1,16 @@
+Subject: quick update – Talon team status
+
+Hey team,
+
+Filed this on behalf of the Talon team, just wanted to get everyone up to speed before the weekend.
+
+We finished the client onboarding for the two accounts that came in last month — both are now fully set up in the system and their first invoices go out Monday. Took a bit longer than expected because of some mismatched billing addresses, but that's sorted now.
+
+Also wrapped up the internal audit of our shared drive folders. Found a bunch of duplicate files eating up space, so we cleaned those out and reorganized things by client name instead of by date, which should make searching way easier going forward.
+
+One thing to flag: the new CRM plugin we tried installing on Tuesday caused some sync issues with contact records. We rolled it back and reported the bug to the vendor. They said a fix should be out by next week, so we'll hold off trying again until then.
+
+Otherwise things are on track. Planning to start the Q2 client review process next Monday.
+
+Talk soon,
+Jess

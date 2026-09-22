@@ -13,13 +13,20 @@ import zlib
 # Drafted 2026-09-21, per test-plan.md's own dateline.
 MASTER_SEED = 20260921
 
-CLAUSE_TYPES = (1, 2, 3, 4)
+CLAUSE_TYPES = (1, 2, 3, 4, 5, 6, 7, 8)
 
 CLAUSE_TYPE_NAMES = {
     1: "descriptive",
     2: "conjunctive_threshold",
     3: "relational",
     4: "negative_exclusionary",
+    # "Hard mode" clause types (added 2026-09-22, see methodology.md §12):
+    # each targets one specific documented jev-1.13 weakness, in isolation,
+    # so a drop in accuracy on a given type is attributable to one cause.
+    5: "computed_threshold",  # arithmetic: sum stated line items, no stated total
+    6: "temporal_reasoning",  # date comparison, no narrative "superseded" cue
+    7: "multi_hop_relational",  # two chained lookups: team -> division -> program
+    8: "long_context_distractor",  # CT1-style descriptive logic, buried in padding
 }
 
 CONDITIONS = ("A", "B", "C")  # semantic, opaque, misleading
@@ -76,7 +83,13 @@ PRICING = {
 }
 
 # Hard budget guardrails. See results.md / conversation log: user-provided
-# Anthropic credit is $5.00 total, shared across corpus generation (Sonnet 5)
-# and the Haiku reference arm. Ledger-enforced in harness/spend_ledger.py.
-ANTHROPIC_BUDGET_USD = 5.00
-ANTHROPIC_WARN_USD = 4.00  # stop and ask before crossing this
+# Anthropic credit was originally $5.00 total, shared across corpus
+# generation (Sonnet 5) and the Haiku reference arm. Raised to $12.00 on
+# 2026-09-22 to fund "hard mode" clause types CT5-CT8 (see methodology.md
+# §12) at full scope, including a full Haiku comparison -- explicit user
+# approval, after a cost projection (~$6.49 against $1.06 remaining at the
+# time). Raised again to $12.50 the same day to finish the last 33 CT8
+# predictions (run stopped 1 cent short of $12.00 with 99% of the run done).
+# Ledger-enforced in harness/spend_ledger.py.
+ANTHROPIC_BUDGET_USD = 12.50
+ANTHROPIC_WARN_USD = 12.30  # stop and ask before crossing this

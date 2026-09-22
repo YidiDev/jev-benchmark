@@ -1,0 +1,28 @@
+Brightwater Consulting Group
+88 Larkspur Avenue, Suite 210
+Portland, OR 97205
+
+September 19, 2024
+
+Attn: Regional Program Oversight
+Brightwater Consulting Group
+
+Re: Monthly Status Update — Client Onboarding Streamline Project
+
+Dear Ms. Alvarez,
+
+This letter serves as the formal monthly status update filed by the Condor team for the reporting period of August 20 through September 19, 2024.
+
+During this period, the team finalized the revised onboarding workflow documentation and conducted three rounds of user acceptance testing with representatives from our client's operations staff. Feedback was largely favorable, with minor revisions requested to the account verification step, which we expect to complete by September 27.
+
+We also onboarded two new client accounts under the pilot phase, bringing the total to eleven since project inception. No significant risks or blockers have emerged, though we continue to monitor server response times during peak onboarding hours.
+
+Submitted on behalf of Team Condor, we look forward to presenting a fuller demonstration at the October steering session.
+
+Please let us know if additional detail is required before then.
+
+Respectfully,
+
+Elena Sorokin
+Project Coordinator
+Brightwater Consulting Group

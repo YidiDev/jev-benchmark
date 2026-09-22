@@ -1,0 +1,36 @@
+MERIDIAN & COLE TAX ADVISORY GROUP, LLP
+1420 Commerce Boulevard, Suite 900
+Hartford, Connecticut 06103
+Telephone (860) 555-0192 | Fax (860) 555-0193
+
+March 14, 2024
+
+Mr. Dennis Farrow
+Chief Financial Officer
+Bramwell Industrial Supply, Inc.
+77 Foundry Lane
+Waterbury, Connecticut 06705
+
+RE: Notice of Federal Backup Withholding Assessment — Tax Year 2023
+
+Dear Mr. Farrow,
+
+Meridian & Cole Tax Advisory Group has served businesses throughout the Northeast for over thirty-one years, and we are pleased to continue our partnership with Bramwell Industrial Supply, Inc. as your firm navigates another filing season. Since our founding in 1993 by the late Arthur Meridian and his colleague Frances Cole, our practice has grown from a two-person storefront office in New Britain to a full-service advisory group with forty-two associates across three regional branches. We take considerable pride in the long-standing relationships we have built with clients across the manufacturing, distribution, and retail sectors.
+
+Before addressing the matter at hand, we would like to remind all clients of our standard confidentiality policy. Any information contained in this letter, including account numbers, identification numbers, and financial figures, is intended solely for the recipient named above and is protected under applicable client-privilege statutes. Unauthorized disclosure, copying, or distribution of this correspondence is strictly prohibited. If you have received this letter in error, please notify our office immediately and destroy all copies in your possession.
+
+We are writing to formally notify you that, pursuant to our review of Bramwell Industrial Supply, Inc.'s third-quarter and fourth-quarter payroll submissions, the Internal Revenue Service has issued an assessment of underwithheld federal backup withholding tax in the amount of $18,742.60 for the 2023 tax year. This determination stems from discrepancies identified between reported vendor payments (Form 1099-NEC filings) and the corresponding Taxpayer Identification Numbers on file, several of which failed IRS TIN-matching verification. Per Internal Revenue Code Section 3406, backup withholding at a rate of 24% is required on reportable payments when a payee's TIN is missing or incorrect, and our records indicate that six vendor accounts were affected during the period of July 1 through December 31, 2023.
+
+The assessed amount, along with accrued interest calculated at the applicable federal short-term rate plus three percentage points, brings the total balance due to $19,988.15 as of the date of this letter. Payment must be remitted to the Internal Revenue Service no later than April 30, 2024, to avoid additional penalty accrual under Section 6656. We have enclosed IRS Notice CP2100A alongside our own reconciliation worksheet identifying the affected vendor accounts by name and payment date for your internal records.
+
+As a firm, we believe strongly in transparency and education, which is why we maintain a quarterly newsletter, host an annual client appreciation dinner each October at the Hartford Marriott, and sponsor a scholarship fund at the University of Connecticut School of Business for students pursuing degrees in accounting. We mention this not to distract from the matter above, but because many of our long-term clients tell us they value understanding the full character of the firm managing their compliance obligations, not merely the transactional details of a given notice.
+
+Should you wish to dispute this assessment, you retain the right to file a formal protest with the IRS Office of Appeals within thirty days of receipt of the underlying notice. Our office is prepared to assist with the preparation of corrected Form W-9 documentation for the affected vendors, which may reduce or eliminate future withholding obligations once valid TINs are confirmed. We recommend scheduling a call with your assigned account representative, Ms. Priya Nandakumar, at your earliest convenience.
+
+We appreciate the trust Bramwell Industrial Supply has placed in our firm over the past six years and look forward to resolving this matter promptly and without further complication.
+
+Sincerely,
+
+Harold T. Winslow
+Senior Tax Compliance Advisor
+Meridian & Cole Tax Advisory Group, LLP

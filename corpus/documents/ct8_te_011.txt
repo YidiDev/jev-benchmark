@@ -1,0 +1,28 @@
+From: Renata Ibsen
+To: Cormac Delaney; Priya Nathan; Finance-Internal
+Subject: FYI — state notice came in, plus a few random updates
+
+Hey all,
+
+Hope everyone's week is going okay. A few things below, some more urgent than others, so bear with the length.
+
+First off, did anyone see that the building management sent around a notice about the elevator maintenance next Tuesday? Apparently both elevators on the north side will be out of service from 9am to 1pm, so if you've got clients coming in, might be worth routing them through the south entrance. Also, the coffee machine on the third floor is being replaced — new one arrives Thursday, allegedly with an espresso function this time, which honestly I'll believe when I see it.
+
+Okay, actual important thing: we got a notice from the Nebraska Department of Revenue dated September 3, 2024, regarding our Q2 withholding filing for employer account #NE-7742019. It says there's a discrepancy between the reported withholding amount ($34,210.55) and the amount actually remitted ($31,880.00), leaving a shortfall of $2,330.55. They're requesting either payment of the difference or a corrected filing within 20 business days of the notice date, so that puts our deadline around September 30. I've attached the PDF they sent — can someone from payroll double check the Q2 numbers against what we submitted? I want to rule out a data entry issue before we just cut a check.
+
+Anyway, switching gears — has anyone heard back from the Peterson account about the renewal? I know Priya was following up last week. No rush, just curious where that stands since it's been quiet.
+
+Also, a reminder that our company holiday party planning committee is looking for volunteers. If you're interested in helping pick a venue or theme, reply to Denise in HR. Last year's "casino night" theme apparently went over budget by a decent margin, so this year they're aiming for something a little more modest. Ideas welcome.
+
+Back to the tax notice for a second — I want to flag that the letter also references a potential penalty assessment of $175.00 for late remittance under Nebraska Revised Statute 77-2755 if the corrected amount isn't received by the deadline. I don't think it's a huge deal in the scheme of things, but I'd rather we not just let it sit and accrue. If payroll can confirm the correct figures by end of day Thursday, I can have the check cut and sent out by Friday morning, well within the window.
+
+On an unrelated note, IT sent a reminder that everyone needs to update their VPN client by the end of the month, otherwise remote access will be disabled starting October 1. There's a link in the original IT email if you haven't done that yet — took me about five minutes.
+
+One more thing on the tax side: the notice specifically states that if no response is received by the deadline, the Department may proceed with an assessment based on estimated liability, which we obviously want to avoid since estimated assessments tend to run high and take forever to dispute. So let's not sleep on this one.
+
+Confidentiality note, just as a formality since this touches financial records: please don't forward this email outside the finance and payroll group, and if you're not part of that group and got this by mistake, just let me know and delete it. Nothing dramatic, just standard practice for anything with account numbers in it.
+
+Last thing — does anyone want to grab lunch Friday? Thinking about that new sandwich place on 14th street. Let me know.
+
+Thanks,
+Renata

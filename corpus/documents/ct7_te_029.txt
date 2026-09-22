@@ -1,0 +1,14 @@
+Subject: Quick update from Condor — week of Oct 14
+
+Hey all,
+
+Just a short one filed on behalf of the Condor team to keep everyone posted. We wrapped up the backlog cleanup for the ticketing queue this week — went from 63 open items down to 9. Nice progress, thanks to the extra hours Greg and Lila put in on Wednesday and Thursday.
+
+One hiccup: the automated report generator hung on Tuesday night and delayed our morning summary by about two hours. IT looked into it and thinks it was a memory leak in the nightly job; they pushed a patch Thursday afternoon and it's been stable since.
+
+Also worth flagging — we lost Sam to a lateral move over to the client success side starting next Monday. We're okay for now since Priya's covering his open items, but if headcount doesn't get backfilled by mid-November we'll probably slip on the Q4 targets.
+
+Next update from the Condor team will go out the usual time next Friday. Let me know if you need anything sooner.
+
+Thanks,
+Renee

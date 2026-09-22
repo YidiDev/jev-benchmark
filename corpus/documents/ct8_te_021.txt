@@ -1,0 +1,39 @@
+INTERNAL MEMORANDUM
+
+To: Rosalind Carter, Accounts Payable Department
+From: Thomas Ibarra, Procurement Coordinator
+Date: March 12, 2025
+Re: Vendor Invoice Submission — Granite Peak Office Supply Co. (Order #GP-88231)
+
+This memo is being circulated to accompany the invoice packet received from Granite Peak Office Supply Co. and to provide context for the accounts payable team ahead of the standard payment cycle.
+
+Before summarizing the invoice details, I want to note for the team's general awareness that Granite Peak Office Supply Co. has been one of our preferred vendors since 2019, when we first transitioned away from our previous supplier following a series of delivery delays. Granite Peak operates three regional warehouses, including one located just forty minutes from our headquarters, which has significantly improved turnaround times for bulk office orders. Their account representative, Mia Sorenson, has worked with our office for over four years and has consistently been responsive to special requests, including expedited shipping during our office relocation last year.
+
+As a reminder to the team, all vendor invoices should continue to be logged in the shared tracking spreadsheet immediately upon receipt, and any discrepancies between the purchase order and the invoice should be flagged to procurement within three business days. This helps us maintain accurate records for our quarterly budget reviews and avoids the kind of reconciliation backlog we experienced in late 2023.
+
+Invoice Summary
+
+Granite Peak Office Supply Co. has submitted Invoice #GP-INV-45217, dated March 5, 2025, for goods delivered to our headquarters on March 7, 2025, under Purchase Order #GP-88231. The itemized charges are as follows:
+
+- 40 cases of standard copy paper (8.5x11, 20lb) at $34.50/case: $1,380.00
+- 15 boxes of black toner cartridges (Model TX-4400) at $89.20/box: $1,338.00
+- 25 ergonomic desk chairs (Model Comfort-Lite EX) at $142.75/unit: $3,568.75
+- 10 four-drawer filing cabinets at $215.00/unit: $2,150.00
+- Delivery and handling fee: $175.00
+
+Subtotal: $8,611.75
+Applicable Sales Tax (7.25%): $624.35
+Total Amount Due: $9,236.10
+
+Payment terms are net 30 from the invoice date, meaning payment is due no later than April 4, 2025. Granite Peak has requested that payment be remitted via ACH transfer to the account on file, or alternatively by check mailed to their Denver processing office.
+
+For general context, our office has historically maintained a positive payment history with Granite Peak, and I'd like to keep it that way given how reliable their service has been. Last quarter, our total spend with this vendor across all departments came to just under $34,000, which places them among our top five suppliers by volume. Finance may want to consider this relationship when evaluating vendor consolidation options later this year, though that discussion is outside the scope of this memo.
+
+One additional note unrelated to payment processing: the shipment included two damaged filing cabinets that Ms. Sorenson has already agreed to replace at no additional cost, with the replacement units expected to arrive by March 20. This does not affect the invoice total above, as Granite Peak has confirmed the replacement will be processed separately and will not generate a new charge.
+
+Please process the attached invoice for payment according to our standard net-30 terms and confirm once the ACH transfer has been scheduled. If any questions arise regarding the itemized charges, feel free to reach out to me directly, or contact Mia Sorenson at Granite Peak's main office line for vendor-side clarification.
+
+Thank you for your attention to this matter.
+
+Thomas Ibarra
+Procurement Coordinator

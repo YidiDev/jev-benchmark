@@ -1,0 +1,22 @@
+Castleridge Manufacturing Co.
+77 Industrial Loop Road
+Akron, OH 44308
+
+January 9, 2025
+
+To: Mr. Gerald Hines, Plant Operations Manager
+
+Dear Mr. Hines,
+
+I am writing to provide the year-end status update filed by the Talon team regarding the conveyor recalibration project initiated in late October.
+
+As of this writing, all six production lines have undergone the scheduled recalibration, with lines 3 and 5 requiring a second pass due to sensor drift detected during initial inspection. Downtime across the project totaled approximately 19 hours, which is within the 24-hour allowance approved in the original project charter. Parts replacement costs came in under budget by roughly $2,300, largely due to a bulk discount secured from our sensor supplier.
+
+We anticipate submitting final documentation and calibration certificates by January 24. One outstanding item is the replacement housing for line 4, which is on backorder and expected to arrive by January 20.
+
+We are pleased with the overall outcome and grateful for the cooperation of the floor staff throughout this process.
+
+Sincerely,
+
+Todd Meskell
+Project Lead, Talon

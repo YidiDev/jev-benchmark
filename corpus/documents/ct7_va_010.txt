@@ -1,0 +1,18 @@
+Subject: Raven Update – Mid-Month Check-in
+
+Hi everyone,
+
+Here's the mid-month status filed by the Raven team, covering activity since the last check-in on the 2nd.
+
+Server migration for the archive database wrapped up Friday evening, about a day ahead of schedule. We ran validation checks over the weekend and everything looks clean — no data loss, no broken references so far. Still monitoring for edge cases through end of week.
+
+On the client side, the quarterly report templates are done and sitting in the shared drive for review. Feedback loop with the account team has been slow; if we don't hear back by Wednesday we'll go ahead with the current draft.
+
+One hiccup: the printer contract renewal got kicked back for missing signatures, so that's being resent today. Shouldn't affect anything downstream.
+
+Team headcount is stable — no changes since last month. Morale seems fine, though a few folks mentioned wanting clearer priorities heading into next quarter, which we'll bring up at the planning session.
+
+Let me know if you need more detail on any of this before Thursday's meeting.
+
+Best,
+Tomas

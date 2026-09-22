@@ -1,0 +1,38 @@
+TO: Marcus Feldt, Accounts Payable Supervisor
+FROM: Renata Ostrowski, Vendor Relations, Cascade Ridge Fabrication LLC
+DATE: March 14, 2024
+RE: Outstanding Balance – Purchase Order #CR-4471, Milltown Steel Supply Co.
+
+Marcus,
+
+I'm writing to follow up on the account status for Milltown Steel Supply Co., one of our longer-standing material vendors, and to make sure the attached documentation reaches your desk before the end-of-quarter close.
+
+Before getting into the specifics, I wanted to give a bit of background for anyone new to this account. Milltown Steel Supply Co. was founded in 1987 in Dayton, Ohio, and has grown from a two-person operation selling rebar out of a converted warehouse into a regional supplier serving structural fabricators across six states. They pride themselves on same-week delivery windows and have historically been one of our most reliable partners for cold-rolled sheet and angle stock. Cascade Ridge has worked with them since 2011, and our purchasing team has generally rated their fulfillment accuracy above 98%.
+
+This communication and any attachments are intended solely for the use of the individual or entity to which they are addressed and may contain information that is confidential or privileged. If you are not the intended recipient, please notify the sender immediately and delete all copies. Cascade Ridge Fabrication LLC assumes no liability for unauthorized redistribution of internal financial correspondence.
+
+Now, to the matter at hand. Milltown submitted Invoice #MS-20394, dated February 9, 2024, covering materials shipped under Purchase Order #CR-4471. The itemized charges are as follows:
+
+- 4,200 lbs Grade A36 Steel Plate, 3/8" — $2.15/lb — $9,030.00
+- 60 units Galvanized Steel Angle, 4"x4"x1/4", 20ft lengths — $84.50/unit — $5,070.00
+- 1,100 lbs Cold-Rolled Steel Sheet, 16-gauge — $1.90/lb — $2,090.00
+- Freight and handling (expedited, 2-day) — $645.00
+- Fuel surcharge — $112.50
+
+Subtotal: $16,947.50
+Applicable sales tax (6.5%): $1,101.59
+Total Amount Due: $18,049.09
+
+Payment terms are Net 30 from invoice date, meaning the balance is due no later than March 10, 2024. As of today's date, this invoice appears eleven days past due in our system, and Milltown's billing office reached out last week asking about status. I'd appreciate it if AP could confirm whether this was simply queued for the next payment run or whether there's a discrepancy we need to resolve on our end.
+
+For context, our broader vendor management philosophy at Cascade Ridge emphasizes maintaining strong relationships with core suppliers even during periods of tighter cash flow, since renegotiating terms after a lapse is often more costly than the interest saved by delaying payment. Our finance committee reaffirmed this approach at the January offsite, alongside a broader discussion of inventory forecasting methods for the upcoming fiscal year, none of which is directly relevant here but is worth keeping in mind as we plan Q2 vendor commitments.
+
+Also attached for reference, though unrelated to this specific balance, is an appendix summarizing our updated internal shipping-receiving checklist, which was revised last month to include a digital sign-off step for incoming steel deliveries over 2,000 lbs. Warehouse staff should be using the new form starting April 1.
+
+Please process payment for Invoice #MS-20394 as soon as feasible, and let me know if you need the original PDF from Milltown's billing system rather than this summary. I can also loop in their AR contact, Denise Okafor, directly if there are questions about the freight surcharge calculation.
+
+Thanks for your attention to this.
+
+Renata Ostrowski
+Vendor Relations
+Cascade Ridge Fabrication LLC

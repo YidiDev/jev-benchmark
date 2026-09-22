@@ -1,0 +1,18 @@
+Subject: Weekly Status Update – Week of March 10
+
+Hey all,
+
+Quick rundown from Talon this week. Filed by the Talon team, this covers our progress on the customer onboarding flow redesign.
+
+We wrapped up user testing on the new signup wizard – 14 participants total, average completion time dropped from 6.5 minutes to 3.8 minutes. Nice win. A few folks flagged confusion around the payment step, so we're tweaking the copy there before next round.
+
+On the backend side, Priya finished the API rate-limiting fix that's been on the board since February. Load testing looks clean so far, no regressions in staging.
+
+Still blocked on the design assets for the mobile confirmation screen — waiting on the contractor to send revised mockups. Hoping to have those by Thursday so we're not slipping the sprint again.
+
+Next week: finalize payment copy, kick off mobile QA, and start drafting the rollout plan for early April.
+
+Let me know if you want more detail on any of this before Monday's sync.
+
+Thanks,
+Dana

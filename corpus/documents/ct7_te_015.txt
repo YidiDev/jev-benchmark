@@ -1,0 +1,27 @@
+Harrier House
+4420 Kestrel Avenue
+Columbus, OH 43215
+
+August 19, 2024
+
+Ms. Adele Winters
+Director of Internal Reporting
+4420 Kestrel Avenue, Fourth Floor
+Columbus, OH 43215
+
+Dear Ms. Winters,
+
+I am writing to provide the biweekly status update filed by the Harrier team, covering the period of August 5 through August 18, 2024.
+
+During this cycle, the team finalized testing on the revised customer intake form, achieving a 96% pass rate across 150 sample submissions. The remaining four discrepancies were traced to formatting errors in the legacy database export and have since been corrected. Rollout to the full user base is now scheduled for September 3.
+
+We also completed onboarding for two new team members, Callum Reyes and Beatriz Nunes, both of whom began training on August 12 and are expected to be fully operational by the end of the month.
+
+No unresolved issues remain outstanding at this time. Submitted on behalf of Team Harrier, this report will be followed by our next scheduled filing on September 2.
+
+Please let us know if any additional detail would be helpful ahead of the upcoming leadership review.
+
+Sincerely,
+
+Nathaniel Cross
+Team Lead, Harrier

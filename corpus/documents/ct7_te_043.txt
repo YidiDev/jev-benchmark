@@ -1,0 +1,16 @@
+Subject: Raven status - week of Feb 26
+
+Hi team,
+
+Quick recap filed by the Raven team for this past week.
+
+We closed out 11 of the 14 open tickets from last sprint, with the remaining three pushed to next cycle due to dependency on the external API fix (still waiting on the vendor's patch, expected Friday). Nothing urgent is blocked on our end in the meantime.
+
+On the process side, we ran a retro yesterday and agreed to shorten our daily standup from 20 to 10 minutes starting next week — feedback was that we were spending too much time on updates that could just go in the shared doc.
+
+Also worth noting: Priya presented our onboarding checklist improvements to the wider group, and it went over really well. A couple of other teams have already asked to borrow the format.
+
+No major risks to flag right now. I'll send the usual metrics summary tomorrow once the numbers finalize.
+
+Thanks,
+Sam

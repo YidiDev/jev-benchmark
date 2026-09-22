@@ -1,0 +1,16 @@
+Subject: Quick update from the Talon side
+
+Hey all,
+
+Wanted to send a quick status note filed on behalf of the Talon team before end of day.
+
+Testing on the new intake form wrapped up this morning — we found two edge cases where required fields weren't validating correctly, but both are fixed and re-tested clean. Deployment is still on track for Thursday unless something unexpected pops up.
+
+Also, quick heads up: Maria's out sick this week, so Devon is covering her review queue. If you were expecting sign-off from her on anything, ping Devon instead.
+
+One more thing — we finally got the vendor callback about the delayed shipment. New ETA is next Monday, which pushes our internal timeline back by about two days. Not a huge deal, but wanted to flag it in case anyone downstream is planning around the original date.
+
+Let me know if you want more detail on any of this before Thursday's check-in. Otherwise I'll have the full write-up ready by then.
+
+Thanks,
+Jordan

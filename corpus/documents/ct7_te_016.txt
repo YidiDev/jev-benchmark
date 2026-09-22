@@ -1,0 +1,19 @@
+Subject: Weekly update from Harrier
+
+Hi all,
+
+Quick rundown from Harrier for the week ending November 8.
+
+We wrapped up the migration testing on the archive server and things mostly went fine — two nodes threw timeout errors during the overnight batch but a restart fixed it. Filed by the Harrier team, this update also covers the outreach we did with the vendor support line, who confirmed our license renewal is set through next March.
+
+A few notes:
+- Rachel finished the log auditing script, saves us probably 2 hours a week
+- Still waiting on IT to approve the new storage allocation request (submitted Oct 29)
+- Dan is out next week, so any urgent tickets should go to me directly
+
+Next week we're planning to start the second phase of testing, assuming storage gets approved in time. If not, we'll push it back and work on documentation instead.
+
+Let me know if anyone needs more detail before Friday's check-in.
+
+Thanks,
+Priya

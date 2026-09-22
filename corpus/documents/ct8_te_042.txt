@@ -1,0 +1,24 @@
+Subject: Signed agreement with Marlowe Data Systems — FYI
+
+Hey team,
+
+Hope everyone had a decent weekend. Wanted to loop you in on where things landed with Marlowe Data Systems before I head into back-to-back meetings this afternoon.
+
+Quick bit of context first, since a few of you weren't around when this vendor relationship started: Marlowe Data Systems has been around since 2009, originally as a two-person shop doing backup infrastructure for small law firms in Ohio. They've since grown into a 45-person outfit that does managed hosting, disaster recovery, and some light DevOps consulting. Their "about us" page still has a weirdly long section about their founder's dog, Biscuit, being the unofficial office mascot — I always thought that was a nice touch, humanizes the company a bit.
+
+Anyway, on to the actual update. Cortlandt Logistics (that's us, in this context, since I'm sending this on behalf of the ops team) has executed a Master Services Agreement with Marlowe Data Systems, effective October 1st. Both parties signed on September 24th — Denise Ferro signed for us, and their VP of Client Services, Aaron Kwan, signed for them. Under the agreement, Marlowe will provide managed cloud hosting and 24/7 monitoring for our logistics dashboard platform, and in exchange we're committed to a monthly service fee of $18,400, billed on the first of each month, with a 60-day termination notice period required from either side.
+
+Before I forget — standard reminder that anything shared in this thread, including vendor pricing, is considered internal and confidential. Please don't forward externally without checking with legal first. This isn't a new policy, just the usual boilerplate we're supposed to include whenever contract terms get mentioned in email.
+
+Back to the agreement itself: the MSA also lays out specific obligations on both sides. Marlowe is required to maintain 99.9% uptime for the hosted environment, provide monthly performance reports by the 5th business day of the following month, and respond to critical incidents within 30 minutes. On our end, Cortlandt Logistics is obligated to provide Marlowe with accurate system access credentials, designate a primary technical contact (that's going to be Raj this time, since Denise is swamped with the warehouse re-platforming project), and pay invoices within 30 days of receipt. There's also a mutual indemnification clause and a limitation of liability capped at twelve months of fees, which legal already reviewed and signed off on.
+
+Just as a side note, and totally unrelated to any of the above, I wanted to mention that facilities is replacing the carpet on the third floor next week, so if you usually work from the corner desks near the windows, you might want to grab a different spot Tuesday through Thursday. Also the coffee machine on 2 is still broken; someone put in a ticket but nobody's heard back.
+
+One more thing about Marlowe's history since it might come up if anyone asks in the vendor review meeting — they were acquired briefly by a larger firm called Halberd Systems in 2016 but bought themselves back out in 2019 after a leadership dispute. Not really relevant to our contract, but it explains why some of their old marketing materials still have the Halberd logo watermarked in the corner, which confused our procurement team for a solid ten minutes last month.
+
+For the appendix nerds among you, I'm attaching the full signed PDF along with the pricing schedule addendum (Schedule B) and the data processing agreement (Schedule C), since some of the language references GDPR-adjacent terms even though we're not actually processing EU data right now — that's just their standard template.
+
+Let me know if you have questions before the kickoff call on the 3rd. Otherwise, welcome aboard, Marlowe.
+
+Thanks,
+Priya

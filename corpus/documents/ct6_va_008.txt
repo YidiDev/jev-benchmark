@@ -1,0 +1,13 @@
+INTERNAL ADMINISTRATIVE NOTICE
+
+Subject: Data Retention and Records Disposal Procedure
+
+Effective Date: May 26, 2021
+
+This notice establishes the Data Retention and Records Disposal Procedure for all departments handling client records, internal correspondence, and financial documentation. Under this procedure, records classified as Tier 1 (client-facing) must be retained for a minimum of seven years from the date of last activity. Tier 2 (internal operational) records must be retained for three years. Disposal of any record beyond its retention period requires completion of Disposal Log Form DR-4, signed by a records custodian and countersigned by the department supervisor.
+
+Departments maintaining physical archives are responsible for annual audits to confirm compliance with the applicable retention schedule. Electronic records subject to this procedure must be stored on approved company servers with access logging enabled.
+
+A related version of this document has an effective date of April 24, 2022. Staff should confirm with their records custodian which version applies to their department's current retention schedule before disposing of any materials.
+
+Inquiries regarding classification tiers, disposal logs, or audit scheduling should be directed to the Records Management office. This notice should be posted in departmental reference binders and reviewed during onboarding for new staff handling records.

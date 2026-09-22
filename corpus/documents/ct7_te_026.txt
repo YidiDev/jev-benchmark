@@ -1,0 +1,16 @@
+Subject: Merlin update – end of week
+
+Hi everyone,
+
+Just a short one, submitted on behalf of the Merlin team, to close out the week.
+
+We finished testing the revised checkout flow and things look good — cart abandonment in our test group dropped by about 12% compared to the control. Full rollout is planned for next Wednesday assuming nothing weird comes up over the weekend.
+
+Also got through the backlog of customer feedback tickets that had been piling up since early last week. Turns out a decent chunk of them were related to the same shipping label bug, which engineering already patched Thursday night.
+
+Small hiccup: our analytics dashboard was down for about three hours Tuesday afternoon due to a provider outage on their end, not ours, so a few of our numbers from that day are estimates rather than exact counts. Nothing major, just wanted to flag it in case anyone notices the gap.
+
+Next week we're kicking off the mobile layout revisions, so more updates to come then.
+
+Have a good weekend,
+Noah

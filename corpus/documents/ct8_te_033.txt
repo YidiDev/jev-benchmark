@@ -1,0 +1,36 @@
+INTERNAL MEMO
+
+To: Accounts Payable Department
+From: Gregory Tannis, Procurement Coordinator
+Date: November 6, 2024
+Re: Vendor Invoice and General Departmental Notes
+
+This memo covers a payment request along with some routine departmental notes, so please read the whole thing rather than skimming to the bottom.
+
+To start with some background, our procurement office has worked with Bellhaven Industrial Supply since 2016, when they were first approved as a vendor for warehouse maintenance materials. Bellhaven has grown from a small regional distributor into one of our top three suppliers for facility equipment, and their account manager, Ms. Priya Nandakumar, has been a reliable point of contact for us over the years. We've generally had a smooth relationship with them, aside from one shipping delay back in 2019 that was resolved without much fuss.
+
+The purpose of this memo is to forward Bellhaven Industrial Supply's invoice number BIS-88214, dated October 29, 2024, for payment processing. The invoice covers the following items delivered to our Warehouse C facility on October 24:
+
+- 40 units of heavy-duty shelving brackets, model HD-220, at $14.75 each: $590.00
+- 15 pallet jacks, model PJ-500, at $312.00 each: $4,680.00
+- 200 feet of industrial floor matting at $6.20 per foot: $1,240.00
+- Freight and handling charge: $215.00
+
+Total amount due: $6,725.00
+
+Payment terms are net 30 from the invoice date, making the due date November 28, 2024. Please remit payment via the standard ACH transfer to Bellhaven's account on file, and reference invoice number BIS-88214 in the payment memo field.
+
+Before moving on, I want to remind everyone about our standard confidentiality expectations regarding vendor financial information. Invoice amounts, account numbers, and payment terms discussed in internal memos like this one should not be shared outside the Accounts Payable and Procurement departments without explicit clearance from a department head. This is a routine reminder we include as a matter of policy and applies broadly to all vendor correspondence, not just this particular invoice.
+
+On an unrelated note, I wanted to mention that Procurement is currently reviewing our overall vendor list as part of an annual audit. This is mostly a housekeeping exercise, checking that all vendors have current W-9 forms and updated insurance certificates on file. Bellhaven's paperwork is already up to date, so no action is needed on that front for this vendor specifically, but a few others on our list will need follow-up before year-end.
+
+Also, as a general reminder, the office holiday closure schedule was circulated last week by HR. Please make sure any invoices requiring end-of-year processing are submitted before December 18, since the finance office will be operating with reduced staff between December 23 and January 2.
+
+Returning to the matter at hand: once payment for invoice BIS-88214 has been processed, please forward a confirmation to my attention so I can update our procurement tracking log and close out the corresponding purchase order, PO-4471.
+
+If there are any discrepancies with the invoice, or if the shipment needs to be inspected again before payment is released, please let me know as soon as possible so we don't miss the net-30 window.
+
+Thanks for your attention to this.
+
+Gregory Tannis
+Procurement Coordinator

@@ -1,0 +1,14 @@
+Subject: Heads up - updated on-call rotation doc
+
+Hey team,
+
+Quick note about the On-Call Rotation Policy — the version effective September 19, 2025 is now posted on the shared drive. This covers the rotation schedule, escalation contacts, and the compensation structure for after-hours incidents.
+
+A few people asked about the older copy still floating around in email threads — that one has an effective date of September 9, 2025, just so you know which is which when you're looking things up. If you're not sure which copy applies to a shift you're covering, ping me or check with your team lead before assuming.
+
+Main things that haven't changed: primary on-call still gets first escalation within 15 minutes, and you log every incident in the tracker regardless of severity. If you're swapping shifts with someone, make sure it's reflected in the shared calendar at least 24 hours ahead when possible.
+
+Let me know if you have questions or if the doc link isn't working for you. I'll drop a reminder in standup tomorrow too.
+
+Thanks,
+Priya

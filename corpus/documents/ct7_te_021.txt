@@ -1,0 +1,14 @@
+Subject: Osprey team — status check-in for this week
+
+Hi everyone,
+
+Quick note filed by the Osprey team to close out the week. We finished reconciling the March expense reports — all 34 accounts now match the ledger, aside from one still under review with accounting (should close by Monday).
+
+Minor issue: the shared drive folder got accidentally duplicated on Wednesday, which caused some confusion with version numbers. We cleaned it up and renamed the old copy "ARCHIVE_DO NOT USE" so no one grabs the wrong file again.
+
+On the people side, Talia's back from leave starting next week, so we'll be back to full strength. In the meantime Devon's been covering her review queue and doing a great job keeping it under control.
+
+Nothing else major to flag right now. Submitted on behalf of the Osprey team — next check-in will come at the usual time next Friday. Shout if anything urgent comes up before then.
+
+Thanks,
+Marcus

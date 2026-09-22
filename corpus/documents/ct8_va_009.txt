@@ -1,0 +1,28 @@
+Subject: Quick recap before Friday + FYI on the Bramwell paperwork
+
+Hey team,
+
+Hope everyone's week is going okay so far. Before I forget — Denise mentioned the espresso machine on the third floor is finally getting serviced tomorrow, so if you were holding out hope for oat milk in the mornings, tomorrow's your day. Also a reminder that the quarterly all-hands got pushed to next Wednesday at 2pm instead of Monday, since half of leadership is traveling for the Chicago conference.
+
+Anyway, main reason I'm writing: wanted to loop everyone in on where things landed with Bramwell Logistics. As most of you know, we've been going back and forth with them since January on the freight consolidation contract, and I'm happy to say it's done. Marcus signed the final version yesterday afternoon (March 6) and Bramwell's ops director, Teresa Alvarez, countersigned it this morning. So as of today, we have a fully executed Master Services Agreement with Bramwell Logistics Inc. for regional freight consolidation and last-mile delivery support, effective March 6, 2024 through March 5, 2026.
+
+Quick rundown of what's actually in it, since a few of you asked:
+
+- Bramwell will handle consolidated freight pickups from our Newark and Harrisburg distribution centers three times weekly, with guaranteed delivery windows of 48 hours for standard shipments and 24 hours for expedited orders (expedited capped at 15% of monthly volume).
+- We're locked into a flat rate of $4,850 per week for standard service, with expedited shipments billed separately at $312 per shipment.
+- Either party can terminate with 60 days' written notice, but there's a liquidated damages clause if we pull out before the 12-month mark — basically we'd owe them 25% of the remaining contract value.
+- Bramwell is required to carry a minimum of $2 million in cargo liability insurance and provide proof annually.
+- Invoices go out monthly, net-30, and there's a 1.5% late fee for anything unpaid past 45 days.
+
+For those who weren't around for the earlier threads — Bramwell's been a logistics player in the region since the mid-90s, originally starting as a family-owned trucking outfit before expanding into full third-party logistics services in the early 2000s. They now run something like 340 vehicles across the Northeast corridor. Their sales rep, Danny Okafor, has been solid throughout the negotiation and was pretty flexible on the insurance minimums when we pushed back initially.
+
+One more thing, and I know this is boilerplate but legal wants it circulated with any contract summary anyway: this email and any attachments contain confidential and proprietary information intended only for internal use. Please don't forward outside the team without checking with Marcus or legal first, especially since some of the pricing terms are considered sensitive under our vendor confidentiality policy.
+
+On an unrelated note, the office move to the fourth floor is still tentatively scheduled for late April, though facilities keeps saying "we'll confirm soon" which at this point is basically office folklore. I'll believe it when I see boxes.
+
+Back to Bramwell — the signed copy is in the shared drive under Vendor Contracts > Logistics > 2024, filed alongside the earlier draft versions so we have a full paper trail if anyone from finance needs to reference the negotiation history. Sarah's going to handle onboarding them into the vendor payment system this week, so if invoices don't show up correctly by early April, flag it to her directly rather than AP.
+
+That's it from me. Let me know if you have questions before Friday's ops sync, otherwise I'll plan to walk through the timeline for the Newark pickups then.
+
+Thanks all,
+Priya

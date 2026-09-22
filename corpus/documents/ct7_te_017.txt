@@ -1,0 +1,14 @@
+INTERNAL FILING NOTICE
+
+Date: October 2, 2024
+Re: Status Update — Customer Support Ticket Backlog Reduction
+
+Filed by the Harrier team for the reporting window of September 16 through October 1, 2024.
+
+The team reduced the open ticket backlog from 1,412 to 968 cases during this period, a decrease of roughly 31%. This was achieved primarily through the reassignment of four additional support staff to tier-one triage and the rollout of an updated response macro library, which cut average handling time by approximately 90 seconds per ticket.
+
+Escalation rates remained steady at 6.2%, within the acceptable range set by prior quarterly benchmarks. One area of concern is the continued high volume of tickets related to the recent billing system update, which accounts for nearly 22% of incoming volume. The team is coordinating with the billing systems group to identify a root cause.
+
+Staffing levels are expected to return to standard the week of October 14, at which point backlog reduction efforts will shift toward routine maintenance targets.
+
+This notice is submitted for the record on behalf of the Harrier team and will be followed by a further update on October 16, 2024.

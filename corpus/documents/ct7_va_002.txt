@@ -1,0 +1,16 @@
+Subject: Harrier Team – Weekly Notes (Aug 12)
+
+Hey team,
+
+Filed by the Harrier team, here's the recap for the week.
+
+We closed out the client feedback survey with a 68% response rate, higher than last quarter's 54%. Overall sentiment was positive; the main complaint was around response times on support tickets, which we're already addressing with the new triage process rolled out Monday.
+
+The office supply audit is done — turns out we were overstocked on printer toner (go figure) and understocked on the shipping labels everyone actually uses. Order's been adjusted for next month.
+
+Small hiccup: the conference room booking system glitched twice this week and double-booked a couple of meetings. IT says it's a known bug and a patch is coming next week. In the meantime, just double-check in the shared calendar before locking in a room.
+
+That's about it. Nothing on fire, a few small fixes in progress. Let me know if you want more detail on the survey results before Thursday's sync.
+
+Cheers,
+Priya

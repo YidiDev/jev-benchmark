@@ -1,0 +1,15 @@
+ADMINISTRATIVE NOTICE
+Filing No. IT-SEC-2024-014
+
+Subject: Acceptable Use of Company Information Systems Policy
+
+This notice sets forth the Acceptable Use of Company Information Systems Policy, effective February 12, 2024. The policy applies to all employees, contractors, and temporary staff granted access to company networks, devices, and cloud-based applications.
+
+Under this policy, users are required to complete annual security awareness training, use multi-factor authentication for all remote access sessions, and refrain from installing unauthorized software on company-issued devices. Any suspected security incident must be reported to the IT Security Helpdesk within one hour of discovery.
+
+A related version of this document has an effective date of March 3, 2024. Employees seeking to confirm which version governs a particular system or department should contact the IT Security Office prior to relying on either document for compliance purposes.
+
+This filing is maintained by the IT Security Office and is distributed to all department administrators for posting on internal resource pages. Questions regarding specific provisions, including access exceptions for specialized equipment, should be directed to the IT Security Office at security-policy@internal.company.com.
+
+Filed by: IT Security Office
+Date of Filing: February 12, 2024

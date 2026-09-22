@@ -1,0 +1,25 @@
+TO: All Finance and Accounting Staff
+FROM: Marguerite Oduya, Director of Corporate Tax
+DATE: March 11
+RE: Year-End Documentation and Related Matters
+
+This memo covers a few administrative items that have come up recently, along with an important notice regarding withholding on certain payments made in the last quarter. Please read through fully, as some of this material appears further down.
+
+To start, I want to remind everyone about our department's history and mandate, mostly because a couple of newer hires asked about it last week. The Corporate Tax group was formed in 2011 when the company split what used to be a combined "Finance & Compliance" division into two separate functions. Since then we've grown from three people to a team of eleven, spread across the Denver and Charlotte offices. We handle federal, state, and international tax filings, along with internal advisory work for business units that are expanding into new jurisdictions.
+
+As a general confidentiality reminder, all tax documentation, including anything referenced in this memo, is considered sensitive internal information. Please do not forward attachments outside the finance distribution list without prior approval from your manager. This is standard practice and not specific to any particular filing.
+
+Now, to the substantive matter: this is a notice concerning withholding tax on contractor payments issued during Q4 of last year. Our records show that Halvorsen Consulting Group, a foreign contractor based in the Netherlands, was paid a total of $86,250 for services rendered between October and December. Per IRS Form 1042 requirements, 30% withholding should have been applied to this payment unless a valid tax treaty exemption certificate (Form W-8BEN-E) was on file at the time of payment. Our review indicates that the exemption certificate for Halvorsen expired on September 30, prior to the payment date, meaning withholding of $25,875 should have been remitted to the IRS but was not. This notice serves as formal documentation that Accounts Payable must remit the outstanding withholding amount by April 15, along with any applicable late-payment penalties, currently estimated at $1,940 based on the standard IRS underpayment schedule.
+
+Before continuing, I also wanted to mention that the annual finance department offsite has been moved from June to the second week of July, since the original venue in Asheville had a scheduling conflict with another corporate group. More details on that will come from HR separately, so no need to reply to me about it.
+
+Returning to the withholding matter — please note that this issue was identified during our routine quarterly reconciliation, and it does not appear to reflect any broader pattern of noncompliance. A corrected 1042-S form will be issued to Halvorsen Consulting Group reflecting the adjusted withholding amount, and our external tax counsel, Priya Nathwani at Cassel & Vorhees LLP, has been notified for record-keeping purposes. If Halvorsen disputes the withholding, they will need to submit a renewed W-8BEN-E along with supporting documentation to our tax department directly, not through Accounts Payable.
+
+As an aside, I know several of you have asked about the company's general approach to expense reporting software, and I want to note that IT is still evaluating three vendors for a potential platform switch next fiscal year — nothing to action yet, just flagging that changes may be coming.
+
+Finally, for those who want the full picture, I've attached an appendix summarizing our department's filing calendar for the remainder of the year, including estimated tax payment deadlines for Q1 and Q2, plus a glossary of common terms used in our internal tax memos (e.g., "1042-S," "effectively connected income," "treaty benefit"). This is mostly for training purposes and isn't required reading unless you're new to the team.
+
+Please reach out to me directly if you have questions about the Halvorsen withholding correction specifically, since that item has a hard deadline.
+
+Thanks,
+Marguerite

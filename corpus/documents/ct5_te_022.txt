@@ -1,0 +1,18 @@
+TO: Rebecca Straub, VP of Operations
+FROM: Anthony Delgado, IT Infrastructure Manager
+DATE: January 29, 2024
+RE: Expense Request – Server Room Upgrade Project
+
+The following is a request for budget approval related to the planned upgrade of our secondary server room, intended to improve system redundancy and reduce downtime risk during peak business hours. Our team has obtained quotes from approved vendors and is prepared to move forward pending sign-off.
+
+Itemized costs are as follows:
+
+Rack-mounted UPS battery backup units: $11,137.55
+Network switch replacement and configuration: $4,069.00
+HVAC cooling unit installation for server room: $4,410.53
+
+These purchases align with the infrastructure resilience initiative discussed during last quarter's operations review. Vendor lead times are currently running four to six weeks, so early approval would help us stay on schedule for the planned March completion date.
+
+Please let me know if you need supporting quotes or specification sheets for any of the above items before authorizing this request. I'm available to discuss further at your convenience.
+
+Thank you for your time and consideration.

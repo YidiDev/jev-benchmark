@@ -1,0 +1,16 @@
+Subject: Kestrel status update — mid-June
+
+Hey team,
+
+Sending along the mid-June update, filed by the Kestrel team, for anyone who missed the standup this morning.
+
+Progress on the billing reconciliation tool has been solid — we're at 78% test coverage now, up from 61% two weeks ago. Sam finished the edge-case handling for partial refunds, and that's been merged into main. QA found two bugs related to currency rounding on the EU accounts, both logged and assigned to Priyanka.
+
+Still blocked on the sandbox environment access for the payment gateway tests — ticket's been open since June 5, following up with IT again today.
+
+Plan for next week is to finish the remaining unit tests and start integration testing if the sandbox comes through. If not, we'll shift to documentation and revisit integration the week after.
+
+Let me know if you have questions before the Thursday review meeting.
+
+Cheers,
+Ben

@@ -1,0 +1,32 @@
+MEMORANDUM
+
+To: Regional Accounts Payable Team
+From: Sandra Whitfield, Vendor Relations Coordinator
+Date: June 4, 2024
+Re: Processing of Outstanding Invoice — Coleridge Freight Solutions, Inc.
+
+This memo is being circulated to the regional accounts payable team to ensure proper handling and timely processing of an invoice recently submitted by one of our long-standing logistics vendors. Please review the details below and route the payment through the standard approval channel before the end of the current billing cycle.
+
+By way of background, Coleridge Freight Solutions, Inc. has served as our primary regional trucking partner since 2016, when our distribution center in Tulsa first began operations. The company was founded in 1994 in Tulsa, Oklahoma, by brothers Gary and Michael Coleridge, initially operating a single flatbed truck servicing local grain elevators. Over the past three decades, Coleridge Freight has grown into a mid-sized regional carrier with a fleet of 62 tractors and 90 trailers, serving clients across Oklahoma, Kansas, and northern Texas. We have maintained a consistently positive working relationship with their dispatch team, and their on-time delivery rate over the past twelve months has exceeded 97 percent according to our internal logistics tracking dashboard.
+
+As a reminder, all correspondence regarding vendor accounts, including this memo, should be treated as internal and confidential. Please do not forward vendor pricing details or account numbers to personnel outside the accounts payable and procurement departments without prior clearance from the Finance Director's office. This is consistent with our company's broader data-handling policy adopted in 2021 following the internal compliance review conducted by the Risk Management division.
+
+Turning to the matter at hand: Coleridge Freight Solutions has submitted Invoice #CFS-40912, dated May 28, 2024, covering freight services rendered during the month of May for shipments originating from our Tulsa distribution center and delivered to retail partners in Wichita, Kansas, and Amarillo, Texas. The itemized charges are as follows:
+
+- Line-haul transport, Tulsa to Wichita (11 round trips @ $640.00): $7,040.00
+- Line-haul transport, Tulsa to Amarillo (8 round trips @ $810.00): $6,480.00
+- Fuel surcharge (calculated per current DOE index): $1,215.60
+- Detention fees, Wichita distribution dock (4 occurrences @ $95.00): $380.00
+- Pallet exchange and equipment rental fees: $260.00
+
+Subtotal: $15,375.60
+Less prior credit balance from April overbilling correction: -$212.40
+Total Amount Due: $15,163.20
+
+Payment terms per our master service agreement with Coleridge Freight Solutions are net 15 days from invoice date, meaning payment should be issued no later than June 12, 2024, to remain in compliance with our contractual obligations and to preserve the negotiated fuel surcharge discount tier we currently enjoy.
+
+For general context, our company's broader vendor management program includes quarterly performance reviews for all carriers handling more than $50,000 in annual freight volume. Coleridge Freight Solutions has consistently ranked in the top tier of these reviews, and our procurement team has recommended extending their current contract through 2027, subject to final review by senior leadership later this quarter. We also note that Coleridge recently opened a satellite terminal in Enid, Oklahoma, which may allow for expanded service routes in the coming year.
+
+Please confirm receipt of this memo and process the attached invoice according to standard procedure. If any discrepancies are found in the line items above, contact Coleridge's billing department directly at (918) 555-0166, extension 22, and copy me on any correspondence so our records remain aligned.
+
+Thank you for your prompt attention to this matter.

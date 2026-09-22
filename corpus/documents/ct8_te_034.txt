@@ -1,0 +1,39 @@
+TO: Warehouse Operations Team
+FROM: Devon Kaminski, Procurement Coordinator
+DATE: August 19
+RE: Vendor Billing Update and Related Notes
+
+This memo addresses an outstanding billing matter from our packaging supplier along with a couple of unrelated operational notes that came up this week.
+
+First, a bit of background for the newer members of the team: our packaging supplier, Corvale Packaging Solutions, has been a vendor of ours since 2018, when we switched over from our previous supplier after a series of late deliveries caused problems during the holiday shipping rush that year. Corvale specializes in corrugated boxes, protective void-fill materials, and custom-printed shipping labels, and they operate out of a facility in Allentown, Pennsylvania. Their sales team has always been fairly responsive, and we've had generally positive experiences with them aside from one hiccup in 2021 involving a mislabeled shipment of box sizes.
+
+As a standard note, please treat the pricing information in this memo as internal and confidential. It should not be shared with vendors or external parties without going through procurement first.
+
+Now, the matter at hand: Corvale Packaging Solutions submitted Invoice #CPS-30456, dated August 12, for materials delivered to our east dock on August 8. The itemized charges are as follows:
+
+- 500 units, medium corrugated shipping boxes (18x14x12) @ $1.85/unit = $925.00
+- 300 units, small corrugated shipping boxes (12x9x6) @ $0.95/unit = $285.00
+- 20 rolls, biodegradable void-fill packing paper @ $14.50/roll = $290.00
+- 10 rolls, custom-printed shipping labels (500/roll) @ $22.00/roll = $220.00
+- Delivery and fuel surcharge: $65.00
+
+Subtotal: $1,785.00
+Sales tax (6%): $107.10
+Total due: $1,892.10
+
+Payment terms are net 20 from the invoice date, meaning payment should be issued no later than September 1. Please route this through accounts payable using the standard vendor payment form, referencing invoice #CPS-30456 in the notes field.
+
+On a separate note, facilities asked me to remind everyone that the loading dock lighting upgrade scheduled for last month has been pushed back again, this time to early September, due to a delay in getting the replacement fixtures from the contractor. Please continue using the temporary lighting setup near bay 3 in the meantime.
+
+Returning to the Corvale matter — I did notice the pricing on the small corrugated boxes increased slightly from our last order ($0.95 vs. $0.88 per unit), which Corvale's account rep, Bethany Alcorn, attributed to rising cardboard material costs industry-wide. This isn't unique to us; apparently several of their other clients have seen similar adjustments this quarter.
+
+Also unrelated, but worth mentioning while I have everyone's attention: the break room refrigerator on the warehouse floor is being replaced next week, so please remove any personal items by Thursday to avoid them being tossed during the swap.
+
+I've attached the original invoice PDF along with the delivery confirmation slip signed by our receiving team on August 8, matching the quantities listed above. No discrepancies were found between the invoice and the physical delivery, so this should be a straightforward approval once it reaches accounts payable.
+
+For reference, I've also included a short appendix summarizing Corvale's current product catalog in case anyone wants to review options for our upcoming holiday packaging order, which we'll need to start planning for by early October given typical lead times.
+
+Let me know if you have questions about the invoice specifically before it goes to accounts payable for processing.
+
+Thanks,
+Devon

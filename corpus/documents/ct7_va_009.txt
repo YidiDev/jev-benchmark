@@ -1,0 +1,18 @@
+Subject: Talon status – wrapping up week 3
+
+Hi all,
+
+Quick note filed by the Talon team to close out week three.
+
+The migration of legacy customer records to the new system is about 90% done — we hit a snag with about 200 records that have malformed date fields, so those are being cleaned manually before import. Should be finished by Wednesday.
+
+Also wanted to flag that the vendor walkthrough scheduled for last Friday got pushed to next Tuesday since their rep was out sick. No real impact expected, just noting it for the record.
+
+On a good note, the new ticket triage process seems to be working — average resolution time dropped from about 2.1 days to 1.4 days this week. We'll keep watching that number to make sure it holds.
+
+One ask: if anyone on the broader team has bandwidth Thursday afternoon, we could use an extra set of hands on the data cleanup mentioned above. Nothing complicated, just tedious.
+
+Let me know if there are questions before the Friday check-in.
+
+Thanks,
+Ben

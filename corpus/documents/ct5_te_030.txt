@@ -1,0 +1,20 @@
+EXPENSE REQUEST FORM
+
+Department: Information Technology Services
+Requester: Vincent Alaba
+Date: February 22, 2024
+Cost Center: IT-4402
+
+Description of Request: Funding is requested for equipment and service upgrades associated with the server room cooling retrofit scheduled for the upcoming quarter. The items below reflect quotes received from approved vendors following the competitive bid process completed last month.
+
+Itemized Line Items:
+
+1. Replacement cooling unit, model CX-880: $1,960.74
+
+2. Installation and calibration labor, licensed HVAC technician: $1,192.85
+
+3. Backup power supply unit for cooling system: $1,581.25
+
+Vendor documentation and quote sheets are attached to this form for reference. This request should be reviewed by the department supervisor prior to forwarding to the budget office for final authorization. Any adjustments to the scope of work must be communicated to the Information Technology Services office before purchase orders are issued to the listed vendors.
+
+Please direct questions regarding this request to the IT Services front office during regular business hours.

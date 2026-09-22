@@ -1,0 +1,18 @@
+Subject: Raven team update – progress since last check-in
+
+Hi everyone,
+
+Filed by the Raven team, here's where things stand as of Tuesday.
+
+We closed out the backlog of support tickets from the last outage — all 32 flagged issues resolved as of yesterday afternoon. Response times are back to normal averages (under 2 hours).
+
+Testing on the new inventory sync tool is going well. We hit a snag last week when duplicate entries started showing up after batch uploads, but Marcus tracked it down to a timestamp mismatch in the import script. Fix is deployed and we've re-run the batch with no issues since.
+
+One thing to flag: we're short-staffed through the end of the month since Priya is out on leave, so turnaround on non-urgent requests might slip a bit. Please loop in Sam if anything's time-sensitive.
+
+Next steps for us: finish documentation for the sync tool, run one more stress test before Friday, and start planning the handoff to the support team for full rollout.
+
+Happy to answer questions in Thursday's standup.
+
+Best,
+Colin

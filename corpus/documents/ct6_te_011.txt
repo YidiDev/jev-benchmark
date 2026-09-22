@@ -1,0 +1,13 @@
+NOTICE OF INTERNAL PROCEDURE: REMOTE EQUIPMENT REQUEST AND RETURN PROCESS
+
+Effective Date: April 4, 2024
+
+This notice sets forth the standard procedure governing the request, issuance, and return of company-owned remote work equipment, including laptops, monitors, docking stations, and associated peripherals. All employees working in a remote or hybrid capacity are subject to the terms outlined herein.
+
+Employees requesting equipment must submit a request through the Facilities Portal at least five business days prior to the anticipated start date. Equipment will be issued from the central inventory maintained by the IT Asset Management team, and a signed acknowledgment of receipt is required before any item leaves company premises.
+
+Upon separation from the company, or upon transition to a fully on-site role, employees are required to return all issued equipment within ten business days. Items not returned within this window may be subject to review by the Asset Recovery team in accordance with departmental policy.
+
+A related version of this document has an effective date of April 28, 2023. Employees with questions regarding which procedural terms apply to a specific piece of equipment or a specific timeframe should direct inquiries to the IT Asset Management helpdesk at extension 4471.
+
+This notice is maintained by the IT Asset Management team and is reviewed periodically.

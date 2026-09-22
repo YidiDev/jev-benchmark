@@ -1,0 +1,14 @@
+INTERNAL MEMORANDUM
+
+To: All Department Heads
+From: Office of Corporate Compliance
+Date: January 1, 2025
+Re: Data Retention and Records Disposal Procedure
+
+This memo outlines the current procedure for retention and disposal of company records, effective January 1, 2025. All departments are required to classify records according to the retention schedule attached as Exhibit A and to route disposal requests through the Records Management System for approval prior to destruction of any physical or electronic file.
+
+Departments handling customer financial data must retain such records for a minimum of seven years from the date of last transaction. Employment-related records must be retained for the duration of employment plus five years. Any deviation from these schedules requires written approval from the Compliance Officer.
+
+For reference, a related version of this document has an effective date of January 10, 2025. Staff preparing retention schedules or responding to audit requests should verify which version of the procedure corresponds to the date in question.
+
+Please distribute this memo to all direct reports and confirm receipt to the Compliance mailbox by January 15.

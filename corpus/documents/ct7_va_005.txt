@@ -1,0 +1,16 @@
+Subject: Weekly Status Update – Week of March 10
+
+Hey all,
+
+Quick rundown of where things stand this week. Filed by the Osprey team, so ping me directly if anything below needs clarifying.
+
+- Finished regression testing on the new intake form; found two minor validation bugs, both patched and pushed to staging as of Tuesday.
+- Vendor call with Caldwell Supply got rescheduled to March 14 due to their office move. Not expecting any impact on our timeline.
+- Onboarding docs for the two new contractors are done. They start shadowing next Monday.
+- Still waiting on sign-off from facilities for the equipment request submitted last week. Following up again Thursday if we don't hear back.
+- Budget tracker updated through end of February; we're currently about 6% under projected spend, mostly due to the delayed hardware order.
+
+Nothing urgent, but wanted to flag the facilities delay in case it becomes a blocker. Let me know if you want a fuller writeup for Friday's meeting or if this covers it.
+
+Thanks,
+Danielle

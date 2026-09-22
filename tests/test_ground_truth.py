@@ -1,5 +1,10 @@
 from corpus.schema import DocumentMetadata
-from rubrics.clause_specs import CT2_THRESHOLD_USD, CT3_FIXTURES
+from rubrics.clause_specs import (
+    CT2_THRESHOLD_USD,
+    CT3_FIXTURES,
+    CT5_THRESHOLD_USD,
+    CT7_FIXTURES,
+)
 from rubrics.conditions import folder_mapping
 from rubrics.ground_truth import canonical_folder, correct_folder
 from rubrics.shuffle_control import shuffle_mapping
@@ -55,6 +60,45 @@ def test_ct4_negative_exclusionary():
     superseded = _meta(clause_type=4, is_superseded=True)
     assert canonical_folder(active) == "contracts"
     assert canonical_folder(superseded) == "archive"
+
+
+def test_ct5_computed_threshold_sums_line_items():
+    over = _meta(clause_type=5, line_items=[2_000.0, 1_500.0, 1_600.01])  # sum = 5100.01
+    under = _meta(clause_type=5, line_items=[2_000.0, 1_500.0, 1_499.99])  # sum = 4999.99
+    exactly_at = _meta(clause_type=5, line_items=[CT5_THRESHOLD_USD])
+    assert canonical_folder(over) == "over_budget"
+    assert canonical_folder(under) == "under_budget"
+    assert canonical_folder(exactly_at) == "under_budget"  # "over" is strict per rule text
+
+
+def test_ct6_temporal_reasoning_compares_dates():
+    newer = _meta(clause_type=6, effective_date="2024-06-15", reference_date="2024-03-01")
+    older = _meta(clause_type=6, effective_date="2024-01-10", reference_date="2024-03-01")
+    assert canonical_folder(newer) == "current_version"
+    assert canonical_folder(older) == "prior_version"
+
+
+def test_ct6_never_ties():
+    # Corpus generation must never produce effective_date == reference_date;
+    # ground truth asserts this rather than silently picking a side.
+    import pytest
+
+    tied = _meta(clause_type=6, effective_date="2024-03-01", reference_date="2024-03-01")
+    with pytest.raises(AssertionError):
+        canonical_folder(tied)
+
+
+def test_ct7_multi_hop_chains_team_to_division_to_program():
+    for team, division in CT7_FIXTURES.team_to_division.items():
+        expected_program = CT7_FIXTURES.division_to_program[division]
+        m = _meta(clause_type=7, team=team)
+        assert canonical_folder(m) == expected_program
+
+
+def test_ct8_long_context_distractor_reuses_doc_type_field():
+    for doc_type in ("tax_form", "invoice_doc", "contract_doc"):
+        m = _meta(clause_type=8, doc_type=doc_type)
+        assert canonical_folder(m) == doc_type
 
 
 def test_correct_folder_translates_through_every_condition():

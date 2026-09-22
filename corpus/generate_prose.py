@@ -29,12 +29,12 @@ DOCUMENTS_DIR = Path(__file__).resolve().parent / "documents"
 DOC_START = "===DOC {doc_id}==="
 DOC_END = "===END==="
 
-SYSTEM_PROMPT = """You write short, realistic-sounding business documents for a document-sorting benchmark corpus. \
+SYSTEM_PROMPT = """You write realistic-sounding business documents for a document-sorting benchmark corpus. \
 Each document must faithfully include the specific facts given for it -- these facts are load-bearing, not optional color. \
 Do not use meta-language about folders, categories, or sorting rules anywhere in the text; the document should read as \
 an ordinary real-world business document, not as an example written for a classifier. \
-Keep each document to roughly 120-220 words. Vary names, dates, and phrasing across documents in the same batch \
-so they don't read as templated copies of each other."""
+Follow the target length given for each individual document -- lengths vary by document, some much longer than others. \
+Vary names, dates, and phrasing across documents in the same batch so they don't read as templated copies of each other."""
 
 
 def _build_batch_prompt(specs: list[dict]) -> str:
@@ -49,9 +49,18 @@ def _build_batch_prompt(specs: list[dict]) -> str:
         parts.append(
             f"\n---\ndoc_id: {spec['doc_id']}\n"
             f"format: {spec['style_guide']}\n"
+            f"target length: {spec['length_hint']}\n"
             f"required facts: {spec['facts']}\n"
         )
     return "".join(parts)
+
+
+def _max_tokens_for_batch(specs: list[dict]) -> int:
+    """Dynamic per-batch output budget -- CT8's padded documents (~500-700
+    words each) need far more headroom than CT1-7's ~120-220-word ones; a
+    fixed 4096-token ceiling silently truncates a batch of 8 CT8 docs."""
+    total_estimate = sum(spec.get("max_tokens_estimate", 400) for spec in specs)
+    return min(max(total_estimate, 4096), 32_000)
 
 
 def _parse_batch_response(text: str, expected_ids: list[str]) -> dict[str, str]:
@@ -91,7 +100,7 @@ def generate_prose(batch_size: int = 8, limit: int | None = None, dry_run: bool 
 
         response = client.messages.create(
             model=MODEL,
-            max_tokens=4096,
+            max_tokens=_max_tokens_for_batch(specs),
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": prompt}],
         )

@@ -8,7 +8,10 @@ the numbers; this file holds how they were produced.
 Status: **Phase 0 (scaffold) complete. Phase 1 (corpus + ground truth) complete.
 Phase 2 (local baseline arms nli-bart, emb-bge) complete. Phase 3 (Jev arm,
 full 3-repeat run including shuffle control) complete. Phase 4 (Haiku arm,
-2-repeat run, budget-limited) complete.**
+full 3-repeat run) complete. "Hard mode" clause types CT5-CT8 (§12) complete
+for all four built arms (jev, haiku, nli-bart, emb-bge), full 3-repeat scope.
+Phase 6 (scoring harness: bootstrap CI, ECE, shuffle delta, disagreement,
+cost/latency) built and used to produce the numbers below.**
 
 ---
 
@@ -428,3 +431,235 @@ $1.06 of the original $5.00 Anthropic budget remains unspent as a result.
 No Sonnet arm was built. Phase 5+ proceeds with the four arms actually
 built (jev, haiku, nli-bart, emb-bge) plus openjev once/if
 `CODIV_API_KEY` arrives, per the original lowest-priority plan.
+
+### Addendum: Haiku's 3rd repeat completed (as a side effect of §12's budget increase)
+
+When the Anthropic budget was raised to fund CT5-CT8 (§12), `scripts.run_api_arm
+--arm haiku` was re-run without a `--repeats` override, which defaults to
+`REPEATS=3` from `harness/constants.py` -- this transparently filled in
+Haiku's missing 3rd repeat for CT1-4 as well (960 additional calls), not
+just CT5-8's. Not originally budgeted for, but a welcome bonus: CT1-4 now
+matches test-plan.md's specified 3 repeats exactly, same as Jev. Updated
+CT1-4 numbers with the 3rd repeat included: overall accuracy 2,815/2,880 =
+**97.74%** (vs. 97.66% at 2 repeats -- a negligible shift, confirming the
+2-repeat numbers above were already a stable estimate). Per-clause-type:
+CT1 99.31%, CT2 99.58%, CT3 92.36%, CT4 99.72%. The qualitative story is
+identical to the 2-repeat analysis above: of 65 total CT1-4 errors, 55
+(85%) are CT3, the same prefix-matching mechanism. See `results.md` Part 2
+for the final, 3-repeat-authoritative tables.
+
+## 12. Hard mode: CT5-CT8
+
+### Motivation
+
+CT1-4 turned out to be a ceiling task for Jev: 100.00% across every
+condition and the shuffle control (§10). That answers test-plan.md's
+"does Jev genuinely condition on the rubric" question cleanly, but it
+cannot answer "where does Jev actually break" -- a benchmark that never
+observes a failure can't characterize one. User instruction: "it's not
+worth much if jev is perfect at our test. we need to find its limits."
+
+Rather than making CT1-4 harder (which would have retroactively
+invalidated the already-committed, expensive Haiku comparison), four new
+clause types were added, each isolating exactly one documented jev-1.13
+weakness (`docs.typesafe.ai/model-jaggedness/jev-1.13`) **in isolation**,
+so a drop in accuracy is attributable to a single cause rather than a
+tangle of them:
+
+| Type | Targets | Design | Contrast with existing type |
+|---|---|---|---|
+| CT5 computed_threshold | "bad at math/counting" | Document lists 2-5 line items, states no total; rubric requires summing and comparing to a $5,000 threshold | CT2 states a single total explicitly -- text comparison, not arithmetic |
+| CT6 temporal_reasoning | "bad at date/time ordering" | Document states two dates (its own effective date + a related version's date), zero narrative cues; rubric requires pure date comparison | CT4 uses an explicit narrative cue ("superseded by...") -- no date comparison needed |
+| CT7 multi_hop_relational | "penalized by indirection/multi-hop reasoning" | Document names only a *team*; rubric provides two chained lookup tables (team→division, division→program) that must both be traversed | CT3 is a single direct lookup (project codename→folder) plus one override condition |
+| CT8 long_context_distractor | "degrades with large irrelevant state content" | Same descriptive logic as CT1, but documents padded to ~500-700 words with plausible, irrelevant boilerplate (department history, disclaimers, unrelated appendices) surrounding the load-bearing sentences, deliberately not front-loaded | CT1 documents are ~120-220 words, no padding |
+
+Design decisions confirmed with the user via explicit questions before
+building: all 4 types built (not a subset); full scale (50 test + 10
+validation per type, matching CT1-4); full A/B/C/SHUFFLE condition sweep
+(cheap for Jev, keeps methodological consistency); **Haiku tested at full
+scope** (matching Jev's 3-repeat × 4-condition scope), not skipped --
+explicitly chosen over a Jev-only or reduced-scope Haiku comparison so the
+new clause types could also speak to whether Jev's hard-mode weaknesses
+(if any) still leave it ahead of the adoption-decision reference model.
+
+Implementation follows the exact CT1-4 pattern: `rubrics/clause_specs.py`
+gained `ClauseSpec` entries for CT5-8 (including `build_multihop_fixtures()`
+for CT7's team→division→program tables, seeded on `"ct7_fixtures"`: 9 bird-
+name teams split 3-per-division across `DIV-A/B/C`, divisions permuted onto
+`program_atlas/borealis/cascade` -- not the "obvious" alphabetical mapping);
+`rubrics/ground_truth.py` gained pure functions per type (CT5 sums
+`metadata.line_items`, CT6 compares `date.fromisoformat` on both date
+fields and asserts they're never equal, CT7 does the two-hop dict lookup,
+CT8 reuses the `doc_type` field with a disjoint value set from CT1's);
+`corpus/generate_metadata.py` gained per-type generators, each with its own
+`sub_rng` stream, all following CT2's established hard/easy stratification
+pattern (CT5: ~30% of docs have a sum within $300 of the threshold; CT6:
+~30% have a date gap under 30 days). Re-running `generate_metadata.py`
+after adding these was verified byte-identical on every CT1-4 field for
+all 240 existing rows (only the new, all-`None`, CT5-8 schema fields
+differed) before proceeding -- confirming the new generators didn't
+perturb any already-scored CT1-4 predictions.
+
+### Budget
+
+Approved via explicit question to the user, given a cost projection of
+~$6.49 against $1.06 remaining at the time (full CT5-8 corpus generation +
+full Haiku scope): Anthropic budget raised from $5.00 to **$12.00**.
+Actual corpus generation cost **$1.7974** (very close to the ~$1.79
+estimate) for 240 new documents. CT8's documents required a much larger
+per-batch output budget than CT1-7 (~500-700 words vs ~120-220): the
+prose generator's `_max_tokens_for_batch` was made dynamic
+(`corpus/prose_prompts.py`'s `max_tokens_estimate` field per doc-spec,
+`corpus/generate_prose.py`'s `_max_tokens_for_batch`) rather than a fixed
+4096-token ceiling, and CT8 batch size was reduced from 8→4→2 documents
+after two truncation failures (`ValueError: batch response missing
+documents`) at larger batch sizes -- both failures were mid-document
+truncations near the output-token ceiling, not formatting errors, resolved
+by giving more token headroom per document and fewer documents per call.
+
+The full Haiku run (which, run without a `--repeats` override, also
+transparently backfilled CT1-4's missing 3rd repeat -- see the §11
+addendum above) ran the Anthropic budget down to $11.96/$12.00 with 33 of
+2,880 CT8 predictions still outstanding. Rather than leave an arbitrary
+33-prediction gap in the final CT8 numbers, the user approved a final
+small top-up to **$12.50** to finish cleanly. Final actual Anthropic spend:
+corpus generation $2.8561 total (CT1-4 $1.0587 + CT5-8 $1.7974), Haiku arm
+$9.1786 total (all 8 clause types, full 3-repeat scope), for a combined
+**$12.03 / $12.50** budget, $0.47 unspent. Jev spend across all 8 clause
+types: $0.1809 total (separate provider, never touched the Anthropic
+budget).
+
+### Results: Jev found a real weakness (CT5), and two clean surprises
+
+Full 3-repeat × 4-condition run (2,880 predictions per arm, matching CT1-4
+scope exactly):
+
+| Clause type | jev A | jev B | jev C | jev SHUFFLE | haiku A | haiku B | haiku C | haiku SHUFFLE |
+|---|---|---|---|---|---|---|---|---|
+| CT5 computed_threshold | 0.906 | 0.922 | 0.894 | 0.906 | 0.828 | 0.822 | 0.811 | 0.811 |
+| CT6 temporal_reasoning | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 0.994 | 0.961 | 1.000 |
+| CT7 multi_hop_relational | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| CT8 long_context_distractor | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+**Overall (CT5-8 combined, 2,880 predictions each)**: Jev 97.67%
+(2,813/2,880, 95% CI [0.971, 0.982]), Haiku 95.17% (2,741/2,880, 95% CI
+[0.944, 0.959]). Jev's hardmode-combined ceiling drops from its perfect
+CT1-4 score but stays clearly ahead of Haiku's, which also drops -- both
+models found the *same* genuine weak point (arithmetic), Jev just finds it
+less.
+
+**Finding 1 -- CT5 (arithmetic) is a real, isolated weakness for both
+models, confirming the jaggedness doc's prediction, with Jev failing
+noticeably less than Haiku.** Jev's 67 CT5 errors (out of 720) are **100%
+concentrated in the "hard" bucket** (sums within $300 of the $5,000
+threshold, by design ~30% of CT5 docs) -- manually confirmed by cross-
+referencing every erroring `doc_id` against its `seed_trace.hard` flag.
+66 of 67 errors are docs whose true sum is *under* $5,000 mispredicted as
+*over* -- a one-directional bias (overestimating sums), not symmetric
+noise. Per-document error rates within the near-threshold band are stark:
+docs $12-$228 from the threshold fail 7-12/12 times each; the two docs at
+the edges of the "hard" band (distance $227.59 and +$46.56) fail only
+1/12 times each -- errors cluster tightly in the middle of the near-
+threshold zone, not uniformly across it. Haiku's CT5 error rate (131/720 =
+18.2%) is roughly double Jev's (67/720 = 9.3%), and unlike Jev's, Haiku's
+CT5 accuracy is flat across conditions (~81-83%) rather than concentrated
+purely by numeric distance -- consistent with Haiku's arithmetic mistakes
+being a more diffuse weakness rather than Jev's sharply threshold-
+localized one.
+
+**Finding 2 -- CT7 (multi-hop) and CT8 (long-context distractor) were
+NOT differentiating: both models hit 100.00% on both, across every
+condition.** This contradicts the a priori expectation (from the
+jaggedness doc) that multi-hop indirection and long irrelevant context
+would be hard for Jev specifically. Read charitably: at this scale (a
+two-hop, 9-entry lookup table; ~500-700 word documents with padding), both
+capabilities are already saturated for both models, and a harder version
+of either design (a 3+ hop chain; documents padded to several thousand
+words) would be needed to actually locate a breaking point. This is
+recorded as a negative result, not suppressed: the hypothesis was
+reasonable and testable, and it didn't pan out at this scale.
+
+**Finding 3 -- CT6 (temporal reasoning) surfaces a second, distinct
+flavor of content-prior contamination in Haiku, absent in Jev.** Jev:
+100.00% across all 4 conditions. Haiku: 100.00% on A/SHUFFLE, 99.44% on B,
+**96.11% on C** (8 errors out of 720). All 8 of Haiku's CT6 errors share
+one mechanism, confirmed by inspecting Condition C's actual rubric text
+for this clause type: Condition C's derangement (only 2 possible
+permutations for 2 folders, so it's the full swap) makes the canonical
+"current_version" folder *display* as `prior_version` and vice versa --
+e.g. the literal rubric sentence reads "...file it under `prior_version`"
+for the case where the document IS the newest version. In every one of
+Haiku's 8 errors, it correctly identifies the temporal relationship
+(the date comparison itself isn't the failure) but then outputs the
+display name that is *semantically* consistent with plain-English
+folder-name meaning ("prior_version" for an older-sounding case) rather
+than the literal, adversarially-permuted mapping actually stated in the
+rubric -- all at confidence 0.95-1.00 (confidently wrong). This is
+mechanistically distinct from CT3's prefix-matching confusion (§11) but is
+the same underlying failure mode the whole benchmark is designed to
+detect: letting label semantics override a stated rule. Across all of
+CT1-8, Jev shows zero errors in any Condition C or SHUFFLE cell except the
+CT5 arithmetic cluster -- and that cluster's error rate is essentially flat
+across A/B/C/SHUFFLE (0.894-0.922, no directional pull toward any
+particular condition), confirming it's a numeric-distance effect, not a
+label-semantics effect.
+
+**Finding 4 -- Jev's confidence is decision-usefully calibrated on its one
+real weakness; Haiku's is not.** This is the sharpest, most decision-
+relevant number in this section, directly answering test-plan.md §6's
+framing of calibration as "the single most decision-relevant number... for
+a firm that plans to keep a fallback path." Restricted to CT5 (where
+nearly all errors live):
+
+| Arm | Confidence at CT5 errors | Confidence at CT5 correct | Gap |
+|---|---|---|---|
+| Jev | 0.433 (n=67) | 0.911 (n=653) | **0.478** |
+| Haiku | 0.986 (n=131) | 0.987 (n=589) | **0.001** |
+
+Jev's confidence on CT5 errors averages less than half its confidence on
+CT5 correct predictions -- a large, usable signal: a review-queue rule of
+"flag anything under ~0.6 confidence" would catch the overwhelming
+majority of Jev's arithmetic mistakes. Haiku's confidence is statistically
+indistinguishable between its errors and its correct predictions on the
+identical task -- it fails *confidently*, giving a downstream system
+nothing to act on. Full-corpus (all 8 clause types) calibration confirms
+the same pattern in aggregate: Jev's raw ECE is 0.033 (temperature-fit on
+the validation split: T=0.2, fitted ECE 0.011), Haiku's raw ECE is lower
+in the aggregate (0.0098, since Haiku is *mostly* very confident and
+*mostly* correct, which flatters overall ECE) but this is exactly the
+metric test-plan.md's calibration section warns is insufficient on its
+own -- confidence-at-errors is what actually matters for a fallback-queue
+design, and there Jev's advantage is unambiguous.
+
+**Run-to-run disagreement (CT5-8, 3 repeats each)**: Jev 5/1,920 = 0.26%,
+Haiku 28/1,920 = 1.46% -- consistent with the CT1-4 pattern (§11 addendum),
+Jev is meaningfully more repeat-to-repeat stable.
+
+**Baselines (nli-bart, emb-bge) on CT5-8**: both collapse to
+near-chance across the board except CT8 Condition A (nli-bart 0.80,
+emb-bge 0.75 -- label-text similarity still works when the folder name
+genuinely matches the document genre and there's no misleading swap) and
+CT8 Condition C, where both drop *below* their own SHUFFLE numbers
+(nli-bart 0.10 vs 0.30, emb-bge 0.083 vs 0.417) -- the misleading label
+swap makes a text-similarity matcher *confidently wrong* in a consistent
+direction, replicating the CT1 pattern from Part 1 in the padded-document
+setting. CT5/CT6/CT7 sit at or near chance (0.27-0.55) in every condition
+for both baselines, as expected: neither arm reads rubric text, so
+questions requiring arithmetic, date comparison, or multi-hop lookup are
+simply unanswerable to them regardless of folder naming.
+
+### Takeaway
+
+CT1-4 established that Jev genuinely conditions on the rubric rather than
+matching content priors. CT5-8 answers the follow-up question the user
+raised: Jev does have a real, specific limit -- arithmetic near a stated
+threshold -- and it's exactly the limit the vendor's own jaggedness
+documentation predicted. But (a) Jev fails *less* on that limit than the
+reference-ceiling LLM (9.3% vs 18.2% error rate), (b) Jev's confidence
+degrades sharply and usefully on exactly the cases it gets wrong, where
+Haiku's does not, and (c) two other a priori plausible weaknesses
+(multi-hop indirection, long-context distraction) did not materialize as
+weaknesses at all at this scale for either model. Net effect on the Part 2
+adoption decision (test-plan.md §6): unchanged from §11's conclusion --
+Jev remains ahead of Haiku on accuracy, now demonstrated on a corpus that
+was deliberately designed to break it, not just one it happened to ace.

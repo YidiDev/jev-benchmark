@@ -1,0 +1,9 @@
+NOTICE OF INTERNAL PROCEDURE — VENDOR ONBOARDING VERIFICATION
+
+This notice establishes the internal procedure for verifying new vendor accounts prior to activation in the accounts payable system. This version of the procedure carries an effective date of October 21, 2026.
+
+Under this procedure, any department requesting the addition of a new vendor must submit a completed W-9, a signed vendor agreement, and banking verification documentation to the Procurement Compliance Unit. The Procurement Compliance Unit will confirm the vendor's tax identification number against IRS records and cross-check the submitted banking details with a secondary confirmation call placed directly to the vendor.
+
+A related version of this document has an effective date of September 15, 2025. Staff processing vendor requests should confirm which version's checklist and approval routing applies to their submission before forwarding paperwork to Accounts Payable, as minor differences in required attachments exist between the two versions.
+
+All completed vendor packets should be submitted through the internal procurement portal. Requests missing required documentation will be returned to the originating department without processing.

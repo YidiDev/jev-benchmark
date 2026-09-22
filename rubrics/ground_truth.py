@@ -5,8 +5,10 @@ test-plan.md §5.3 and methodology.md §2.
 
 from __future__ import annotations
 
+from datetime import date
+
 from corpus.schema import DocumentMetadata
-from rubrics.clause_specs import CT2_THRESHOLD_USD, CT3_FIXTURES
+from rubrics.clause_specs import CT2_THRESHOLD_USD, CT3_FIXTURES, CT5_THRESHOLD_USD, CT7_FIXTURES
 from rubrics.conditions import FolderMapping, folder_mapping
 from rubrics.shuffle_control import shuffle_mapping
 
@@ -34,6 +36,27 @@ def canonical_folder(metadata: DocumentMetadata) -> str:
     if ct == 4:
         assert metadata.is_superseded is not None
         return "archive" if metadata.is_superseded else "contracts"
+
+    if ct == 5:
+        assert metadata.line_items is not None and len(metadata.line_items) > 0
+        total = sum(metadata.line_items)
+        return "over_budget" if total > CT5_THRESHOLD_USD else "under_budget"
+
+    if ct == 6:
+        assert metadata.effective_date is not None and metadata.reference_date is not None
+        effective = date.fromisoformat(metadata.effective_date)
+        reference = date.fromisoformat(metadata.reference_date)
+        assert effective != reference  # corpus generation must never produce a tie
+        return "current_version" if effective > reference else "prior_version"
+
+    if ct == 7:
+        assert metadata.team in CT7_FIXTURES.team_to_division
+        division = CT7_FIXTURES.team_to_division[metadata.team]
+        return CT7_FIXTURES.division_to_program[division]
+
+    if ct == 8:
+        assert metadata.doc_type in {"tax_form", "invoice_doc", "contract_doc"}
+        return metadata.doc_type
 
     raise ValueError(f"unknown clause_type {ct}")
 

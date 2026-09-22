@@ -1,0 +1,19 @@
+Subject: Merlin update — end of week
+
+Hi everyone,
+
+Here's the short version of what Merlin got done this week, for anyone catching up before Monday's meeting.
+
+We finished the redesign of the checkout confirmation screen and pushed it to staging Thursday afternoon. Early feedback from the internal test group was mostly positive — a couple people flagged the confirmation email as arriving a bit slow (about 90 seconds on average), so we're looking into that with the notifications team.
+
+This report is filed by the Merlin team and covers work from the week of September 22.
+
+Other notes:
+- Closed out 9 of the 11 bugs from last sprint's backlog
+- The remaining 2 are tied to a third-party shipping API and waiting on their support response
+- Started early planning for the loyalty points rollout, no firm timeline yet
+
+Nothing major blocking us right now besides the shipping API issue. Will keep pushing on that next week and hope to have staging fully stable before we talk about a production date.
+
+Talk soon,
+Carla

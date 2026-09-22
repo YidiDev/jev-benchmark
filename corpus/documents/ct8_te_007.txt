@@ -1,0 +1,24 @@
+TO: All Payroll and Accounting Staff, Northbridge Consumer Products Inc.
+FROM: Harold Denby, Senior Manager, Corporate Tax Compliance
+DATE: January 22, 2024
+RE: 2023 Year-End Withholding Reconciliation and State Filing Notice
+
+This memo is intended to inform relevant departments of a formal notice received from the Ohio Department of Taxation, and to provide some general context regarding our company's approach to multi-state tax administration.
+
+Northbridge Consumer Products Inc. was founded in 1987 as a small regional distributor of household goods and has since grown into a company operating distribution centers in eleven states. As our footprint has expanded, so too has the complexity of our payroll tax obligations, particularly with respect to employees who split time between our Columbus and Cincinnati facilities. It is worth noting, for those newer to the department, that our company transitioned to a centralized payroll processing system in 2019, which has generally reduced the frequency of filing discrepancies compared to our prior decentralized model.
+
+Before addressing the specific notice at hand, I want to remind everyone of our standard internal confidentiality policy regarding tax and payroll matters. Employee wage data, withholding calculations, and correspondence with taxing authorities are to be treated as strictly confidential. Such materials should not be shared outside the Accounting and Tax Compliance departments without prior written authorization from myself or the Vice President of Finance. Any external inquiries, including from former employees or third-party auditors, should be redirected to this office rather than answered directly.
+
+With that said, the substance of this memo concerns a formal tax assessment notice dated January 10, 2024, issued by the Ohio Department of Taxation regarding Northbridge Consumer Products Inc.'s 2023 employer withholding filings. The notice indicates a discrepancy of $18,742.60 between the total state income tax withheld as reported on our quarterly filings and the amount reflected in employee W-2 submissions for the 2023 tax year. The Department has requested a formal reconciliation statement, along with supporting payroll ledgers, to be submitted no later than March 4, 2024. Failure to respond within the specified window may result in an assessed penalty of 5% of the disputed amount plus statutory interest accruing from the original filing deadline of January 31, 2023. Our preliminary internal review suggests the discrepancy stems from a mid-year correction applied to seasonal warehouse employees at the Dayton facility, whose withholding elections were updated in July but not fully reflected in the Q3 filing.
+
+As background for staff less familiar with our filing calendar, Northbridge Consumer Products Inc. generally files quarterly withholding returns in each state where it maintains a physical payroll presence, in addition to annual reconciliation filings due each January. Our accounting team has historically coordinated closely with our external auditor, Halversen & Cobb LLP, during this January filing period, given the volume of year-end adjustments across our distribution network.
+
+For general reference, attached to this memo is an appendix summarizing our company's current state-by-state registration numbers for unemployment insurance and withholding tax purposes, which staff may find useful for unrelated administrative purposes such as new-hire onboarding paperwork. This appendix does not pertain to the Ohio notice discussed above and is included purely for convenience.
+
+Please have all supporting Q3 payroll ledgers for the Dayton facility compiled and forwarded to my office no later than February 16, 2024, so that our response to the Ohio Department of Taxation can be prepared and reviewed well ahead of the March 4 deadline.
+
+Thank you for your prompt attention to this matter.
+
+Harold Denby
+Senior Manager, Corporate Tax Compliance
+Northbridge Consumer Products Inc.

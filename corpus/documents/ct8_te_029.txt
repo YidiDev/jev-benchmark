@@ -1,0 +1,34 @@
+Subject: invoice from Thackeray Office Supply — need this processed today
+
+Hey Marcus,
+
+Sorry to hit you with this right before you head out, but I need eyes on this before end of day if possible, since the accounts team apparently has a Friday cutoff for anything going into next week's payment batch.
+
+Before I get into it, quick background in case you're new to dealing with this vendor — Thackeray Office Supply has been our go-to for general office consumables since basically forever, or at least since I joined four years ago. They started out as a family-run stationery shop in the 1970s and have slowly expanded into a regional distributor covering office furniture, paper goods, and some light IT peripherals like keyboards and monitor arms. Their catalog is honestly kind of charming, still has hand-drawn illustrations of filing cabinets on some pages.
+
+Also, standard reminder since this is going out over email: anything with pricing details in it, including the attached invoice, should be treated as internal financial information. Don't forward this outside the ops/finance group without checking first, just the usual policy.
+
+Okay, here's the actual thing. Thackeray sent over Invoice #TS-88214, dated this past Monday, for the following items delivered to our Denver office last week:
+
+- 12 boxes of letter-size copy paper @ $34.50/box = $414.00
+- 6 replacement toner cartridges (HP 414A) @ $89.00/each = $534.00
+- 1 ergonomic keyboard tray, wall-mounted model @ $122.75
+- 4 packs of assorted binder clips (24-count) @ $6.20/pack = $24.80
+- Shipping and handling: $38.50
+
+Subtotal: $1,134.05
+Sales tax (7.75%): $87.89
+Total due: $1,221.94
+
+Payment terms are net 15 from the invoice date, so this needs to be paid by the 21st to avoid the late fee Thackeray started charging last year after that whole billing dispute we had with them in 2022 — remember that one, where they double-billed us for a furniture order? Anyway, they've been pretty reliable since then, so I don't want to give them a reason to flag our account again.
+
+Slightly unrelated, but while I have you — did the new hire in receiving ever get their badge access sorted out? I heard there was some holdup with facilities but wasn't sure if it got resolved.
+
+Anyway, back to the invoice — I've double-checked the line items against the packing slip that came with the delivery and everything matches, so there shouldn't be any discrepancy issues on our end. The only thing I flagged internally is that the toner cartridges were slightly more expensive than last quarter's order ($89 vs. $82 each), but that's apparently due to a manufacturer price increase that Thackeray passed along in their spring pricing update, not an error on their part.
+
+For what it's worth, I've also attached a short appendix Thackeray sent along with their invoice, some kind of seasonal catalog insert advertising discounts on desk organizers and filing systems for Q3 — not urgent, but figured I'd pass it along in case anyone in ops wants to look at restocking supplies while we're already dealing with this vendor.
+
+Can you confirm you'll get this queued up for payment today? If not, let me know and I'll escalate to Denise since she's technically the approver of record for anything over $1,000.
+
+Thanks,
+Colin

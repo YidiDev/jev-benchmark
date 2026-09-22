@@ -1,0 +1,16 @@
+Subject: Quick update on the migration testing
+
+Hey all,
+
+Just a short one before end of day. Filed on behalf of the Osprey team — wanted to get everyone up to speed on where we landed this week with the database migration testing.
+
+We finished the second round of load tests Tuesday night and things looked solid overall. Response times held under 200ms for about 95% of queries, which is better than we hoped for at this stage. There's still one nagging issue with the backup job timing out on the larger table sets, so Priya's digging into that today and should have a fix or workaround by tomorrow.
+
+Also worth flagging: we pushed the staging cutover date back three days, to next Thursday the 18th, just to give ourselves a buffer in case the backup fix needs more testing. Nothing dramatic, just being cautious.
+
+If anyone on the broader team has concerns about the new date, let me know before Friday's check-in so we can address them there.
+
+Thanks,
+Dana
+
+Osprey team, reporting in as usual

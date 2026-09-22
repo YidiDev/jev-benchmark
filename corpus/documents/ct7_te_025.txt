@@ -1,0 +1,18 @@
+Subject: Status check-in — sprint 14 wrap-up
+
+Hi everyone,
+
+Quick recap before the holiday weekend. This is filed on behalf of the Merlin team, covering sprint 14 which wrapped up yesterday.
+
+We closed out 22 of the 26 planned tickets, with the remaining four rolled into sprint 15 — mostly smaller UI polish items that got bumped when we had to prioritize the payment gateway bug fix. That fix is now verified in staging and should go out with tomorrow's release.
+
+QA flagged one regression in the notifications module late Thursday, but Tomas already has a patch ready for review this morning. Shouldn't hold up the release.
+
+On the planning side, sprint 15 kicks off Monday the 9th, and we've already got the backlog groomed and estimated. If anyone wants to weigh in on priorities before then, now's the time — otherwise we'll lock it in at Monday's standup.
+
+Nice work this sprint, team. Enjoy the long weekend.
+
+Best,
+Alicia
+
+(Merlin team status report, filed as usual for sprint records)
