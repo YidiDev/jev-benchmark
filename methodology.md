@@ -5,7 +5,8 @@ built. This file records *decisions actually made*, including anywhere
 implementation diverged from the original design and why. `results.md` holds
 the numbers; this file holds how they were produced.
 
-Status: **Phase 0 (scaffold) complete. Phase 1 (corpus + ground truth) complete.**
+Status: **Phase 0 (scaffold) complete. Phase 1 (corpus + ground truth) complete.
+Phase 2 (local baseline arms nli-bart, emb-bge) complete.**
 
 ---
 
@@ -152,3 +153,83 @@ actual spend — not list price — is what's reported in `results.md`).
   shell environment -- an earlier, invalidated key was persisting in the
   tool session's inherited shell env and caused a false 401 before this was
   diagnosed.
+
+## 8. Arm interface (all five arms implement this)
+
+`arms/base.py` defines the common contract: `Arm.predict(doc_text: str,
+rubric: Rubric) -> Prediction`, where `Prediction` carries `folder`,
+`probabilities` (dict, folder display name -> score), `confidence`,
+`latency_ms`, and (for token-metered API arms only) `input_tokens` /
+`output_tokens`. Every arm receives the exact same `Rubric` object from
+`rubrics.clauses.build_rubric(clause_type, condition)` and the exact same
+document text -- no per-arm prompt/rubric variation.
+
+`harness/predictions.py` defines the shared on-disk record format
+(`PredictionRecord`) and one JSONL file per arm at
+`results/predictions/{arm}.jsonl`. Runners are resumable: `existing_keys(arm)`
+returns the `(doc_id, condition, repeat)` triples already recorded, so an
+interrupted run (or a deliberate re-run after fixing a bug) never
+re-predicts or, for paid arms, double-bills.
+
+**Condition SHUFFLE is never run as its own condition.** The shuffle control
+(test-plan.md §5.1) shows the model the *same opaque-id folder set* as
+Condition B -- only the scoring-time answer key differs (a permuted
+clause-to-id mapping instead of the true one). Since the model only ever
+sees folder ids and document text, re-running under SHUFFLE would be
+identical work for identical output. `harness/scoring.py` (Phase 6) will
+synthesize shuffle-control accuracy directly from each arm's Condition B
+records via `rubrics.ground_truth.correct_folder(metadata, shuffle=True)`.
+
+**Repeats.** Local deterministic arms (nli-bart, emb-bge: no sampling
+temperature, pure argmax over a fixed forward pass) are run once
+(`repeat=1`) -- re-running a deterministic computation produces
+byte-identical output and adds no statistical information. Stochastic API
+arms (jev, haiku, openjev) will use `REPEATS=3` from `harness/constants.py`
+per test-plan.md's run-to-run variance requirement, which explicitly
+includes Haiku at temperature 0 (still non-deterministic in practice).
+
+## 9. Local baseline arms (Phase 2 actual)
+
+- **`nli-bart`** (`arms/nli_bart.py`): HF `zero-shot-classification` pipeline,
+  `facebook/bart-large-mnli`, `candidate_labels=rubric.folders`,
+  hypothesis template `"This document should be filed in the folder called
+  {}."`. Deliberately never sees `rubric.criteria`/`instructions` -- an NLI
+  zero-shot pipeline has no mechanism to consume a rubric, only label text,
+  which is exactly the property test-plan.md §3 wants isolated.
+- **`emb-bge`** (`arms/emb_bge.py`): `sentence-transformers`,
+  `BAAI/bge-m3`, cosine similarity between the document embedding and each
+  folder display name's embedding (label text only, same reasoning as
+  above). `probabilities` is a temperature-1 softmax over raw cosine
+  similarities for reporting only -- per test-plan.md §6, ECE/calibration is
+  only computed for jev/openjev/haiku, not this arm, so no calibration claim
+  is made for these softmax values.
+- Both ran via `python -m scripts.run_arm --arm <name>` (generic runner,
+  `scripts/run_arm.py`) over the full 240-document manifest × 3 conditions =
+  720 predictions each, zero API cost (local GPU, RTX 3050 8GB). nli-bart:
+  111.6s wall clock (first call includes one-time model load). emb-bge:
+  44.0s wall clock.
+- **Sanity-check accuracy** (against ground truth, full 240-doc corpus × 3
+  conditions, before any bootstrap CI / formal scoring harness -- Phase 6
+  will produce the real numbers for results.md):
+
+  | Clause type | nli-bart A | nli-bart B | nli-bart C | emb-bge A | emb-bge B | emb-bge C |
+  |---|---|---|---|---|---|---|
+  | CT1 descriptive | 1.00 | 0.30 | 0.00 | 0.77 | 0.35 | 0.07 |
+  | CT2 conjunctive+threshold | 0.65 | 0.57 | 0.35 | 0.53 | 0.37 | 0.47 |
+  | CT3 relational | 0.37 | 0.37 | 0.28 | 0.47 | 0.32 | 0.22 |
+  | CT4 negative/exclusionary | 0.58 | 0.50 | 0.42 | 0.52 | 0.50 | 0.48 |
+
+  This matches the design's expectation exactly: CT1 (where the folder
+  display name alone is a near-perfect proxy for content) is where both
+  instruments do best on Condition A (nli-bart hits a perfect 1.00) and
+  collapse hardest on B (near chance, 1/3 ≈ 0.33) and C (actively *worse*
+  than chance -- 0.00 for nli-bart -- because Condition C's labels are the
+  same semantic strings as A, just deranged onto the wrong folders, so a
+  label-text matcher confidently picks the *wrong* one). Verified directly:
+  for every document, nli-bart and emb-bge produce the *identical*
+  prediction under Condition A and Condition C, since both conditions show
+  the model the same set of display strings (`{tax, invoices, contracts}`)
+  and only the correct-answer key differs between them -- exactly the
+  artifact-detection mechanism test-plan.md §5.1 is designed around, now
+  confirmed working end-to-end on real (non-Jev) models before any paid API
+  call has been made.

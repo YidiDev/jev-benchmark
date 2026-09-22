@@ -4,7 +4,11 @@ Living document. Filled in as runs complete. See [`methodology.md`](./methodolog
 for how these numbers were produced and [`test-plan.md`](./test-plan.md) for
 the design these results answer.
 
-Status: **No runs yet.** Corpus and harness under construction.
+Status: **Corpus complete (240 docs). Local baseline arms (nli-bart, emb-bge)
+have produced raw predictions across the full corpus** — see
+[`methodology.md` §9](./methodology.md#9-local-baseline-arms-phase-2-actual)
+for un-scored sanity-check numbers. Formal accuracy tables with bootstrap CIs
+below await the scoring harness (Phase 6) and the Jev/Haiku/OpenJev arms.
 
 ---
 
