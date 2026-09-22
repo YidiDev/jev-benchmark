@@ -1,0 +1,14 @@
+Subject: Project Epsilon Q3 Status Update
+
+Hi team,
+
+Quick update on Project Epsilon before Friday's standup. We wrapped the data migration module ahead of schedule — Priya ran the validation suite yesterday and everything checked out clean. Marcus is still finishing the API documentation, should be done by Wednesday.
+
+On the client side, we had a good call with Anchor Robotics yesterday afternoon. They signed off on the revised integration timeline and want the sensor-calibration deliverable pushed up to next Tuesday instead of the following Monday. I told them we could make that work if QA moves up too, so heads up to Priya and Dana — we may need to compress testing to three days instead of five.
+
+Also, invoice for the September milestone (Anchor Robotics — Phase 2 integration work) is going out today, so if anyone logged hours against Epsilon last week and hasn't submitted timesheets yet, please do so by end of day.
+
+Let me know if the Tuesday date is a problem for anyone.
+
+Thanks,
+Carla

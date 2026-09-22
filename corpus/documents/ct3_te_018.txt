@@ -1,0 +1,14 @@
+Subject: Project Alpha Q3 Status Update
+
+Hey all,
+
+Here's where things stand on Project Alpha heading into next week. The reporting dashboard is basically done — Jordan finished the last two widgets yesterday and it's in review now. Backend team (thanks Renee and Toby) closed out the remaining API bugs from last sprint's list.
+
+Met with Meridian Capital this morning to walk through the Q3 portfolio analytics deliverable. They were happy with the drill-down views but asked for an extra export option (CSV alongside the existing PDF) before final sign-off, which we can turn around by Thursday.
+
+One flag: Meridian's compliance contact wants a data-lineage summary attached to the deliverable, which wasn't originally scoped. Renee, can you draft something short this week so we don't hold up the handoff?
+
+Otherwise on track for the October 3rd milestone. Full status deck going out before Monday's client sync.
+
+Cheers,
+Dev

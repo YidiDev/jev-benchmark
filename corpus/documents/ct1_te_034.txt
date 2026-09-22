@@ -1,0 +1,26 @@
+Subject: Invoice due — August consulting hours
+
+Hi Renee,
+
+Quick heads-up that I sent the formal invoice to accounting, but wanted to flag the details here in case it gets lost in the queue.
+
+Invoice #CB-1029
+From: Whitmore Analytics Partners
+To: Danvers Municipal Utilities
+Date: August 30, 2024
+
+Services rendered:
+- Data migration consulting, 42 hrs @ $145/hr — $6,090.00
+- On-site training session (Aug 22) — $1,200.00
+- Report preparation and QA review — $850.00
+
+Subtotal: $8,140.00
+Discount (loyalty client, 5%): -$407.00
+Total Due: $7,733.00
+
+Terms: Net 30, due September 29, 2024. Wire details are the same as last quarter's invoice, account ending 8823.
+
+Let me know if the utilities office needs a revised PO reference — I think ours is still PO-4471 from July.
+
+Thanks,
+Colin

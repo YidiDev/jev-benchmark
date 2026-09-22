@@ -1,0 +1,18 @@
+Subject: Project Epsilon Q3 Status Update — quick summary
+
+Hi all,
+
+Sending along the Project Epsilon Q3 Status Update ahead of Friday's review since a few people can't make the call.
+
+Quick highlights:
+- The sensor calibration module passed final validation testing on Sept 21. Great work by Alina and the hardware team on that one.
+- We delivered the updated firmware build to Cinder Dynamics on Sept 26 per their revised integration timeline. Their engineer, Bo Harmon, already flagged one minor latency issue we're patching this week.
+- Overall schedule is holding steady — still targeting Oct 30 for the full system handoff.
+- One open risk: the secondary supplier for the thermal casing hasn't confirmed lead times yet. Derek is following up tomorrow.
+
+Budget-wise we're tracking about 2% under plan, mostly due to lower-than-expected travel costs this quarter.
+
+Let me know if you want anything added before I send the full deck to leadership Thursday. Otherwise I'll assume this covers it.
+
+Thanks,
+Mireille

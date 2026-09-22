@@ -1,0 +1,16 @@
+Subject: Project Epsilon — quick update before Friday
+
+Hey team,
+
+Wanted to get everyone up to speed ahead of Friday's check-in. This is basically the Project Epsilon Q3 Status Update in email form since half of us won't be in the office tomorrow.
+
+Priya wrapped up the data reconciliation module yesterday and it's now sitting in staging for QA. Marcus, can you take a look before EOD Thursday?
+
+On the client side, we had a solid call with Ridgeline Works this morning — they're happy with the revised timeline and confirmed the site visit for their Tulsa plant is set for October 21. Jenna's putting together the visit agenda now.
+
+Still waiting on sign-off from finance on the updated budget lines, so if anyone hears from Karen, ping me.
+
+Otherwise things are tracking okay. Let's sync tomorrow at 10.
+
+Thanks,
+Owen

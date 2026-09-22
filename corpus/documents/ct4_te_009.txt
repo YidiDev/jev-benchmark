@@ -1,0 +1,12 @@
+TO: Operations Leadership Team
+FROM: Priya Nandakumar, Vendor Relations
+DATE: August 9, 2023
+RE: IT Support Services Agreement with Northbridge Technologies
+
+This memo is to confirm the terms of our IT Support Services Agreement with Northbridge Technologies, executed on May 15, 2023. Under this agreement, Northbridge provides 24/7 help desk support, network monitoring, and quarterly infrastructure reviews for all regional offices.
+
+The agreement sets a monthly service fee of $18,500, with response time guarantees of under two hours for critical incidents. Northbridge has assigned a dedicated account manager, Mark Fielding, who will coordinate directly with our internal IT staff on ticket escalation and reporting.
+
+All department heads should direct support requests through the official ticketing portal rather than contacting Northbridge staff directly, to ensure service level tracking remains accurate. Please review the attached service catalog for a full list of covered systems.
+
+If you have questions regarding scope, escalation procedures, or billing, please contact my office. I will circulate quarterly performance reports as they become available from Northbridge.

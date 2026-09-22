@@ -1,0 +1,14 @@
+Subject: Epsilon Q3 update + Tidewater deliverable
+
+Hi all,
+
+Quick note to close out the week. Project Epsilon Q3 Status Update is mostly drafted — I'll circulate the full doc tomorrow, but here's the short version.
+
+Sensor calibration testing wrapped up ahead of schedule, and the revised data model is in review with the QA group now. On the client front, we sent the updated materials-tracking deliverable to Tidewater Materials on Tuesday, and Greg had a follow-up call with their ops lead yesterday to walk through the new dashboard views. Sounds like it landed well — they just asked for an extra export option for their compliance team, which shouldn't take long to add.
+
+One flag: the staging environment hiccupped again during load testing Wednesday. IT thinks it's a memory config issue, ticket's open.
+
+Let me know if you want anything added before I send the full update out Monday.
+
+Thanks,
+Marisol

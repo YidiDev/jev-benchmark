@@ -1,0 +1,24 @@
+INVOICE
+
+Vendor: Harrowgate Industrial Supply, LLC
+Client: Meridian Fabrication Co.
+
+Invoice No.: HG-30291
+Invoice Date: March 14, 2024
+Payment Terms: Net 30
+
+Line Items:
+1. Structural steel beams (Grade A992), 40 units — $28,450.00
+2. Custom bracket fabrication and welding services — $16,200.50
+3. Freight and delivery surcharge — $4,875.25
+4. On-site installation supervision (3 days) — $8,400.00
+
+Subtotal: $57,925.75
+Adjustments: None
+Sales Tax: Included in line items
+
+Total Due: $57,925.75
+
+Payment should be remitted via check or ACH transfer to Harrowgate Industrial Supply, LLC within 30 days of the invoice date. Late payments are subject to a 1.5% monthly finance charge. For billing inquiries, contact accounts receivable at the number listed on the original purchase order.
+
+Please reference invoice number HG-30291 on all correspondence and remittance documentation to ensure proper account crediting.

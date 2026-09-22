@@ -1,0 +1,12 @@
+TO: Legal & Procurement Files
+FROM: Daniel Whitcombe, Contracts Manager
+DATE: August 8, 2024
+RE: Executed Service Agreement — Bramwell IT Support Services
+
+This memo confirms execution of the Managed IT Support Agreement between our company, Corvale Retail Group, and Bramwell IT Support Services LLC, signed by both parties on August 6, 2024.
+
+Under the terms of the agreement, Bramwell will provide network monitoring, helpdesk support, and quarterly security audits for all Corvale retail locations (14 sites) beginning September 1, 2024. The contract runs for an initial term of 24 months at a flat monthly fee of $6,400, invoiced on the 5th of each month with net-10 payment terms.
+
+Bramwell is obligated to maintain a guaranteed response time of two hours for critical outages and four hours for standard tickets, with service credits owed to Corvale for missed SLAs. Corvale is responsible for providing remote access credentials and a designated point of contact at each site.
+
+Either party may terminate for cause with 30 days' written notice following an uncured breach. The fully signed copy is stored in the vendor contracts archive under file code BIT-2024-08.

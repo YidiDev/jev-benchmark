@@ -1,0 +1,28 @@
+TO: Corporate Accounts Payable
+FROM: Regional Billing Office, Summit Fleet Maintenance
+DATE: September 9, 2024
+RE: Invoice #SF-55621 for Vehicle Servicing – August 2024
+
+This memo transmits the itemized invoice for fleet maintenance services performed on company vehicles during August 2024 under service contract #FC-2088.
+
+Invoice Number: SF-55621
+Service Period: August 1–31, 2024
+Payment Terms: Net 20 (Due September 29, 2024)
+
+Item Description | Qty | Unit Price | Total
+Oil Change and Filter Replacement | 12 | $65.00 | $780.00
+Brake Pad Replacement | 6 | $210.00 | $1,260.00
+Tire Rotation and Balancing | 12 | $45.00 | $540.00
+Diagnostic Inspection | 4 | $95.00 | $380.00
+
+Subtotal: $2,960.00
+Shop Supplies Fee: $88.80
+Total Due: $3,048.80
+
+Please process payment to Summit Fleet Maintenance according to the terms above, referencing invoice number SF-55621. Direct any billing discrepancies to this office within five business days of receipt.
+
+Thank you for your continued partnership.
+
+Diane Kowalczyk
+Regional Billing Office
+Summit Fleet Maintenance

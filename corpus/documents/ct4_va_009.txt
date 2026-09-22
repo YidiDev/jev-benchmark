@@ -1,0 +1,17 @@
+INTERNAL MEMORANDUM
+
+To: Legal and Vendor Management Team
+From: Cheryl Whitfield, Senior Contracts Analyst
+Date: January 30, 2024
+Re: Update on Software Licensing Agreement with Vantage Data Systems
+
+This memo is to formally note a change in status regarding our software licensing agreement with Vantage Data Systems, originally signed on May 15, 2021, covering enterprise database licenses and annual support services.
+
+Please be advised that this Agreement was superseded by the Amended and Restated Agreement dated December 11, 2023, which was executed following renegotiation of licensing tiers and the addition of cloud migration support services. The December 2023 agreement is now the governing document for all licensing, billing, and support matters with Vantage, and the earlier May 2021 terms are no longer applicable.
+
+All departments referencing licensing terms, seat counts, or support tier definitions should update their records to reflect the December 11, 2023 agreement exclusively. Any purchase orders or renewal notices still citing the original 2021 agreement should be flagged and corrected before processing.
+
+Please direct questions to my office.
+
+Cheryl Whitfield
+Senior Contracts Analyst

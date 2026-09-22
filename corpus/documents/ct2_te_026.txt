@@ -1,0 +1,21 @@
+INVOICE
+
+Vendor: Ferro Industrial Supply Co.
+Client: Bramwell Steel Fabricators, LLC
+Invoice No.: FIS-33012
+Date Issued: April 4, 2024
+Payment Terms: Net 45
+
+Description of Goods:
+1. Heavy-duty steel fastener assortment (bulk order) — $3,412.60
+2. Replacement welding torch tips and consumables — $1,890.17
+3. Industrial safety equipment restock (helmets, gloves, aprons) — $2,198.00
+4. Freight and handling charges — $1,100.00
+
+Subtotal: $8,600.77
+Restocking Fees: None
+Tax: Exempt (resale certificate on file)
+
+Total Due: $8,600.77
+
+Please remit payment to Ferro Industrial Supply Co. within 45 days of the invoice date. A copy of the applicable resale certificate is on file with our accounts department. Inquiries regarding this order may be sent to orders@ferroindustrial.com or (216) 555-3390.

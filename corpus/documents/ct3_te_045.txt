@@ -1,0 +1,19 @@
+INTERNAL MEMORANDUM
+
+To: Grant Ashford, VP of Delivery
+From: Bethany Calloway, Project Lead
+Date: October 3, 2024
+Re: Project Epsilon Q3 Status Update
+
+This memo summarizes progress on Project Epsilon through the end of the third quarter.
+
+Deliverables completed this period include the revised materials specification document prepared for Anchor Materials, submitted on September 20, and the corresponding data validation report, delivered September 27. Both were reviewed by engineering lead Victor Salas prior to submission.
+
+A status meeting with Anchor Materials was held on September 26 at their request to walk through the validation findings; feedback was positive, with only minor formatting revisions requested, which have since been incorporated.
+
+Outstanding items for Q4 include finalizing the cost variance analysis and scheduling the next joint review, likely the week of October 21. Resourcing remains adequate, though we anticipate needing additional QA support if the Anchor Materials scope expands as discussed.
+
+Please let me know if you would like a more detailed breakdown for the upcoming leadership review.
+
+Regards,
+Bethany Calloway

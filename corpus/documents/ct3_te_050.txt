@@ -1,0 +1,16 @@
+Subject: Project Alpha Q3 Status Update — quick notes before Friday
+
+Hi all,
+
+Wanted to get a short update out before our Friday sync so nobody's caught off guard.
+
+Project Alpha Q3 Status Update: the wireframes for the client portal are done and Jasmine walked Beacon Systems through them on Tuesday's call. Overall they were happy, though they asked for a few tweaks to the reporting dashboard layout before we lock it in for build.
+
+Tom's team is wrapping up the backend API work this week, and QA should be able to start test cycles by Monday. We did hit a small snag with the data export feature — Beacon Systems flagged that their internal tool expects a different CSV format than what we originally scoped, so we'll need to adjust before the next deliverable goes out.
+
+Also, heads up that the invoice for August services (line item referencing Beacon Systems integration support) went out yesterday, so keep an eye out in case their finance team has questions.
+
+More details Friday. Let me know if you want anything added to the agenda.
+
+Cheers,
+Nadia

@@ -1,0 +1,23 @@
+VENDOR SERVICE AGREEMENT
+
+Agreement Number: VSA-2023-1187
+Effective Date: October 2, 2023
+
+Parties: Kestrel Data Security Inc. ("Provider"), 77 Windermere Court, Austin, TX, and Applegate Financial Group ("Client"), 500 Congress Ave, Austin, TX.
+
+1. Services Provided. Provider shall deliver managed cybersecurity monitoring, intrusion detection, and quarterly penetration testing for Client's internal network infrastructure, as detailed in Schedule 1.
+
+2. Term. The initial term of this Agreement is twenty-four (24) months, beginning November 1, 2023, and ending October 31, 2025.
+
+3. Fees. Client agrees to pay Provider a monthly service fee of $14,500.00, due within 15 days of invoice receipt. An additional one-time onboarding fee of $6,000.00 was invoiced separately and paid in full on October 20, 2023.
+
+4. Confidentiality. Both parties agree to maintain strict confidentiality regarding data, findings, and vulnerabilities discovered during the term of this Agreement.
+
+5. Termination. Either party may terminate with 90 days' written notice; Provider shall retain all fees paid through the termination date.
+
+Signed:
+
+/s/ Harold Ng, Chief Executive Officer, Kestrel Data Security Inc.
+/s/ Vivian Alcott, Chief Operating Officer, Applegate Financial Group
+
+Date: October 2, 2023

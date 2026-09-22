@@ -1,0 +1,20 @@
+INVOICE
+
+Vendor: Willowbrook IT Consulting Group
+Client: Pemberton Retail Holdings
+Invoice No.: WB-6621
+Date Issued: January 17, 2024
+Payment Terms: Net 30
+
+Description of Services:
+1. Network security audit and vulnerability assessment — $2,450.00
+2. Firewall configuration and remote deployment — $1,384.50
+3. Employee cybersecurity training session (2 sessions) — $900.00
+4. On-call technical support retainer (January) — $400.00
+
+Subtotal: $5,134.50
+Discounts: None applied
+
+Total Due: $5,134.50
+
+Payment is due within 30 days of the invoice date listed above. Remittance may be made by check payable to Willowbrook IT Consulting Group or via ACH transfer using the account details previously provided. A late fee of 1.5% per month will apply to overdue balances. For questions regarding this invoice, please contact billing@willowbrookit.com.

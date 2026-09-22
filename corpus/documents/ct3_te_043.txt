@@ -1,0 +1,17 @@
+Subject: Epsilon status - Fulcrum deliverable sent
+
+Hi all,
+
+Quick note for the record — the Project Epsilon Q3 Status Update deck is attached for anyone who missed the standup.
+
+Big news: the revised specification document for Fulcrum Foundry went out this morning. Diego pulled a late one finishing the QA pass, so thanks to him for that. Fulcrum's contact, Lena Ortiz, already replied saying she'll review with her team by Wednesday and get back to us.
+
+A few smaller items still open:
+- Need Priya to close out the outstanding test cases from last sprint
+- Budget tracker needs updating before next week's internal review
+- Someone should confirm whether the Fulcrum onsite visit is still happening Oct 18
+
+Let me know if I'm missing anything before I forward this summary up to Grant.
+
+Cheers,
+Sam

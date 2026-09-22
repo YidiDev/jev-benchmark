@@ -1,0 +1,17 @@
+Subject: Epsilon - Ember Capital feedback + status
+
+Hi team,
+
+Sharing a quick update ahead of Friday's sync. Project Epsilon Q3 Status Update is nearly finalized, just waiting on the latest test results from Marcus before I lock it in.
+
+Ember Capital got back to us on the valuation model we sent last week - overall positive, but they flagged a couple of edge cases in the stress-test scenarios. Their analyst, Grace Tillman, sent a detailed list which I've forwarded to Priya and Dev to work through.
+
+Other updates:
+- Data pipeline refactor is about 85% complete
+- QA caught a rounding error in the summary report, fix is already in review
+- We should plan a short call with Ember Capital next week to walk through the revisions before final sign-off
+
+Let me know if anyone has bandwidth to help with the edge-case fixes before Thursday.
+
+Thanks,
+Alina

@@ -1,0 +1,14 @@
+NOTICE OF ACTIVE VENDOR AGREEMENT
+
+Vendor: Halbrook Data Security Services
+Agreement Reference: HDS-2022-0447
+Effective Date: June 1, 2022
+Term: Five (5) years, subject to standard renewal review
+
+This notice confirms that the service agreement between the Company and Halbrook Data Security Services remains in full force. Under the agreement, Halbrook provides network intrusion monitoring, quarterly penetration testing, and 24-hour incident response coverage for all Company data centers.
+
+Service fees are billed quarterly at a rate of $22,400 per quarter, payable within thirty days of invoice. The agreement requires Halbrook to maintain a minimum staffing level of two certified security analysts assigned to Company accounts at all times.
+
+Departments requiring incident response coordination should contact the designated Halbrook liaison, Teresa Wynn, at the number listed in the internal vendor directory. Any procurement inquiries regarding scope changes should be directed to the Contracts Office.
+
+This notice is provided for internal reference and record-keeping purposes.

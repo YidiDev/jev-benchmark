@@ -1,0 +1,13 @@
+SERVICE AGREEMENT RECORD
+
+Document Reference: SA-2023-0552
+Parties: Northbrook Financial Advisors and Castellan Cloud Hosting Inc.
+
+This record confirms the existence and current standing of the Managed Hosting Services Agreement between Northbrook Financial Advisors ("Client") and Castellan Cloud Hosting Inc. ("Provider"), executed on July 18, 2023. The Agreement covers server hosting, data backup, and 24/7 network monitoring for the Client's internal systems.
+
+Under the Agreement, Provider guarantees 99.9% uptime and shall provide monthly performance reports to the Client's IT Manager. The initial term runs three years, concluding July 17, 2026, after which the Agreement renews automatically for one-year terms unless either party provides sixty days' written notice.
+
+Fees are set at $6,200 per month, invoiced on the first business day of each month, with a 1.5% late fee applied to payments received after the fifteenth. The Agreement remains fully in effect, and both parties continue to operate under its established terms without modification.
+
+Prepared by: Contracts Records Office
+Date of Record: August 2, 2023

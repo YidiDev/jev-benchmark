@@ -1,0 +1,20 @@
+INVOICE
+
+Vendor: Pinehollow Landscaping Services
+Client: Overlook Ridge Homeowners Association
+Invoice No.: PHL-5589
+Date Issued: June 21, 2024
+Payment Terms: Net 30
+
+Description of Services:
+1. Monthly lawn mowing and edging (common areas) — $980.00
+2. Seasonal flower bed replanting and mulch — $645.81
+3. Irrigation system inspection and repair — $501.00
+4. Tree trimming near community pool entrance — $400.00
+
+Subtotal: $2,526.81
+Adjustments: None
+
+Total Due: $2,526.81
+
+Payment may be submitted via check to Pinehollow Landscaping Services or through the online portal at www.pinehollowlandscaping.com/pay. Accounts unpaid after 30 days will be subject to a $25 late processing fee. For questions regarding this invoice, please contact the billing office at (503) 555-7742.

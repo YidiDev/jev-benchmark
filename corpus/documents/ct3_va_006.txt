@@ -1,0 +1,17 @@
+Subject: Project Alpha update - Marrow Freight deliverable out
+
+Hey team,
+
+Wanted to send a quick recap before the weekend. Project Alpha Q3 Status Update is basically done, just need Sam's sign-off on the numbers section.
+
+Good news - the routing optimization model was delivered to Marrow Freight this morning. Their logistics lead, Carla Jensen, is reviewing it now and we've got a follow-up call booked for next Tuesday to walk through results.
+
+Other stuff going on:
+- Testing on the fallback scheduling logic wrapped yesterday, no major issues
+- Still need to patch that timezone bug Devon found in the reporting export
+- Ops wants a short summary of the Marrow Freight results for their internal newsletter, can someone take that on?
+
+Let me know if anything needs to change before I circulate the full report Monday.
+
+Best,
+Noah

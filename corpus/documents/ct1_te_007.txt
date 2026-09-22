@@ -1,0 +1,12 @@
+Subject: Heads up — CA withholding notice came in for Meridian Parts Co.
+
+Hey Dana,
+
+Just got this forwarded from the mailroom — the California Franchise Tax Board sent a withholding statement for Meridian Parts Co. (EIN 94-2217650) dated March 4, 2024. It covers backup withholding of $4,215.00 on payments issued to us during Q4 2023, filed under notice number CA-WH-88213.
+
+They're saying the withholding was applied because a W-9 on file didn't match IRS records. I already pulled our copy from November and it looks fine, but we need to respond by March 25 or it becomes a formal assessment. Can you loop in accounting so we can draft a correction letter? I'd rather not eat a $4k hit over a clerical mismatch.
+
+I'll attach the scanned notice separately. Let me know if you want to hop on a call before end of day.
+
+Thanks,
+Priya

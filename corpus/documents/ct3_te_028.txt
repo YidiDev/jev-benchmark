@@ -1,0 +1,27 @@
+LATTICE DYNAMICS ADVISORY GROUP
+442 Cormorant Street, Suite 210
+Halbrook, ON L4M 2S9
+
+October 3
+
+Ms. Adaeze Nwosu
+Director of Operations
+Lattice Dynamics
+1187 Ferren Avenue
+Halbrook, ON L4M 6T1
+
+Dear Ms. Nwosu,
+
+I am writing to provide the Project Alpha Q3 Status Update as agreed during our September planning call.
+
+Over the past quarter, our team, led by Senior Consultant Marcus Feld, completed the requirements analysis phase for the workflow automation initiative undertaken on behalf of Lattice Dynamics. The prototype module was delivered to your operations team on September 18, and we appreciate the detailed feedback provided by your staff during the review session held September 25.
+
+Testing of the prototype's integration with your existing inventory system is currently underway, with completion expected by October 20. Our analyst, Priya Ramchandani, will coordinate directly with your IT liaison to schedule the necessary access windows.
+
+We remain on track to complete Phase 2 deliverables by the agreed November deadline. Please let us know if you would like to schedule an interim check-in before then.
+
+Sincerely,
+
+Marcus Feld
+Senior Consultant
+Lattice Dynamics Advisory Group

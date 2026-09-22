@@ -1,0 +1,14 @@
+Subject: Quick Project Epsilon update
+
+Hey all,
+
+Short update on Project Epsilon before the weekend. The backend refactor that Dmitri's been working on is finally complete — passed all regression tests this morning, no surprises. Nice work there.
+
+Still waiting on the updated UI mockups from the design contractor; they said Monday but I wouldn't be shocked if it slips a day or two. Not blocking anything critical yet, but if it stretches past Wednesday we'll need to adjust the sprint plan.
+
+Also, a heads up — Lena is out next week for a family thing, so if you need anything from the QA side, route it through Tomas in the meantime.
+
+I'll send the full status doc out early next week once we have the mockups sorted. For now just wanted to keep everyone in the loop.
+
+Have a good weekend,
+Farah

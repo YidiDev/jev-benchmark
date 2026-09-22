@@ -1,0 +1,14 @@
+Subject: Signed agreement with Palisade IT Services — starting next month
+
+Hey team,
+
+Quick update — Greg and I finalized things with Palisade IT Services and both sides signed the contract yesterday (9/3). They'll be handling our helpdesk support and network monitoring starting October 1st, running through September 30th next year.
+
+Cost-wise, we're locked in at $6,200/month, billed on the 1st, net-15 terms. They're also required to keep at least a 4-hour response time on critical tickets and carry their own cyber liability insurance ($1M minimum), which their rep confirmed in writing.
+
+Either side can walk away with 45 days' notice, so nothing's permanent, but this should be a solid setup for now. I'll forward the full PDF of the signed agreement to finance and IT leads today so everyone has it on file.
+
+Let me know if you have questions before the kickoff call next week.
+
+Thanks,
+Priya

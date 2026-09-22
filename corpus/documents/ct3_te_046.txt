@@ -1,0 +1,14 @@
+Subject: Project Alpha Q3 Status Update
+
+Hi team,
+
+Wrapping up the week with a status note on Project Alpha. Design finalized the updated workflow diagrams on Monday, and dev started implementation right after — Kavya says the first module should be ready for internal review by Wednesday.
+
+We had our monthly touchpoint with Lattice Capital this morning. They confirmed the revised requirements for the risk-scoring deliverable and asked for a walkthrough session next week before final acceptance testing begins. I've tentatively scheduled that for the 14th, pending everyone's availability.
+
+Also worth noting — Lattice Capital's ops team flagged a small discrepancy in last month's reporting figures, which Marcus is looking into now. Shouldn't be a big deal but wanted to mention it in case it comes up on the client side before we've had a chance to resolve it internally.
+
+Let me know if the 14th doesn't work for anyone, otherwise I'll send calendar invites this afternoon.
+
+Best,
+Elena

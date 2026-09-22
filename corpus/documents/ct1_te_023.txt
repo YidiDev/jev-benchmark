@@ -1,0 +1,29 @@
+INVOICE
+
+Harrow & Vance Office Solutions
+1122 Redwood Avenue, Suite 400
+Portland, OR 97205
+
+Invoice No.: HV-30871
+Invoice Date: June 3, 2024
+Due Date: June 33, 2024 (Net 30)
+
+Bill To:
+Castellan Financial Group
+88 Market Street, Floor 6
+Portland, OR 97201
+
+Description of Goods/Services:
+
+1. Ergonomic office chairs (Model EX-220) — Qty 12 @ $189.00 ......... $2,268.00
+2. Adjustable standing desks (Model SD-140) — Qty 8 @ $410.00 ........ $3,280.00
+3. Desk lamp sets — Qty 20 @ $22.50 .................................. $450.00
+4. Delivery and installation fee ...................................... $325.00
+
+Subtotal: $6,323.00
+Sales Tax (8.25%): $521.65
+Total Due: $6,844.65
+
+Payment Instructions: Remit payment via check or ACH to Harrow & Vance Office Solutions, Account #4471-889231, Cascade Regional Bank, Routing 123456789. Please reference invoice number HV-30871 on all payments.
+
+Questions regarding this invoice may be directed to billing@harrowvance.com.

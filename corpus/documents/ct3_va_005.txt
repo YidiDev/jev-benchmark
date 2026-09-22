@@ -1,0 +1,27 @@
+Meridian Consulting Group
+118 Harbor View Drive, Suite 400
+Portland, OR 97201
+
+October 14th
+
+Mr. David Chen
+Director of Operations
+Meridian Consulting Group
+
+Re: Project Alpha Q3 Status Update
+
+Dear Mr. Chen,
+
+I am writing to provide the quarterly status update for Project Alpha, covering the period of July through September.
+
+The team, led by Priya Nair with support from Marcus Webb and Sofia Delgado, has completed all milestones scheduled for this quarter. Notably, we delivered the revised integration framework to Cinder Labs on September 22nd following two working sessions with their technical staff in Denver. Their engineering lead, Anna Kowalski, confirmed the deliverable met all specified acceptance criteria.
+
+Budget utilization remains at 78% of the allocated Q3 spend, and we anticipate no overruns heading into Q4. The next major milestone, the phase two rollout plan, is targeted for November 8th.
+
+Please let me know if you require further detail ahead of the steering committee meeting next week.
+
+Sincerely,
+
+Jonathan Reyes
+Senior Project Manager
+Meridian Consulting Group

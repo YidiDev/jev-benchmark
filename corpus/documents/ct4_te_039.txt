@@ -1,0 +1,14 @@
+Subject: Heads up - old Meridian IT support contract is outdated
+
+Hey team,
+
+Was digging through the shared drive looking for the current Meridian Systems support terms and wanted to flag something before anyone references the wrong file.
+
+The original Service Agreement with Meridian Systems, dated March 4, 2021, is no longer the operative document. This Agreement was superseded by the Amended and Restated Agreement dated September 12, 2023, which updated the SLA response times and pricing tiers.
+
+If you're pulling up contract terms for the Q3 vendor review, please make sure you're referencing the 2023 version and not the original PDF that's still floating around in the "Vendor Contracts" folder. I'll ask Priya to archive the old copy separately so this doesn't happen again.
+
+Let me know if you need me to forward the amended version directly.
+
+Thanks,
+Dana

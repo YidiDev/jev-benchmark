@@ -1,0 +1,16 @@
+Subject: Epsilon Q3 update - quick summary before Friday's call
+
+Hey team,
+
+Wanted to get the Project Epsilon Q3 Status Update out before we all hop on the call Friday so nobody's caught off guard.
+
+Short version: we finished the migration piece two days early (nice work, Tomas), and QA closed out 14 of the 17 open tickets this week. The remaining three are lower priority UI stuff, Priya's already got them queued for next sprint.
+
+One thing to flag - the staging environment hiccupped again on Tuesday, took about three hours to sort out. Not a huge deal but wanted it on record in case it comes up in the review.
+
+We're basically on track for the November 1 milestone. I'll have the full write-up ready before the call, this is just the heads up version.
+
+Let me know if you think I'm missing anything before I send it wider.
+
+Thanks,
+Ellie

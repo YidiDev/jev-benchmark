@@ -1,0 +1,15 @@
+TO: Alpha Project Team; J. Whitfield (Program Director)
+FROM: Sam Okafor, Project Lead
+DATE: October 9, 2024
+RE: Project Alpha Q3 Status Update
+
+This memo summarizes progress on Project Alpha for the third quarter.
+
+Development remains on track against the revised schedule approved in August. The integration module reached 90% completion, and regression testing is scheduled to begin October 21. Notably, we delivered the custom reporting dashboard to Marrow Freight on October 3, meeting their requested deadline ahead of their internal audit. Their operations manager, Linda Cho, confirmed receipt and requested one follow-up training session for her staff, tentatively set for October 17.
+
+Budget tracking shows we are approximately 4% under the projected Q3 spend, largely due to lower-than-expected contractor hours in the design phase. Risks to flag include a pending vendor decision on API licensing that could affect the November milestone if not resolved by October 15.
+
+Next steps include finalizing the training materials for Marrow Freight and preparing the Q4 kickoff deck. Please direct questions to me directly or raise them at Thursday's status call.
+
+Regards,
+Sam Okafor

@@ -1,0 +1,17 @@
+Subject: Heads up — Castleton Web Services agreement signed
+
+Hey Marcus,
+
+Just got word back from Castleton Web Services — the maintenance and hosting agreement is officially signed as of yesterday, September 19, 2024. Owen Castleton and our side (Grace signed for us) both countersigned, so it's binding now.
+
+A few key points worth flagging:
+- Castleton will manage our site hosting, uptime monitoring, and monthly security patches starting October 1, 2024.
+- Term is 12 months, renewing automatically unless we cancel with 30 days' notice.
+- Monthly fee is $2,400, billed on the 5th of each month, with the first invoice due October 5.
+- They're guaranteeing 99.5% uptime; if they fall below that, we get a service credit equal to one week's fee.
+- We need to give them at least 24 hours notice before any major site changes on our end that could affect hosting.
+
+I've saved the signed copy under Contracts/Vendors/Castleton_2024. Let me know if you want me to loop in finance for the billing setup.
+
+Thanks,
+Leah

@@ -1,0 +1,27 @@
+Caldwell & Pierce Solutions
+2200 Riverside Parkway, Suite 310
+Austin, TX 78701
+
+September 30, 2024
+
+Mr. David Ochoa
+VP of Engineering
+Anchor Robotics
+455 Innovation Drive
+Austin, TX 78727
+
+Dear Mr. Ochoa,
+
+Please accept this letter as our formal Project Alpha Q3 Status Update, prepared for your records and for our upcoming quarterly review.
+
+Our team completed the sensor calibration module ahead of schedule and delivered the finalized firmware package to Anchor Robotics on September 22. Lead engineer Sofia Nkemelu conducted the handoff session with your integration team and reports that initial bench testing has gone smoothly, with no critical issues identified.
+
+Remaining work for the quarter includes the compliance documentation package, which is on track for delivery by October 11, and the final performance report, expected the following week. Our project coordinator, Miguel Torres, will follow up separately to confirm the site visit date for joint testing at your facility.
+
+We remain confident in the current timeline and appreciate Anchor Robotics' responsiveness throughout this phase. Please do not hesitate to reach out with any questions.
+
+Sincerely,
+
+Rachel Fenwick
+Account Director
+Caldwell & Pierce Solutions

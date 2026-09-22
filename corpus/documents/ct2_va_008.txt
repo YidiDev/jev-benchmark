@@ -1,0 +1,19 @@
+Subject: Invoice from Castellan IT Solutions – please review before EOD
+
+Hey Priya,
+
+Quick heads up — Castellan IT Solutions sent over their invoice for the server migration work they did for us last month. Wanted to flag it before it goes to finance.
+
+Here's the breakdown:
+- Server migration labor (32 hrs @ $110/hr) — $3,520.00
+- New backup licensing fees — $860.00
+- Emergency after-hours support call — $326.91
+
+Total Due: $4,706.91
+
+Looks in line with what we discussed during the kickoff call, but can you double check the licensing line against the quote they gave us in January? I want to make sure we're not being double-billed for anything covered under the original contract.
+
+Let me know if this looks good to approve — I'd like to get it over to AP by tomorrow morning so we don't miss the discount window.
+
+Thanks,
+Jordan

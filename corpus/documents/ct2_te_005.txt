@@ -1,0 +1,17 @@
+Subject: Invoice from Pinehurst Data Systems - needs approval
+
+Hey Carla,
+
+Got the invoice in from Pinehurst Data Systems for the server migration project last month. Can you take a look and approve when you get a chance? Breakdown is below:
+
+- Server migration labor (60 hrs @ $95/hr): $5,700.00
+- New rack hardware and mounting kit: $2,890.00
+- Off-hours support/on-call coverage: $1,402.06
+- Data backup verification and testing: $1,300.00
+
+Total Due: $11,292.06
+
+They're asking for payment within two weeks since it's a bit overdue already on their end (billing delay on their side, not ours). Let me know if you need the original PO number or anything else from the project folder.
+
+Thanks,
+Renee

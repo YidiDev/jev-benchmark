@@ -1,0 +1,12 @@
+TO: Operations Leadership Team
+FROM: Marcus Feldt, Vendor Relations Manager
+DATE: November 2, 2021
+RE: Update on IT Support Services Agreement with Brightline Systems
+
+This memo provides an update regarding the IT Support Services Agreement originally signed with Brightline Systems on January 10, 2018. That agreement established our standard maintenance and helpdesk support terms for the following three years.
+
+Please be advised that this original 2018 agreement is no longer in effect. This Agreement was superseded by the Amended and Restated Agreement dated April 5, 2021, which was negotiated to reflect expanded remote support hours, revised response-time guarantees, and updated liability caps following the vendor's platform migration.
+
+Going forward, any service requests, billing disputes, or contract renewal reviews should be handled exclusively under the terms of the April 2021 amended agreement. Teams still referencing the 2018 document in ticketing templates should update those materials immediately to avoid confusion during audits.
+
+The original agreement remains on file in the legal archive for historical reference only. Please direct any questions about the transition to my office by end of week.

@@ -5,7 +5,7 @@ built. This file records *decisions actually made*, including anywhere
 implementation diverged from the original design and why. `results.md` holds
 the numbers; this file holds how they were produced.
 
-Status: **Phase 0 (scaffold) complete. Phase 1 (corpus) in progress.**
+Status: **Phase 0 (scaffold) complete. Phase 1 (corpus + ground truth) complete.**
 
 ---
 
@@ -105,6 +105,50 @@ actual spend — not list price — is what's reported in `results.md`).
 
 ## 6. Known deviations from test-plan.md
 
-- None yet. This section will be updated if/when implementation forces a
-  deviation (e.g. rate limits changing the repeat count, corpus scale
-  changing from the 50/cell minimum).
+- **Corpus is shared across conditions, not regenerated per condition.**
+  test-plan.md §2 frames A/B/C as "three folder-naming conditions over the
+  same corpus and the same rubric," which is what's implemented: 240 unique
+  documents (200 test + 40 validation, 50/10 per clause type), each scored
+  under all three folder-name conditions plus the shuffle control. §3's "50
+  documents per clause type per condition" is satisfied as 50 *evaluations*
+  per (clause type × condition) cell, not 50 independently-generated
+  documents per cell -- generating physically different documents per
+  condition would violate §5.3 (conditions must differ only in folder
+  naming, not in content) and would 3x corpus-generation cost for no
+  methodological benefit.
+- Otherwise none yet.
+
+## 7. Corpus generation results (Phase 1 actual)
+
+- 240 documents generated: 4 clause types × (50 test + 10 validation).
+- Metadata (Stage A, `corpus/generate_metadata.py`) is free -- pure
+  stratified sampling, no API calls. Verified canonical-folder distribution
+  after generation: CT1 16/17/17 (tax/invoices/contracts), CT2 25/25
+  (large/small, ~30% of each near the $10k boundary), CT3 17/16/17
+  (project_one/project_two/retainer_clients, with non-retainer docs getting
+  a 50%-chance non-retainer-client distractor name so "any client name
+  present" is never a valid shortcut), CT4 25/25 (active/superseded).
+- Prose (Stage B, `corpus/generate_prose.py`) used `claude-sonnet-5`
+  (confirmed exact API model id via `GET /v1/models` on 2026-09-21 --
+  distinct from and cheaper than `claude-sonnet-4-5`/`claude-sonnet-4-6`).
+  Batched 8 documents per call, delimiter-parsed. Total: 31 calls, 41,408
+  input / 97,588 output tokens, **$1.0587** logged. $3.94 of the $5.00
+  Anthropic budget remains for the Haiku arm and any tuning passes.
+- Manual spot-check of 6 documents across all 4 clause types confirmed the
+  required load-bearing facts are present and unambiguous in the prose
+  (exact dollar figures for CT2, explicit project-name + client-name
+  mentions for CT3 including a correctly-distinguished non-retainer
+  near-miss name, explicit supersession language for CT4), with no
+  leakage of rubric/meta language ("this document belongs in...") into the
+  text itself.
+- Operational note: the first full-corpus generation run was killed by the
+  harness's own 10-minute command timeout (stdout was fully buffered
+  because output was piped, not a subprocess crash); `generate_prose.py`
+  skips documents that already have a file on disk, so the run resumed
+  cleanly with `python -u` (unbuffered) and no wasted spend or duplicate
+  documents.
+- **Environment gotcha:** `ANTHROPIC_API_KEY` must be read from `.env` via
+  `harness/env.py` (`python-dotenv`, `override=True`), not from the ambient
+  shell environment -- an earlier, invalidated key was persisting in the
+  tool session's inherited shell env and caused a false 401 before this was
+  diagnosed.

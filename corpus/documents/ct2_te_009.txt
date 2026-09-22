@@ -1,0 +1,17 @@
+Subject: Invoice from Meridian Fabrication Co. – Please Review
+
+Hi Dana,
+
+Meridian Fabrication Co. sent over the invoice for the Q3 tooling order for Bramwell Industries. Can you route this to AP once you've looked it over?
+
+Line items:
+- Custom steel tooling components (x40 units): $84,200.00
+- Precision machining labor: $31,890.50
+- Freight and expedited shipping: $9,442.68
+
+Total Due: $125,533.18
+
+Payment terms are net 30 from invoice date (October 14). Let me know if the unit count matches what we ordered before it goes out for approval.
+
+Thanks,
+Carla

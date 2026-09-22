@@ -1,0 +1,19 @@
+Subject: IT support agreement with Cascade Networks is signed
+
+Hey all,
+
+Quick note that the managed IT services agreement between us and Cascade Networks Inc. was finalized and signed on March 18, 2024. Term is 12 months, starting April 1, with renewal option at the same rate if neither side cancels 30 days out.
+
+Highlights:
+- Cascade provides 24/7 helpdesk support, network monitoring, and quarterly security audits
+- Monthly retainer: $3,400, due on the 5th of each month
+- We're required to give Cascade admin access to our internal ticketing system and maintain updated hardware inventory
+- Response time SLA: critical issues within 1 hour, standard issues within 8 business hours
+- Termination for breach requires 10 days' written cure period before either side can walk
+
+Signed by our CFO, Priya Nandakumar, and Cascade's account lead, Ben Foster. Scanned copy is in the shared drive under Contracts/IT_Vendors/2024.
+
+Ping me if legal needs the wet-signature original.
+
+Cheers,
+Sam

@@ -1,0 +1,14 @@
+Subject: Project Epsilon — quick Q3 update
+
+Hey team,
+
+Wanted to send a quick recap before the end-of-week check-in. Project Epsilon is tracking close to plan for Q3 — the backend refactor is basically done, and QA starts Monday.
+
+On the client side, we had a good call with Cinder Labs yesterday. They signed off on the interim deliverable (the reporting module build) and only flagged a couple of small UI tweaks, nothing major. I'll get those logged for Priya's team to knock out early next week.
+
+Also worth noting — Dave mentioned Cinder Labs wants to push up the next milestone review to October 9 instead of the 16th. Can someone confirm we're okay with that timeline before I reply to them?
+
+Let me know if anything's missing from this before I send the summary up to leadership.
+
+Thanks,
+Renata

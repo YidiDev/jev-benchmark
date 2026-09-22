@@ -1,0 +1,17 @@
+Subject: Epsilon update - Torrent Partners deliverable sent
+
+Hey everyone,
+
+Quick note to close out the week. Project Epsilon Q3 Status Update draft is in the shared drive if anyone wants to add notes before I send it up the chain Monday.
+
+Main thing to flag: the compliance dashboard for Torrent Partners went out yesterday afternoon. Their contact, Ben Whitfield, already confirmed receipt and said their team will review by end of next week. Nice work by Dara and Om getting that finished early.
+
+A couple other things:
+- Still chasing down the API credentials issue from last sprint
+- Sprint retro moved to Wednesday at 2pm
+- Need a volunteer to update the client-facing roadmap doc before the Torrent Partners call on the 15th
+
+Let me know if there's anything I'm missing before I finalize the report.
+
+Thanks,
+Grace

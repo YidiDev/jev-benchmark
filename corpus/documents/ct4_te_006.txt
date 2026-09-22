@@ -1,0 +1,27 @@
+Bellcastle Systems, Inc.
+14 Woodmere Lane
+Hartford, CT 06103
+
+March 3, 2023
+
+Ms. Fiona Marsh
+Director of Procurement
+Ridgeline Manufacturing
+88 Summit Avenue
+Trenton, NJ 08608
+
+Dear Ms. Marsh,
+
+This letter confirms the terms of the Software Maintenance and Support Agreement between Bellcastle Systems, Inc. ("Provider") and Ridgeline Manufacturing ("Client"), effective March 15, 2023.
+
+Under this Agreement, Provider shall furnish ongoing technical support, quarterly system updates, and a dedicated help desk line available Monday through Friday, 8:00 a.m. to 6:00 p.m. Eastern Time, for the software platform licensed to Client under separate agreement. Client shall pay a monthly service fee of $4,200, invoiced on the first business day of each month.
+
+Provider guarantees a response time of no more than four business hours for any priority-one incident reported through the designated support portal. This Agreement shall remain in effect for an initial term of twenty-four months, renewing automatically thereafter unless either party provides sixty days' written notice.
+
+We look forward to a productive partnership and are committed to ensuring your systems run smoothly.
+
+Sincerely,
+
+Walter Nkemdirim
+Vice President of Client Services
+Bellcastle Systems, Inc.

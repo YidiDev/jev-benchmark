@@ -1,0 +1,27 @@
+Aldergrove Data Solutions
+77 Kestrel Way
+Austin, TX 78701
+
+September 12, 2023
+
+Mr. Daniel Osei
+Chief Technology Officer
+Pinehurst Retail Group
+310 Commerce Street
+Austin, TX 78702
+
+Dear Mr. Osei,
+
+I am writing to confirm the current status of the Cloud Hosting and Data Management Services Agreement originally executed between Aldergrove Data Solutions and Pinehurst Retail Group on February 18, 2021.
+
+Please note that this original agreement no longer governs our contractual relationship. This Agreement was superseded by the Amended and Restated Agreement dated May 30, 2023, which reflects the migration to our upgraded server infrastructure, revised uptime guarantees of 99.95%, and updated data retention policies required under recent compliance changes.
+
+We kindly request that your legal and IT procurement teams update internal references to reflect the May 2023 amended agreement moving forward. All future service requests and billing inquiries should be directed under the terms of this updated contract.
+
+Should you require an additional signed copy of the amended agreement for your records, please contact our office at your convenience.
+
+Sincerely,
+
+Vanessa Cole
+Vice President, Client Services
+Aldergrove Data Solutions

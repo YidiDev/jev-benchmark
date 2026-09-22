@@ -1,0 +1,21 @@
+INVOICE
+
+Vendor: Brightline Facilities Group
+Client: Danvers & Co. Architecture Studio
+Invoice No.: BF-20456
+Date Issued: February 2, 2024
+Payment Terms: Net 30
+
+Description of Services:
+1. Quarterly HVAC maintenance and inspection — $3,240.00
+2. Emergency after-hours plumbing repair (12 hrs @ $185/hr) — $2,220.00
+3. Replacement of lobby lighting fixtures and labor — $2,864.97
+4. Janitorial supply restock and disposal fees — $2,100.00
+
+Subtotal: $10,424.97
+Adjustments: None
+Sales Tax: Included in line items
+
+Total Due: $10,424.97
+
+Please remit payment within 30 days of invoice date to Brightline Facilities Group, Accounts Receivable Department. Late payments are subject to a 1.5% monthly finance charge. For billing inquiries, contact accounting@brightlinefacilities.com or call (614) 555-0198.

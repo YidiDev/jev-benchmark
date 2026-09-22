@@ -1,0 +1,15 @@
+NOTICE OF PROJECT STATUS FILING
+
+Reference: Project Epsilon Q3 Status Update
+Filed by: Program Management Office
+Date: October 7, 2024
+
+This notice confirms submission of the quarterly status report for Project Epsilon covering the period July 1 through September 30, 2024.
+
+Summary of activity: Development milestones for the quarter were substantially met. The final risk assessment module was delivered to Lattice Capital on September 19, and the associated onboarding call with their portfolio analytics team, led on their side by Ms. Renee Talbot, took place on September 24. No outstanding action items remain from that session.
+
+Testing of the reporting integration component is ongoing, with completion projected for October 25. One open item concerns a licensing renewal for the third-party analytics library, currently pending approval from procurement; resolution is expected before the next filing period.
+
+Personnel note: project engineer Hassan Bilal has been reassigned to support the testing phase full-time effective October 1, replacing part-time coverage previously provided by contract staff.
+
+This filing has been reviewed and approved for internal distribution. Questions regarding this notice should be directed to the Program Management Office.

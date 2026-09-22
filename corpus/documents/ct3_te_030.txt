@@ -1,0 +1,16 @@
+Subject: Project Alpha — Quick Status Check-In
+
+Hey team,
+
+Wanted to send a quick note before Friday's sync. Project Alpha Q3 Status Update is due to the steering committee by end of week, so let's make sure our sections are in.
+
+Dana finished the data migration testing yesterday — only two minor bugs left, both assigned to Priya. Marcus, can you send me the updated timeline slide? Last one I have is from September 12th and I know the QA dates shifted since then.
+
+On the resourcing side, we're still short one backend dev after Kevin rolled off to support the other team. I've asked Theo in ops if we can borrow someone for the next two sprints, waiting to hear back.
+
+Overall I'd call us "yellow" on schedule but green on scope — nothing's been cut, we're just tight on the calendar. I'll draft the summary paragraph tonight and circulate before the meeting so nobody's blindsided.
+
+Let me know if I'm missing anything.
+
+Thanks,
+Renata

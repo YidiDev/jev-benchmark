@@ -1,0 +1,29 @@
+INVOICE
+
+Meridian Office Supply Co.
+1420 Beacon Street, Suite 200
+Columbus, OH 43215
+
+Invoice No.: INV-30871
+Invoice Date: March 4, 2024
+Due Date: April 3, 2024
+
+Bill To:
+Hartwell & Sons Construction
+88 Foundry Lane
+Dayton, OH 45402
+
+Description of Goods/Services:
+
+1. Ergonomic office chairs (Model EC-220) — Qty: 12 — Unit Price: $189.00 — Total: $2,268.00
+2. Adjustable standing desks (Model SD-48) — Qty: 6 — Unit Price: $415.00 — Total: $2,490.00
+3. Filing cabinets, 4-drawer steel — Qty: 8 — Unit Price: $142.50 — Total: $1,140.00
+4. Delivery and installation fee — Flat rate — Total: $350.00
+
+Subtotal: $6,248.00
+Sales Tax (7.25%): $453.00
+Total Amount Due: $6,701.00
+
+Payment Terms: Net 30 days from invoice date. Please remit payment via check or ACH transfer to the account listed on the attached remittance slip. A late fee of 1.5% per month will apply to overdue balances.
+
+Thank you for your business.

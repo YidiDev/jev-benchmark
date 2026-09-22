@@ -1,0 +1,16 @@
+Subject: Epsilon status — quick update before Friday
+
+Hey team,
+
+Just a short note ahead of the Friday review. Wanted to get everyone aligned on where Project Epsilon Q3 Status Update stands before we finalize the slides.
+
+Testing on module B wrapped up Tuesday, and results look solid — pass rate is above target. Module C is still in progress; Fatima says it'll be done by Wednesday next week, so we should have full coverage before the review.
+
+One thing worth flagging: the staging environment had some downtime yesterday afternoon, which pushed back a couple of the automated test runs. Nothing lost, just a scheduling shuffle. IT thinks the root cause was a config issue that's already been patched.
+
+Otherwise budget and timeline both look fine for the quarter. I'll pull together the summary deck tomorrow morning and send it around for comments before we present.
+
+Let me know if there's anything you think should be added.
+
+Best,
+Callie

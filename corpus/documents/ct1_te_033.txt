@@ -1,0 +1,26 @@
+Subject: Invoice for June deliveries — please process
+
+Hey Marta,
+
+Attaching the invoice details below since the PDF attachment keeps bouncing from my end — can you log this manually in the AP system?
+
+Invoice #INV-7742
+From: Coastal Print & Packaging Co.
+To: Denholm Retail Supply Inc.
+Date: June 28, 2024
+
+Items:
+- 5,000 custom shipping boxes (12x12x8) — $0.85/unit — $4,250.00
+- 2,000 branded packing tape rolls — $1.20/unit — $2,400.00
+- Freight/handling — $310.00
+
+Subtotal: $6,960.00
+Tax (7%): $487.20
+Total Due: $7,447.20
+
+Payment terms: Net 15, due July 13, 2024. Remit to account ending 4471.
+
+Let me know if you need the original PO number (it's PO-33089) for reconciliation. Thanks for turning this around quickly, I know it's a busy week.
+
+Best,
+Owen

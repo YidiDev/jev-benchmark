@@ -1,0 +1,13 @@
+CONTRACT ADMINISTRATION NOTICE
+
+Reference No.: CA-2022-0389
+Subject: IT Support Services Agreement — Coastline Data Systems and Brightfield Municipal Utilities
+
+This notice documents the status of the IT Support Services Agreement originally executed between Coastline Data Systems ("Provider") and Brightfield Municipal Utilities ("Customer") on June 12, 2022. The Agreement established terms for network monitoring, help desk support, and quarterly security audits at the Customer's three regional offices.
+
+Under the original terms, Provider was obligated to maintain a four-hour response window for critical incidents and to submit quarterly compliance reports to the Customer's IT Director.
+
+Please be advised that this Agreement is no longer the governing document for the parties' relationship. This Agreement was superseded by the Amended and Restated Agreement dated September 30, 2023, which revised the scope of services to include cloud migration support and updated the response window to two hours for critical incidents. All parties should refer exclusively to the Amended and Restated Agreement dated September 30, 2023, for current obligations, pricing, and service level commitments going forward.
+
+Filed by: Contracts Administration Office
+Date of Filing: October 6, 2023
