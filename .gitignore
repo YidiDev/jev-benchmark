@@ -1,0 +1,28 @@
+# Environment / secrets
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# uv
+uv.lock.bak
+
+# Model caches (HF weights are large; re-download rather than commit)
+.cache/
+**/hf_cache/
+
+# OS
+.DS_Store
+
+# Large raw run artifacts that are regenerable from results/runs/*.json summaries
+# (keep the JSON result files, ignore any scratch/log dumps)
+results/runs/*.log
+results/runs/tmp/
