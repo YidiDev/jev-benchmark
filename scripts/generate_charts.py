@@ -42,6 +42,7 @@ CHARTS_DIR = Path(__file__).resolve().parent.parent / "charts"
 COLOR = {
     "jev": "#2563EB",       # blue -- the subject
     "haiku": "#F59E0B",     # amber -- the reference LLM
+    "sonnet": "#DC2626",    # red -- the stronger reference LLM
     "openjev": "#10B981",   # green -- the free fallback
     "nli-bart": "#9CA3AF",  # grey -- baseline
     "emb-bge": "#6B7280",   # darker grey -- baseline
@@ -49,6 +50,7 @@ COLOR = {
 LABEL = {
     "jev": "Jev",
     "haiku": "Claude Haiku 4.5",
+    "sonnet": "Claude Sonnet 5",
     "openjev": "OpenJev",
     "nli-bart": "NLI (bart-large-mnli)",
     "emb-bge": "Embeddings (bge-m3)",
@@ -133,7 +135,7 @@ def chart_shuffle_control() -> None:
 # Chart 2: Part 2 -- CT1-4 vs CT5-8 overall accuracy, 3 arms
 # ---------------------------------------------------------------------------
 def chart_overall_accuracy() -> None:
-    arms = ["jev", "haiku", "openjev"]
+    arms = ["jev", "haiku", "sonnet", "openjev"]
     groups = ["CT1-4\n(original)", "CT5-8\n(hard mode)"]
 
     fig, ax = plt.subplots(figsize=(7, 5))
@@ -168,7 +170,7 @@ def chart_overall_accuracy() -> None:
 # Chart 3: CT5 arithmetic error rate, 3 arms
 # ---------------------------------------------------------------------------
 def chart_ct5_arithmetic() -> None:
-    arms = ["jev", "haiku", "openjev"]
+    arms = ["jev", "haiku", "sonnet", "openjev"]
     manifest = _manifest_index()
 
     fig, ax = plt.subplots(figsize=(6, 5))
@@ -192,7 +194,7 @@ def chart_ct5_arithmetic() -> None:
 # Chart 4: CT7 multi-hop lookup by condition -- OpenJev's isolated collapse
 # ---------------------------------------------------------------------------
 def chart_ct7_collapse() -> None:
-    arms = ["jev", "haiku", "openjev"]
+    arms = ["jev", "haiku", "sonnet", "openjev"]
     conditions = ["A", "B", "C", "SHUFFLE"]
     cond_labels = ["A: semantic", "B: opaque", "C: misleading", "SHUFFLE"]
 
@@ -227,7 +229,7 @@ def chart_ct7_collapse() -> None:
 # Chart 5: CT9 -- accuracy by chunk size k, the "smaller steps win" curve
 # ---------------------------------------------------------------------------
 def chart_ct9_k_curve() -> None:
-    arms = ["jev", "haiku", "openjev"]
+    arms = ["jev", "haiku", "sonnet", "openjev"]
     k_values = [1, 2, 5, 10]
 
     fig, ax = plt.subplots(figsize=(8, 5.5))
@@ -255,7 +257,7 @@ def chart_ct9_k_curve() -> None:
 def chart_ct10_chained_vs_whole() -> None:
     from examgrade.scoring import question_level_error
 
-    arms = ["jev", "haiku", "openjev"]
+    arms = ["jev", "haiku", "sonnet", "openjev"]
     fig, ax = plt.subplots(figsize=(7, 5))
     width = 0.35
     x = range(len(arms))
@@ -291,7 +293,7 @@ def chart_ct10_chained_vs_whole() -> None:
 # Chart 7: Calibration -- confidence gap (correct - error) across 3 tasks
 # ---------------------------------------------------------------------------
 def chart_calibration() -> None:
-    arms = ["jev", "haiku", "openjev"]
+    arms = ["jev", "haiku", "sonnet", "openjev"]
     manifest = _manifest_index()
 
     def ct5_gap(arm: str) -> float:
@@ -339,7 +341,7 @@ def chart_calibration() -> None:
 # ---------------------------------------------------------------------------
 def _arm_totals() -> dict:
     spend = spend_summarize()
-    totals = {"jev": 0.0, "haiku": 0.0, "openjev": 0.0}
+    totals = {"jev": 0.0, "haiku": 0.0, "sonnet": 0.0, "openjev": 0.0}
     for agg in spend.values():
         source = agg["source"]
         for arm in totals:
@@ -350,7 +352,7 @@ def _arm_totals() -> dict:
 
 def chart_cost() -> None:
     totals = _arm_totals()
-    arms = ["jev", "haiku", "openjev"]
+    arms = ["jev", "haiku", "sonnet", "openjev"]
     vals = [max(totals[a], 0.001) for a in arms]  # floor for log scale visibility
 
     fig, ax = plt.subplots(figsize=(6, 5))
@@ -372,21 +374,21 @@ def chart_cost_per_1000_calls() -> None:
     spend = spend_summarize()
     by_task_arm: dict[tuple[str, str], list[float]] = {}
     task_of_source = {
-        "jev_arm": "CT1-8", "haiku_arm": "CT1-8", "openjev_arm": "CT1-8",
-        "jev_arm_ct9": "CT9", "haiku_arm_ct9": "CT9", "openjev_arm_ct9": "CT9",
-        "jev_arm_ct10": "CT10", "haiku_arm_ct10": "CT10", "openjev_arm_ct10": "CT10",
+        "jev_arm": "CT1-8", "haiku_arm": "CT1-8", "sonnet_arm": "CT1-8", "openjev_arm": "CT1-8",
+        "jev_arm_ct9": "CT9", "haiku_arm_ct9": "CT9", "sonnet_arm_ct9": "CT9", "openjev_arm_ct9": "CT9",
+        "jev_arm_ct10": "CT10", "haiku_arm_ct10": "CT10", "sonnet_arm_ct10": "CT10", "openjev_arm_ct10": "CT10",
     }
     for agg in spend.values():
         source = agg["source"]
         if source not in task_of_source:
             continue
-        arm = next(a for a in ("jev", "haiku", "openjev") if source.startswith(a))
+        arm = next(a for a in ("jev", "haiku", "sonnet", "openjev") if source.startswith(a))
         task = task_of_source[source]
         per_1000 = agg["cost_usd"] / agg["calls"] * 1000
         by_task_arm[(task, arm)] = per_1000
 
     tasks = ["CT1-8", "CT9", "CT10"]
-    arms = ["jev", "haiku", "openjev"]
+    arms = ["jev", "haiku", "sonnet", "openjev"]
     fig, ax = plt.subplots(figsize=(8, 5.5))
     n_arms = len(arms)
     width = 0.8 / n_arms
@@ -413,20 +415,20 @@ def chart_cost_per_1000_calls() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Chart 10: accuracy vs. cost -- the adoption-decision quadrant chart
+# Chart 10: accuracy vs. cost -- the price/quality comparison quadrant chart
 # ---------------------------------------------------------------------------
 def chart_accuracy_vs_cost() -> None:
     # CT1-8-specific cost (not the full CT1-10 benchmark total) to match the
     # CT1-8-specific accuracy plotted alongside it.
     spend = spend_summarize()
-    ct1_8_sources = {"jev_arm", "haiku_arm", "openjev_arm"}
-    totals = {"jev": 0.0, "haiku": 0.0, "openjev": 0.0}
+    ct1_8_sources = {"jev_arm", "haiku_arm", "sonnet_arm", "openjev_arm"}
+    totals = {"jev": 0.0, "haiku": 0.0, "sonnet": 0.0, "openjev": 0.0}
     for agg in spend.values():
         if agg["source"] in ct1_8_sources:
             arm = next(a for a in totals if agg["source"].startswith(a))
             totals[arm] += agg["cost_usd"]
 
-    arms = ["jev", "haiku", "openjev"]
+    arms = ["jev", "haiku", "sonnet", "openjev"]
 
     manifest = _manifest_index()
     accs = {}
@@ -453,7 +455,7 @@ def chart_accuracy_vs_cost() -> None:
     ax.set_xlabel("Total cost, all 5,760 CT1-8 classifications (log scale, USD)  \u2192 more expensive")
     _pct(ax)
     ax.set_ylabel("CT1-8 overall accuracy  \u2191 more accurate")
-    ax.set_title("The adoption decision in one chart\nTop-left wins: cheaper AND more accurate")
+    ax.set_title("Accuracy vs. cost in one chart\nTop-left wins: cheaper AND more accurate")
     ax.set_ylim(min(accs.values()) - 0.03, 1.02)
     _style_axes(ax)
     _save(fig, "10_accuracy_vs_cost.png")
