@@ -42,7 +42,8 @@ CHARTS_DIR = Path(__file__).resolve().parent.parent / "charts"
 COLOR = {
     "jev": "#2563EB",       # blue -- the subject
     "haiku": "#F59E0B",     # amber -- the reference LLM
-    "sonnet": "#DC2626",    # red -- the stronger reference LLM
+    "sonnet": "#7C3AED",    # violet -- the stronger reference LLM (red is reserved
+                            # for chart 4's OpenJev Condition-C collapse highlight)
     "openjev": "#10B981",   # green -- the free fallback
     "nli-bart": "#9CA3AF",  # grey -- baseline
     "emb-bge": "#6B7280",   # darker grey -- baseline
@@ -173,14 +174,14 @@ def chart_ct5_arithmetic() -> None:
     arms = ["jev", "haiku", "sonnet", "openjev"]
     manifest = _manifest_index()
 
-    fig, ax = plt.subplots(figsize=(6, 5))
+    fig, ax = plt.subplots(figsize=(7.5, 5))
     error_rates = []
     for arm in arms:
         recs = [r for r in effective_records(arm) if r.clause_type == 5]
         correct = [r.predicted_folder == _truth_for(r, manifest[r.doc_id]) for r in recs]
         error_rates.append(1 - sum(correct) / len(correct))
 
-    bars = ax.bar([LABEL[a] for a in arms], error_rates, color=[COLOR[a] for a in arms], width=0.55)
+    bars = ax.bar([LABEL[a] for a in arms], error_rates, color=[COLOR[a] for a in arms], width=0.6)
     for b, v in zip(bars, error_rates):
         ax.annotate(f"{v:.1%}", (b.get_x() + b.get_width() / 2, v), ha="center", va="bottom", fontsize=10)
     _pct(ax)
@@ -191,7 +192,8 @@ def chart_ct5_arithmetic() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Chart 4: CT7 multi-hop lookup by condition -- OpenJev's isolated collapse
+# Chart 4: CT7 multi-hop lookup by condition -- OpenJev's and Sonnet's
+# isolated Condition-C collapse (misleading-but-plausible folder names)
 # ---------------------------------------------------------------------------
 def chart_ct7_collapse() -> None:
     arms = ["jev", "haiku", "sonnet", "openjev"]
@@ -219,7 +221,7 @@ def chart_ct7_collapse() -> None:
     ax.set_ylim(0, 1.08)
     _pct(ax)
     ax.set_ylabel("Accuracy")
-    ax.set_title("CT7 multi-hop lookup: OpenJev's one sharp, fully-diagnosed failure\n(identical tree scores 100% under opaque SHUFFLE -- a label-collision bug, not a rubric-reading failure)")
+    ax.set_title("CT7 multi-hop lookup: misleading names trap OpenJev AND Sonnet\n(both score 100% under opaque SHUFFLE -- a label-collision bug, not a rubric-reading failure)")
     ax.legend(frameon=False, loc="lower left")
     _style_axes(ax)
     _save(fig, "04_ct7_openjev_collapse.png")
@@ -281,7 +283,7 @@ def chart_ct10_chained_vs_whole() -> None:
     ax.set_ylabel("Grading exact-match rate (avg of with/without key)")
     ax.set_title(
         "CT10: bulk-grading accuracy by architecture\n"
-        "Jev's native multi-question call doesn't degrade in bulk mode -- Haiku/OpenJev both do",
+        "Jev's native multi-question call doesn't degrade in bulk mode -- every LLM arm does",
         fontsize=13,
     )
     ax.legend(frameon=False, loc="lower right")
@@ -355,14 +357,14 @@ def chart_cost() -> None:
     arms = ["jev", "haiku", "sonnet", "openjev"]
     vals = [max(totals[a], 0.001) for a in arms]  # floor for log scale visibility
 
-    fig, ax = plt.subplots(figsize=(6, 5))
-    bars = ax.bar([LABEL[a] for a in arms], vals, color=[COLOR[a] for a in arms], width=0.55)
+    fig, ax = plt.subplots(figsize=(7.5, 5))
+    bars = ax.bar([LABEL[a] for a in arms], vals, color=[COLOR[a] for a in arms], width=0.6)
     for b, arm in zip(bars, arms):
         label = f"${totals[arm]:.2f}" if totals[arm] >= 0.01 else "$0.00"
         ax.annotate(label, (b.get_x() + b.get_width() / 2, b.get_height()), ha="center", va="bottom", fontsize=10)
     ax.set_yscale("log")
     ax.set_ylabel("Total spend, whole benchmark (log scale, USD)")
-    ax.set_title("Cost across every test (CT1-10 combined)\nJev + OpenJev together cost less than 3% of Haiku's spend")
+    ax.set_title("Cost across every test (CT1-10 combined)\nJev + OpenJev together cost under 1% of Haiku + Sonnet's combined spend")
     _style_axes(ax)
     _save(fig, "08_cost.png")
 
@@ -440,13 +442,21 @@ def chart_accuracy_vs_cost() -> None:
     fig, ax = plt.subplots(figsize=(7.5, 6))
     for arm in arms:
         x_val = max(totals[arm], 0.001)
+        # Haiku and Sonnet land close together on both axes (similar accuracy,
+        # similar log-scale cost) -- push Sonnet's label below its point so
+        # the two annotations don't overlap; everyone else keeps the default
+        # above-point placement (Jev and OpenJev are isolated enough not to
+        # need it, and OpenJev sits too close to the axis for a below offset).
+        y_offset = -34 if arm == "sonnet" else 22
+        va = "bottom" if y_offset > 0 else "top"
         ax.scatter([x_val], [accs[arm]], s=420, color=COLOR[arm], zorder=3, edgecolor="white", linewidth=1.5)
         ax.annotate(
             f"{LABEL[arm]}\n{accs[arm]:.1%} accuracy, ${totals[arm]:.2f} total",
             (x_val, accs[arm]),
             textcoords="offset points",
-            xytext=(0, 22),
+            xytext=(0, y_offset),
             ha="center",
+            va=va,
             fontsize=10,
             fontweight="bold",
         )
