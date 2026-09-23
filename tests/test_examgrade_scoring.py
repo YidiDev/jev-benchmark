@@ -10,7 +10,7 @@ from examgrade.scoring import (
 
 
 def test_question_level_error_structure():
-    for arm in ("jev", "haiku", "openjev"):
+    for arm in ("jev", "haiku", "sonnet", "openjev"):
         rows = question_level_error(arm)
         assert len(rows) == 4  # 2 modes x 2 key conditions
         for r in rows:
@@ -20,7 +20,7 @@ def test_question_level_error_structure():
 
 
 def test_total_score_error_structure():
-    for arm in ("jev", "haiku", "openjev"):
+    for arm in ("jev", "haiku", "sonnet", "openjev"):
         rows = total_score_error(arm)
         assert len(rows) == 4
         for r in rows:
@@ -29,7 +29,7 @@ def test_total_score_error_structure():
 
 
 def test_with_vs_without_key_delta_structure():
-    for arm in ("jev", "haiku", "openjev"):
+    for arm in ("jev", "haiku", "sonnet", "openjev"):
         rows = with_vs_without_key_delta(arm)
         assert len(rows) == 2  # chained, whole_exam
         for r in rows:
@@ -37,7 +37,7 @@ def test_with_vs_without_key_delta_structure():
 
 
 def test_chained_vs_whole_exam_delta_structure():
-    for arm in ("jev", "haiku", "openjev"):
+    for arm in ("jev", "haiku", "sonnet", "openjev"):
         rows = chained_vs_whole_exam_delta(arm)
         assert len(rows) == 2  # with_key True/False
         for r in rows:
@@ -52,7 +52,7 @@ def test_jev_confidence_discriminates_errors_from_correct():
 def test_cost_latency_table_has_all_arms():
     table = cost_latency_table()
     arms = {row["arm"] for row in table}
-    assert arms == {"jev", "haiku", "openjev"}
+    assert arms == {"jev", "haiku", "sonnet", "openjev"}
     for row in table:
         assert row["n_grades"] == 12000
 

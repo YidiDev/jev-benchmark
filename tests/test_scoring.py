@@ -67,7 +67,7 @@ def test_api_arms_have_real_shuffle_predictions_not_synthesized():
 
 
 def test_overall_accuracy_structure():
-    for arm in ("jev", "haiku"):
+    for arm in ("jev", "haiku", "sonnet"):
         result = overall_accuracy(arm)
         assert result["arm"] == arm
         assert result["n"] > 0
@@ -94,7 +94,7 @@ def test_confidence_at_errors_jev_ct5_lower_than_at_correct():
 
 
 def test_calibration_report_structure():
-    for arm in ("jev", "haiku"):
+    for arm in ("jev", "haiku", "sonnet"):
         report = calibration_report(arm)
         assert report["n_validation"] > 0
         assert report["n_test"] > 0
@@ -103,7 +103,7 @@ def test_calibration_report_structure():
 
 
 def test_disagreement_bounds():
-    for arm in ("jev", "haiku", "nli-bart", "emb-bge"):
+    for arm in ("jev", "haiku", "sonnet", "nli-bart", "emb-bge"):
         result = disagreement(arm)
         assert 0.0 <= result["rate"] <= 1.0
         assert result["disagreeing_groups"] <= result["total_groups"]
