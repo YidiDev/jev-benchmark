@@ -39,7 +39,7 @@ doesn't. Read on for the receipts.
 3. [The ten test suites](#the-ten-test-suites)
 4. [Results, part by part](#results-part-by-part)
    - [Part 1 — Does Jev genuinely read the rubric?](#part-1--does-jev-genuinely-read-the-rubric)
-   - [Part 2 — Jev vs. Haiku: the adoption decision](#part-2--jev-vs-haiku-the-adoption-decision)
+   - [Part 2 — Jev vs. Haiku: head-to-head comparison](#part-2--jev-vs-haiku-head-to-head-comparison)
    - [Part 3 — OpenJev fallback viability](#part-3--openjev-fallback-viability)
    - [Part 4 — CT9: chained decision-tree execution](#part-4--ct9-chained-decision-tree-execution)
    - [Part 5 — CT10: AP World History exam grading](#part-5--ct10-ap-world-history-exam-grading)
@@ -86,7 +86,7 @@ approach turned out to be wrong and was replaced.
 | Model | What it is | Pricing (list) |
 |---|---|---|
 | **Jev** (`jev-1.13`) | TypeSafe AI's purpose-built rubric-classification model. Three primitives: `Noul` (yes/no), `Choice` (pick 1 of ≤255 options), `Score` (rate against an ordered rubric). | $0.042 / Mtok input, **output free** |
-| **Claude Haiku 4.5** | Anthropic's fast general-purpose LLM — the reference ceiling for the adoption decision. | $1 / Mtok input, $5 / Mtok output |
+| **Claude Haiku 4.5** | Anthropic's fast general-purpose LLM — the reference-ceiling comparison arm. | $1 / Mtok input, $5 / Mtok output |
 | **OpenJev** | `razorback16/openjev`, an open-weights model (DiffusionGemma 26B-A4B, Apache-2.0) that speaks Jev's exact wire API. Tested via the free-hosted [Codiv](https://codiv.ai) endpoint. | **Free** (hosted tier) |
 | NLI (bart-large-mnli) / Embeddings (bge-m3) | Standard zero-shot classification baselines — the "does it actually read the rubric" control group for Part 1. Not real contenders (they can't follow a rubric at all), included to prove the point. | Local, free |
 
@@ -128,7 +128,7 @@ matching, its accuracy under these conditions would collapse toward the NLI/embe
 **$1.06** total (one-time Sonnet 5 cost to build the 240-document corpus), Jev's own inference
 cost **$0.18** for all 2,880 classifications.
 
-### Part 2 — Jev vs. Haiku: the adoption decision
+### Part 2 — Jev vs. Haiku: head-to-head comparison
 
 <p align="center"><img src="charts/02_overall_accuracy.png" width="560"></p>
 
@@ -149,8 +149,9 @@ worse at it** (18.2%, exactly 2x). Two other predicted weaknesses (multi-hop loo
 distraction) never materialized for either model — reported as clean negative results, not
 hidden.
 
-**Decision, per the pre-registered rule in [`test-plan.md`](./test-plan.md): Jev ≥ Haiku on
-accuracy → adopt.** At ~50x lower price and equal-or-better quality, this isn't close.
+**Result, per the pre-registered comparison rule in [`test-plan.md`](./test-plan.md): Jev matches
+or exceeds Haiku on accuracy** in every scope tested, at ~50x lower price — a wide margin on both
+axes of the comparison.
 
 ### Part 3 — OpenJev fallback viability
 

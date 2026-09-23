@@ -6,7 +6,7 @@
 
 **Second question (Part 2):** Does Jev match a cheap LLM on the same rubric-based assessment? Haiku 4.5 is the floor. If Jev loses to Haiku on quality, there is no reason to evaluate more expensive models — the LLM path was already affordable for this workload.
 
-Part 1 (vs NLI) is an existence proof. Part 2 (vs Haiku) is the one that decides whether this goes into client work.
+Part 1 (vs NLI) is an existence proof. Part 2 (vs Haiku) is the harder comparison — it measures whether Jev's rubric-conditioning holds up against a capable general-purpose model, not just against a non-contender.
 
 
 Status: design only, not yet run. Drafted 2026-09-21.
@@ -62,7 +62,7 @@ Minimum ~50 documents per clause type per condition, stratified across folders.
 | `nli-bart` | `facebook/bart-large-mnli`, HF zero-shot pipeline, hypothesis `This document belongs in {folder}` | Instrument |
 | `emb-bge` | `BAAI/bge-m3`, cosine to folder description | Stronger traditional baseline |
 
-| `haiku` | `claude-haiku-4-5`, temp 0, same rubric, constrained JSON output (`{folder_id, confidence}`) | **Reference ceiling — the arm that decides adoption** |
+| `haiku` | `claude-haiku-4-5`, temp 0, same rubric, constrained JSON output (`{folder_id, confidence}`) | **Reference ceiling — the comparison arm for Part 2** |
 | `openjev` | `razorback16/openjev` (DiffusionGemma 26B-A4B, Apache-2.0, vLLM) — speaks Jev's wire API, so the SDK works unchanged | **Fallback path — is the open version good enough?** |
 
 **Note on the NLI arm.** It is here as an instrument, not a competitor. It is *expected* to fail on Conditions B and C — that failure is the finding, not a flaw in the setup. This is an ablation demonstrating a structural capability gap, not a fair fight. Do not steelman it by moving rubric clauses into the hypothesis slot; that defeats the purpose of the design.
@@ -141,17 +141,18 @@ Protocol: report ECE for each arm **both raw and after fitting one temperature c
 This is the single most decision-relevant number in the whole test for a firm that plans to keep a fallback path.
 
 
-### Decision rule for Part 2
+### Comparison framework for Part 2
 
-Set this before looking at results:
+Set this before looking at results — how to read each possible outcome, not a prescription for
+what to do about it:
 
 | Outcome | Read |
 |---|---|
-| Jev ≥ Haiku on accuracy | Adopt. Same quality at ~5x speed and a fraction of the cost is an easy call. |
+| Jev ≥ Haiku on accuracy | Same quality at ~5x speed and a fraction of the cost — a decisive result in Jev's favor. |
 
-| Jev within ~3 points of Haiku | Adopt for high-volume/latency-sensitive paths, keep Haiku for low-volume. Quantify the gap in review workload, not accuracy points — the number that matters is how many extra items land in human review per 1,000. |
-| Jev > 3 points behind, gap concentrated in type 3 | Adopt with a routing rule: Jev for descriptive/threshold clauses, LLM for relational. |
-| Jev > 3 points behind across all clause types | Stop. Do not evaluate more expensive LLMs. The cheap LLM path is good enough and already affordable. |
+| Jev within ~3 points of Haiku | Close enough that price/latency become the deciding axes rather than accuracy. Quantify the gap in review workload, not accuracy points — the number that matters is how many extra items land in human review per 1,000. |
+| Jev > 3 points behind, gap concentrated in type 3 | The gap is isolated to relational lookup, not general-purpose reasoning — a narrow, well-understood weakness rather than a broad one. |
+| Jev > 3 points behind across all clause types | The cheap LLM path outperforms broadly; no basis to evaluate more expensive LLMs on this evidence alone. |
 
 
 **Third read (openjev):** if openjev lands within a few points of hosted Jev after temperature fitting, the architecture decision changes — build against the wire API, default to hosted for convenience, keep the local server as a live fallback rather than a theoretical one. That is worth more to a consulting practice than a couple of accuracy points, because it removes single-vendor exposure from every client system built on this.

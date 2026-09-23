@@ -432,8 +432,9 @@ Anthropic budget). **User's decision: skip it.** Verbatim: "if jev did
 accepted as sound -- a clean 100% ceiling with a genuine, mechanistically-
 understood 2.34-point gap to a strong reference LLM (concentrated 82% in
 one clause type, with a specific, identified failure mode) is already a
-decisive result under test-plan.md §6's decision rule ("Jev >= Haiku on
-accuracy -> adopt"); a third model doesn't change that conclusion, and
+decisive result under test-plan.md §6's comparison framework ("Jev >= Haiku
+on accuracy" reads as a decisive result in Jev's favor); a third model
+doesn't change that conclusion, and
 $1.06 of the original $5.00 Anthropic budget remains unspent as a result.
 No Sonnet arm was built. Phase 5+ proceeds with the four arms actually
 built (jev, haiku, nli-bart, emb-bge) plus openjev once/if
@@ -487,7 +488,7 @@ validation per type, matching CT1-4); full A/B/C/SHUFFLE condition sweep
 scope** (matching Jev's 3-repeat × 4-condition scope), not skipped --
 explicitly chosen over a Jev-only or reduced-scope Haiku comparison so the
 new clause types could also speak to whether Jev's hard-mode weaknesses
-(if any) still leave it ahead of the adoption-decision reference model.
+(if any) still leave it ahead of the Part 2 comparison's reference model.
 
 Implementation follows the exact CT1-4 pattern: `rubrics/clause_specs.py`
 gained `ClauseSpec` entries for CT5-8 (including `build_multihop_fixtures()`
@@ -667,7 +668,7 @@ degrades sharply and usefully on exactly the cases it gets wrong, where
 Haiku's does not, and (c) two other a priori plausible weaknesses
 (multi-hop indirection, long-context distraction) did not materialize as
 weaknesses at all at this scale for either model. Net effect on the Part 2
-adoption decision (test-plan.md §6): unchanged from §11's conclusion --
+comparison (test-plan.md §6): unchanged from §11's conclusion --
 Jev remains ahead of Haiku on accuracy, now demonstrated on a corpus that
 was deliberately designed to break it, not just one it happened to ace.
 

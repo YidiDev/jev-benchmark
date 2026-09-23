@@ -56,7 +56,7 @@ benchmark alone cannot yet distinguish "Jev is extremely capable at this
 task" from "this corpus's hardest cases are still easy for any competent
 model" — that question is deferred to the Haiku comparison.
 
-## Part 2 — Does Jev match Haiku 4.5 on quality? (the adoption decision)
+## Part 2 — Does Jev match Haiku 4.5 on quality? (head-to-head comparison)
 
 **Answer: no, Jev beats Haiku, on both the original corpus and the
 hard-mode corpus designed to break it.** CT1-4 (full 3-repeat scope, both
@@ -156,9 +156,9 @@ provider, never touches the Anthropic budget). Haiku: 5,774 total calls,
 $9.1786 total. Full breakdown in `results/spend_ledger.jsonl` /
 `python -m harness.spend_ledger`.
 
-## Decision (per test-plan.md §6, "Decision rule for Part 2")
+## Comparison summary (per test-plan.md §6, "Comparison framework for Part 2")
 
-**Jev >= Haiku on accuracy → adopt.** True on both the original corpus
+**Jev >= Haiku on accuracy**, on both the original corpus
 (100.00% vs 97.74%) and a corpus specifically designed to find Jev's
 limits (97.67% vs 95.17% on CT5-8). Jev has exactly one real weakness
 (arithmetic near a stated threshold) — predicted in advance by the
