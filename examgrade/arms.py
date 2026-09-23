@@ -301,3 +301,27 @@ class HaikuExamArm:
 
     def __exit__(self, *exc_info: object) -> None:
         self.close()
+
+
+class SonnetExamArm(HaikuExamArm):
+    """Sonnet 5's CT10 exam-grading arm -- see `arms/sonnet.py` module
+    docstring for why this arm exists (Part 2's declined-then-revisited
+    Sonnet comparison, motivated specifically by CT10 whole-exam mode being
+    where Haiku underperformed Jev most).
+
+    All behavior inherited from `HaikuExamArm` unchanged (constants read via
+    `self.X` throughout, both `grade_question`/chained and `grade_exam`/
+    whole-exam modes) -- override-only subclass, identical prompts/tool
+    schemas, only the model differs.
+    """
+
+    name = "sonnet"
+
+    MODEL = "claude-sonnet-5"
+    PRICING_KEY = "claude-sonnet-5"
+
+    def __init__(self, model: str | None = None, spend_source: str = "sonnet_arm_ct10"):
+        super().__init__(model=model, spend_source=spend_source)
+
+    def __enter__(self) -> "SonnetExamArm":
+        return self

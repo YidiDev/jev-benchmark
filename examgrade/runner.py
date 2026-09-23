@@ -61,6 +61,10 @@ def _build_arm(name: str):
         from examgrade.arms import OpenJevExamArm
 
         return OpenJevExamArm()
+    if name == "sonnet":
+        from examgrade.arms import SonnetExamArm
+
+        return SonnetExamArm()
     raise ValueError(f"unknown CT10 arm {name!r}")
 
 
@@ -164,7 +168,7 @@ def run(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev"])
+    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet"])
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--modes", nargs="+", choices=["chained", "whole_exam"], default=None)
     args = parser.parse_args()

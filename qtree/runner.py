@@ -51,6 +51,10 @@ def _build_arm(name: str):
         from qtree.arms import OpenJevChunkArm
 
         return OpenJevChunkArm()
+    if name == "sonnet":
+        from qtree.arms import SonnetChunkArm
+
+        return SonnetChunkArm()
     raise ValueError(f"unknown CT9 arm {name!r}")
 
 
@@ -154,7 +158,7 @@ def run(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev"])
+    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet"])
     parser.add_argument("--limit", type=int, default=None, help="limit to first N manifest rows (debug)")
     parser.add_argument("--repeats", type=int, default=None, help="override REPEATS (debug)")
     parser.add_argument("--k", type=int, nargs="+", default=None, help="restrict to specific k values, e.g. --k 10")

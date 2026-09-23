@@ -239,3 +239,25 @@ class HaikuChunkArm:
 
     def __exit__(self, *exc_info: object) -> None:
         self.close()
+
+
+class SonnetChunkArm(HaikuChunkArm):
+    """Sonnet 5's CT9 chunk arm -- see `arms/sonnet.py` module docstring for why
+    this arm exists (Part 2's declined-then-revisited Sonnet comparison).
+
+    All behavior inherited from `HaikuChunkArm` unchanged (constants are read
+    via `self.X` throughout that class, so this override-only subclass is
+    exactly identical in prompt shape, tool schema, and chaining behavior --
+    the only difference is which model answers).
+    """
+
+    name = "sonnet"
+
+    MODEL = "claude-sonnet-5"
+    PRICING_KEY = "claude-sonnet-5"
+
+    def __init__(self, model: str | None = None, spend_source: str = "sonnet_arm_ct9"):
+        super().__init__(model=model, spend_source=spend_source)
+
+    def __enter__(self) -> "SonnetChunkArm":
+        return self

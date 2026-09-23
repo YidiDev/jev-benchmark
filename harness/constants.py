@@ -99,6 +99,16 @@ PRICING = {
 # is $50") after a ~$20-30 cost projection with overshoot margin. OpenJev
 # (arms/openjev.py, qtree's OpenJev chunk arm, examgrade's OpenJev arm) is
 # a free Codiv-hosted tier and does not draw against this budget at all.
+# Raised again to $110.00 (see methodology.md §15) to fund a Sonnet 5 arm
+# across CT1-8/CT9/CT10 -- full scope, matching Haiku's exact repeat/grid
+# structure, revisiting the earlier decline of a Sonnet comparison
+# (§11/§12) now that CT9/CT10 show Haiku underperforming Jev by a wider,
+# more structurally interesting margin than CT1-8 ever did. Explicit user
+# approval ("go for it all" + confirmed scope/budget via question prompt:
+# full scope, $110 ceiling, matching Haiku's grid) after a ~$59.34
+# cost projection derived directly from Haiku's own logged token totals
+# (claude-sonnet-5 is priced at exactly 2x claude-haiku-4-5's per-token
+# rate, so 2x Haiku's actual per-task-family spend is a tight estimate).
 # Ledger-enforced in harness/spend_ledger.py.
-ANTHROPIC_BUDGET_USD = 50.00
-ANTHROPIC_WARN_USD = 47.00  # stop and ask before crossing this
+ANTHROPIC_BUDGET_USD = 110.00
+ANTHROPIC_WARN_USD = 105.00  # stop and ask before crossing this

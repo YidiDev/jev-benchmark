@@ -31,9 +31,9 @@ ARMS_SYNTHESIZE_SHUFFLE_FROM_B = {"nli-bart", "emb-bge"}
 # Arms whose `confidence` is a genuine per-call estimate worth calibrating.
 # nli-bart/emb-bge's confidence-like scores are documented as uncalibrated
 # in their own modules (temperature-1 softmax over raw scores) and excluded.
-CALIBRATION_ARMS = {"jev", "haiku", "openjev"}
+CALIBRATION_ARMS = {"jev", "haiku", "openjev", "sonnet"}
 
-ALL_KNOWN_ARMS = ("jev", "haiku", "nli-bart", "emb-bge", "openjev")
+ALL_KNOWN_ARMS = ("jev", "haiku", "nli-bart", "emb-bge", "openjev", "sonnet")
 
 
 def _manifest_index() -> dict[str, DocumentMetadata]:
@@ -192,7 +192,7 @@ def cost_latency_table() -> list[dict]:
     """Actual logged latency + spend per arm -- real numbers, not list
     price, per test-plan.md's cost/latency requirement."""
     spend_by_source = summarize_spend()
-    source_for_arm = {"jev": "jev_arm", "haiku": "haiku_arm", "openjev": "openjev_arm"}
+    source_for_arm = {"jev": "jev_arm", "haiku": "haiku_arm", "openjev": "openjev_arm", "sonnet": "sonnet_arm"}
 
     out = []
     for arm in ALL_KNOWN_ARMS:

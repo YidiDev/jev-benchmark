@@ -85,6 +85,10 @@ def _build_arm(name: str):
         from arms.openjev import OpenJevArm
 
         return OpenJevArm()
+    if name == "sonnet":
+        from arms.sonnet import SonnetArm
+
+        return SonnetArm()
     raise ValueError(f"unknown API arm {name!r} (nli-bart/emb-bge use scripts.run_arm)")
 
 
@@ -164,7 +168,7 @@ def run(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev"])
+    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet"])
     parser.add_argument("--limit", type=int, default=None, help="limit to first N manifest rows (debug)")
     parser.add_argument("--repeats", type=int, default=None, help="override REPEATS (debug)")
     parser.add_argument("--split", choices=["validation", "test"], default=None, help="restrict to one split")
