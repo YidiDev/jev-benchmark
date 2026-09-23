@@ -5,7 +5,8 @@
       "haiku",
       "nli-bart",
       "emb-bge",
-      "openjev"
+      "openjev",
+      "sonnet"
     ],
     "accuracy": {
       "jev": [
@@ -1617,6 +1618,328 @@
           "ci_lo": 1.0,
           "ci_hi": 1.0
         }
+      ],
+      "sonnet": [
+        {
+          "arm": "sonnet",
+          "clause_type": 1,
+          "condition": "A",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 1,
+          "condition": "B",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 1,
+          "condition": "C",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 1,
+          "condition": "SHUFFLE",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 2,
+          "condition": "A",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 2,
+          "condition": "B",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 2,
+          "condition": "C",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 2,
+          "condition": "SHUFFLE",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 3,
+          "condition": "A",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 3,
+          "condition": "B",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 3,
+          "condition": "C",
+          "n": 180,
+          "correct": 177,
+          "accuracy": 0.9833333333333333,
+          "ci_lo": 0.9611111111111111,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 3,
+          "condition": "SHUFFLE",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 4,
+          "condition": "A",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 4,
+          "condition": "B",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 4,
+          "condition": "C",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 4,
+          "condition": "SHUFFLE",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 5,
+          "condition": "A",
+          "n": 180,
+          "correct": 155,
+          "accuracy": 0.8611111111111112,
+          "ci_lo": 0.8055555555555556,
+          "ci_hi": 0.9111111111111111
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 5,
+          "condition": "B",
+          "n": 180,
+          "correct": 162,
+          "accuracy": 0.9,
+          "ci_lo": 0.8555555555555555,
+          "ci_hi": 0.9444444444444444
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 5,
+          "condition": "C",
+          "n": 180,
+          "correct": 150,
+          "accuracy": 0.8333333333333334,
+          "ci_lo": 0.7777777777777778,
+          "ci_hi": 0.8833333333333333
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 5,
+          "condition": "SHUFFLE",
+          "n": 180,
+          "correct": 154,
+          "accuracy": 0.8555555555555555,
+          "ci_lo": 0.8055555555555556,
+          "ci_hi": 0.9055555555555556
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 6,
+          "condition": "A",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 6,
+          "condition": "B",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 6,
+          "condition": "C",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 6,
+          "condition": "SHUFFLE",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 7,
+          "condition": "A",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 7,
+          "condition": "B",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 7,
+          "condition": "C",
+          "n": 180,
+          "correct": 62,
+          "accuracy": 0.34444444444444444,
+          "ci_lo": 0.2777777777777778,
+          "ci_hi": 0.4166666666666667
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 7,
+          "condition": "SHUFFLE",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 8,
+          "condition": "A",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 8,
+          "condition": "B",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 8,
+          "condition": "C",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 8,
+          "condition": "SHUFFLE",
+          "n": 180,
+          "correct": 180,
+          "accuracy": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0
+        }
       ]
     },
     "overall_accuracy": {
@@ -1659,6 +1982,14 @@
         "accuracy": 0.9628472222222222,
         "ci_lo": 0.9579861111111111,
         "ci_hi": 0.9677083333333333
+      },
+      "sonnet": {
+        "arm": "sonnet",
+        "n": 5760,
+        "correct": 5540,
+        "accuracy": 0.9618055555555556,
+        "ci_lo": 0.9569444444444445,
+        "ci_hi": 0.9668402777777778
       }
     },
     "shuffle_delta": {
@@ -1951,6 +2282,64 @@
           "shuffle_accuracy": 1.0,
           "delta": -0.005555555555555536
         }
+      ],
+      "sonnet": [
+        {
+          "arm": "sonnet",
+          "clause_type": 1,
+          "b_accuracy": 1.0,
+          "shuffle_accuracy": 1.0,
+          "delta": 0.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 2,
+          "b_accuracy": 1.0,
+          "shuffle_accuracy": 1.0,
+          "delta": 0.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 3,
+          "b_accuracy": 1.0,
+          "shuffle_accuracy": 1.0,
+          "delta": 0.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 4,
+          "b_accuracy": 1.0,
+          "shuffle_accuracy": 1.0,
+          "delta": 0.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 5,
+          "b_accuracy": 0.9,
+          "shuffle_accuracy": 0.8555555555555555,
+          "delta": 0.04444444444444451
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 6,
+          "b_accuracy": 1.0,
+          "shuffle_accuracy": 1.0,
+          "delta": 0.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 7,
+          "b_accuracy": 1.0,
+          "shuffle_accuracy": 1.0,
+          "delta": 0.0
+        },
+        {
+          "arm": "sonnet",
+          "clause_type": 8,
+          "b_accuracy": 1.0,
+          "shuffle_accuracy": 1.0,
+          "delta": 0.0
+        }
       ]
     },
     "confidence_at_errors": {
@@ -2028,6 +2417,21 @@
           "min": 7.00335411885078e-09,
           "max": 0.9999297869680972
         }
+      },
+      "sonnet": {
+        "arm": "sonnet",
+        "at_errors": {
+          "n": 220,
+          "mean": 0.9520454545454545,
+          "min": 0.55,
+          "max": 0.98
+        },
+        "at_correct": {
+          "n": 5540,
+          "mean": 0.9662220216606499,
+          "min": 0.6,
+          "max": 1.0
+        }
       }
     },
     "calibration": {
@@ -2054,6 +2458,14 @@
         "raw_ece": 0.07950098233076475,
         "fitted_temperature": 0.5,
         "fitted_ece": 0.05140461162227801
+      },
+      "sonnet": {
+        "arm": "sonnet",
+        "n_validation": 960,
+        "n_test": 4800,
+        "raw_ece": 0.014062499999999981,
+        "fitted_temperature": 0.9999999999999999,
+        "fitted_ece": 0.014062462291666602
       }
     },
     "disagreement": {
@@ -2086,6 +2498,12 @@
         "total_groups": 1920,
         "disagreeing_groups": 16,
         "rate": 0.008333333333333333
+      },
+      "sonnet": {
+        "arm": "sonnet",
+        "total_groups": 1920,
+        "disagreeing_groups": 25,
+        "rate": 0.013020833333333334
       }
     },
     "cost_latency": [
@@ -2133,6 +2551,15 @@
         "total_output_tokens": 0,
         "total_cost_usd": 0.0,
         "cost_per_doc_usd": 0.0
+      },
+      {
+        "arm": "sonnet",
+        "n_predictions": 5760,
+        "avg_latency_ms": 1482.244393116838,
+        "total_input_tokens": 8538132,
+        "total_output_tokens": 365576,
+        "total_cost_usd": 20.732023999999992,
+        "cost_per_doc_usd": 0.003599309722222221
       }
     ]
   },
@@ -2140,7 +2567,8 @@
     "arms": [
       "jev",
       "haiku",
-      "openjev"
+      "openjev",
+      "sonnet"
     ],
     "end_to_end_accuracy": {
       "jev": [
@@ -2298,6 +2726,58 @@
           "ci_lo": 0.1,
           "ci_hi": 0.2111111111111111
         }
+      ],
+      "sonnet": [
+        {
+          "arm": "sonnet",
+          "k": 1,
+          "labeling": "semantic",
+          "n": 180,
+          "correct": 156,
+          "accuracy": 0.8666666666666667,
+          "ci_lo": 0.8166666666666667,
+          "ci_hi": 0.9166666666666666
+        },
+        {
+          "arm": "sonnet",
+          "k": 2,
+          "labeling": "semantic",
+          "n": 180,
+          "correct": 104,
+          "accuracy": 0.5777777777777777,
+          "ci_lo": 0.5055555555555555,
+          "ci_hi": 0.6501388888888882
+        },
+        {
+          "arm": "sonnet",
+          "k": 5,
+          "labeling": "semantic",
+          "n": 180,
+          "correct": 54,
+          "accuracy": 0.3,
+          "ci_lo": 0.22777777777777777,
+          "ci_hi": 0.36666666666666664
+        },
+        {
+          "arm": "sonnet",
+          "k": 10,
+          "labeling": "opaque",
+          "n": 180,
+          "correct": 41,
+          "accuracy": 0.22777777777777777,
+          "ci_lo": 0.16666666666666666,
+          "ci_hi": 0.29444444444444445
+        },
+        {
+          "arm": "sonnet",
+          "k": 10,
+          "labeling": "semantic",
+          "n": 180,
+          "correct": 41,
+          "accuracy": 0.22777777777777777,
+          "ci_lo": 0.16666666666666666,
+          "ci_hi": 0.28888888888888886
+        }
       ]
     },
     "local_step_accuracy": {
@@ -2413,6 +2893,44 @@
           "accuracy": 0.18055555555555555,
           "ci_lo": 0.14166666666666666,
           "ci_hi": 0.2222222222222222
+        }
+      ],
+      "sonnet": [
+        {
+          "arm": "sonnet",
+          "k": 1,
+          "n": 1800,
+          "correct": 1766,
+          "accuracy": 0.9811111111111112,
+          "ci_lo": 0.9744444444444444,
+          "ci_hi": 0.9872222222222222
+        },
+        {
+          "arm": "sonnet",
+          "k": 2,
+          "n": 900,
+          "correct": 796,
+          "accuracy": 0.8844444444444445,
+          "ci_lo": 0.8622222222222222,
+          "ci_hi": 0.9044444444444445
+        },
+        {
+          "arm": "sonnet",
+          "k": 5,
+          "n": 360,
+          "correct": 175,
+          "accuracy": 0.4861111111111111,
+          "ci_lo": 0.4361111111111111,
+          "ci_hi": 0.5388888888888889
+        },
+        {
+          "arm": "sonnet",
+          "k": 10,
+          "n": 360,
+          "correct": 82,
+          "accuracy": 0.22777777777777777,
+          "ci_lo": 0.18611111111111112,
+          "ci_hi": 0.2722222222222222
         }
       ]
     },
@@ -2557,6 +3075,53 @@
           "end_to_end_accuracy": 0.15555555555555556,
           "all_local_correct_but_final_wrong": 0
         }
+      ],
+      "sonnet": [
+        {
+          "arm": "sonnet",
+          "k": 1,
+          "labeling": "semantic",
+          "n": 180,
+          "all_local_correct_rate": 0.85,
+          "end_to_end_accuracy": 0.8666666666666667,
+          "all_local_correct_but_final_wrong": 0
+        },
+        {
+          "arm": "sonnet",
+          "k": 2,
+          "labeling": "semantic",
+          "n": 180,
+          "all_local_correct_rate": 0.5222222222222223,
+          "end_to_end_accuracy": 0.5777777777777777,
+          "all_local_correct_but_final_wrong": 0
+        },
+        {
+          "arm": "sonnet",
+          "k": 5,
+          "labeling": "semantic",
+          "n": 180,
+          "all_local_correct_rate": 0.2111111111111111,
+          "end_to_end_accuracy": 0.3,
+          "all_local_correct_but_final_wrong": 0
+        },
+        {
+          "arm": "sonnet",
+          "k": 10,
+          "labeling": "opaque",
+          "n": 180,
+          "all_local_correct_rate": 0.22777777777777777,
+          "end_to_end_accuracy": 0.22777777777777777,
+          "all_local_correct_but_final_wrong": 0
+        },
+        {
+          "arm": "sonnet",
+          "k": 10,
+          "labeling": "semantic",
+          "n": 180,
+          "all_local_correct_rate": 0.22777777777777777,
+          "end_to_end_accuracy": 0.22777777777777777,
+          "all_local_correct_but_final_wrong": 0
+        }
       ]
     },
     "confidence_at_local_errors": {
@@ -2591,6 +3156,17 @@
         "at_local_correct": {
           "n": 2188,
           "mean": 0.7022063573819106
+        }
+      },
+      "sonnet": {
+        "arm": "sonnet",
+        "at_local_errors": {
+          "n": 601,
+          "mean": 0.9406988352745425
+        },
+        "at_local_correct": {
+          "n": 2819,
+          "mean": 0.9800922312876907
         }
       }
     },
@@ -2642,6 +3218,22 @@
           "disagreeing": 1,
           "rate": 0.016666666666666666
         }
+      },
+      "sonnet": {
+        "semantic": {
+          "arm": "sonnet",
+          "labeling": "semantic",
+          "total_forms": 60,
+          "disagreeing": 2,
+          "rate": 0.03333333333333333
+        },
+        "opaque": {
+          "arm": "sonnet",
+          "labeling": "opaque",
+          "total_forms": 60,
+          "disagreeing": 12,
+          "rate": 0.2
+        }
       }
     }
   },
@@ -2649,7 +3241,8 @@
     "arms": [
       "jev",
       "haiku",
-      "openjev"
+      "openjev",
+      "sonnet"
     ],
     "question_level_error": {
       "jev": [
@@ -2777,6 +3370,48 @@
           "exact_match_ci_lo": 0.552,
           "exact_match_ci_hi": 0.587
         }
+      ],
+      "sonnet": [
+        {
+          "arm": "sonnet",
+          "mode": "chained",
+          "with_key": false,
+          "n": 3000,
+          "mae": 0.17933333333333334,
+          "exact_match_rate": 0.83,
+          "exact_match_ci_lo": 0.8169916666666667,
+          "exact_match_ci_hi": 0.8436666666666667
+        },
+        {
+          "arm": "sonnet",
+          "mode": "chained",
+          "with_key": true,
+          "n": 3000,
+          "mae": 0.039,
+          "exact_match_rate": 0.9613333333333334,
+          "exact_match_ci_lo": 0.9543333333333334,
+          "exact_match_ci_hi": 0.9683333333333334
+        },
+        {
+          "arm": "sonnet",
+          "mode": "whole_exam",
+          "with_key": false,
+          "n": 3000,
+          "mae": 0.5706666666666667,
+          "exact_match_rate": 0.4713333333333333,
+          "exact_match_ci_lo": 0.454,
+          "exact_match_ci_hi": 0.4896749999999999
+        },
+        {
+          "arm": "sonnet",
+          "mode": "whole_exam",
+          "with_key": true,
+          "n": 3000,
+          "mae": 0.442,
+          "exact_match_rate": 0.5996666666666667,
+          "exact_match_ci_lo": 0.5816583333333334,
+          "exact_match_ci_hi": 0.617
+        }
       ]
     },
     "total_score_error": {
@@ -2869,6 +3504,36 @@
           "n_students": 100,
           "total_score_mae": 10.79
         }
+      ],
+      "sonnet": [
+        {
+          "arm": "sonnet",
+          "mode": "chained",
+          "with_key": false,
+          "n_students": 100,
+          "total_score_mae": 3.3
+        },
+        {
+          "arm": "sonnet",
+          "mode": "chained",
+          "with_key": true,
+          "n_students": 100,
+          "total_score_mae": 0.93
+        },
+        {
+          "arm": "sonnet",
+          "mode": "whole_exam",
+          "with_key": false,
+          "n_students": 100,
+          "total_score_mae": 16.44
+        },
+        {
+          "arm": "sonnet",
+          "mode": "whole_exam",
+          "with_key": true,
+          "n_students": 100,
+          "total_score_mae": 12.78
+        }
       ]
     },
     "with_vs_without_key_delta": {
@@ -2918,6 +3583,22 @@
           "exact_match_with_key": 0.57,
           "exact_match_without_key": 0.5766666666666667,
           "delta": -0.00666666666666671
+        }
+      ],
+      "sonnet": [
+        {
+          "arm": "sonnet",
+          "mode": "chained",
+          "exact_match_with_key": 0.9613333333333334,
+          "exact_match_without_key": 0.83,
+          "delta": 0.1313333333333334
+        },
+        {
+          "arm": "sonnet",
+          "mode": "whole_exam",
+          "exact_match_with_key": 0.5996666666666667,
+          "exact_match_without_key": 0.4713333333333333,
+          "delta": 0.12833333333333335
         }
       ]
     },
@@ -2969,6 +3650,22 @@
           "exact_match_whole_exam": 0.5766666666666667,
           "delta": 0.15400000000000003
         }
+      ],
+      "sonnet": [
+        {
+          "arm": "sonnet",
+          "with_key": true,
+          "exact_match_chained": 0.9613333333333334,
+          "exact_match_whole_exam": 0.5996666666666667,
+          "delta": 0.3616666666666667
+        },
+        {
+          "arm": "sonnet",
+          "with_key": false,
+          "exact_match_chained": 0.83,
+          "exact_match_whole_exam": 0.4713333333333333,
+          "delta": 0.35866666666666663
+        }
       ]
     },
     "confidence_at_errors_chained": {
@@ -3007,6 +3704,18 @@
           "n": 4563,
           "mean": 0.8725686011775703
         }
+      },
+      "sonnet": {
+        "arm": "sonnet",
+        "mode": "chained",
+        "at_errors": {
+          "n": 626,
+          "mean": 0.8390894568690096
+        },
+        "at_correct": {
+          "n": 5374,
+          "mean": 0.9093226646818012
+        }
       }
     },
     "cost_latency": [
@@ -3030,6 +3739,13 @@
         "avg_latency_ms": 237.92734023730736,
         "total_input_tokens": 5279164,
         "total_output_tokens": 0
+      },
+      {
+        "arm": "sonnet",
+        "n_grades": 12000,
+        "avg_latency_ms": 700.844953611827,
+        "total_input_tokens": 9454260,
+        "total_output_tokens": 390238
       }
     ]
   },
@@ -3154,8 +3870,38 @@
         "calls": 6202,
         "cache_creation_tokens": 0,
         "cache_read_tokens": 0
+      },
+      "sonnet_arm::claude-sonnet-5": {
+        "source": "sonnet_arm",
+        "model": "claude-sonnet-5",
+        "input_tokens": 8538132,
+        "output_tokens": 365576,
+        "cost_usd": 20.732023999999992,
+        "calls": 5760,
+        "cache_creation_tokens": 0,
+        "cache_read_tokens": 0
+      },
+      "sonnet_arm_ct9::claude-sonnet-5": {
+        "source": "sonnet_arm_ct9",
+        "model": "claude-sonnet-5",
+        "input_tokens": 11235144,
+        "output_tokens": 207940,
+        "cost_usd": 24.54968800000019,
+        "calls": 3420,
+        "cache_creation_tokens": 0,
+        "cache_read_tokens": 0
+      },
+      "sonnet_arm_ct10::claude-sonnet-5": {
+        "source": "sonnet_arm_ct10",
+        "model": "claude-sonnet-5",
+        "input_tokens": 9454200,
+        "output_tokens": 390851,
+        "cost_usd": 22.816909999999954,
+        "calls": 6200,
+        "cache_creation_tokens": 0,
+        "cache_read_tokens": 0
       }
     },
-    "anthropic_cumulative_usd": 41.26054400000013
+    "anthropic_cumulative_usd": 109.35916599999945
   }
 }

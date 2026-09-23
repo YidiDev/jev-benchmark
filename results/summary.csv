@@ -159,11 +159,44 @@ ct1_8,openjev,accuracy,8,A,,,1.0,180,"ci=[1.0000,1.0000]"
 ct1_8,openjev,accuracy,8,B,,,0.9944444444444445,180,"ci=[0.9833,1.0000]"
 ct1_8,openjev,accuracy,8,C,,,1.0,180,"ci=[1.0000,1.0000]"
 ct1_8,openjev,accuracy,8,SHUFFLE,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,1,A,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,1,B,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,1,C,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,1,SHUFFLE,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,2,A,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,2,B,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,2,C,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,2,SHUFFLE,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,3,A,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,3,B,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,3,C,,,0.9833333333333333,180,"ci=[0.9611,1.0000]"
+ct1_8,sonnet,accuracy,3,SHUFFLE,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,4,A,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,4,B,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,4,C,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,4,SHUFFLE,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,5,A,,,0.8611111111111112,180,"ci=[0.8056,0.9111]"
+ct1_8,sonnet,accuracy,5,B,,,0.9,180,"ci=[0.8556,0.9444]"
+ct1_8,sonnet,accuracy,5,C,,,0.8333333333333334,180,"ci=[0.7778,0.8833]"
+ct1_8,sonnet,accuracy,5,SHUFFLE,,,0.8555555555555555,180,"ci=[0.8056,0.9056]"
+ct1_8,sonnet,accuracy,6,A,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,6,B,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,6,C,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,6,SHUFFLE,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,7,A,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,7,B,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,7,C,,,0.34444444444444444,180,"ci=[0.2778,0.4167]"
+ct1_8,sonnet,accuracy,7,SHUFFLE,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,8,A,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,8,B,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,8,C,,,1.0,180,"ci=[1.0000,1.0000]"
+ct1_8,sonnet,accuracy,8,SHUFFLE,,,1.0,180,"ci=[1.0000,1.0000]"
 ct1_8,jev,overall_accuracy,,,,,0.9883680555555555,5760,"ci=[0.9856,0.9910]"
 ct1_8,haiku,overall_accuracy,,,,,0.9645833333333333,5760,"ci=[0.9597,0.9694]"
 ct1_8,nli-bart,overall_accuracy,,,,,0.4395833333333333,1920,"ci=[0.4182,0.4610]"
 ct1_8,emb-bge,overall_accuracy,,,,,0.42916666666666664,1920,"ci=[0.4068,0.4510]"
 ct1_8,openjev,overall_accuracy,,,,,0.9628472222222222,5760,"ci=[0.9580,0.9677]"
+ct1_8,sonnet,overall_accuracy,,,,,0.9618055555555556,5760,"ci=[0.9569,0.9668]"
 ct1_8,jev,shuffle_delta,1,,,,0.0,,b=1.0000 shuffle=1.0000
 ct1_8,jev,shuffle_delta,2,,,,0.0,,b=1.0000 shuffle=1.0000
 ct1_8,jev,shuffle_delta,3,,,,0.0,,b=1.0000 shuffle=1.0000
@@ -204,12 +237,22 @@ ct1_8,openjev,shuffle_delta,5,,,,-0.02777777777777779,,b=0.8889 shuffle=0.9167
 ct1_8,openjev,shuffle_delta,6,,,,0.01666666666666672,,b=1.0000 shuffle=0.9833
 ct1_8,openjev,shuffle_delta,7,,,,0.0,,b=1.0000 shuffle=1.0000
 ct1_8,openjev,shuffle_delta,8,,,,-0.005555555555555536,,b=0.9944 shuffle=1.0000
+ct1_8,sonnet,shuffle_delta,1,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,sonnet,shuffle_delta,2,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,sonnet,shuffle_delta,3,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,sonnet,shuffle_delta,4,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,sonnet,shuffle_delta,5,,,,0.04444444444444451,,b=0.9000 shuffle=0.8556
+ct1_8,sonnet,shuffle_delta,6,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,sonnet,shuffle_delta,7,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,sonnet,shuffle_delta,8,,,,0.0,,b=1.0000 shuffle=1.0000
 ct1_8,jev,raw_ece,,,,,0.0331375000000001,4800,
 ct1_8,jev,fitted_ece,,,,,0.01116817920359478,4800,T=0.20
 ct1_8,haiku,raw_ece,,,,,0.00981666666666664,4800,
 ct1_8,haiku,fitted_ece,,,,,0.009816493541666613,4800,T=1.00
 ct1_8,openjev,raw_ece,,,,,0.07950098233076475,4800,
 ct1_8,openjev,fitted_ece,,,,,0.05140461162227801,4800,T=0.50
+ct1_8,sonnet,raw_ece,,,,,0.014062499999999981,4800,
+ct1_8,sonnet,fitted_ece,,,,,0.014062462291666602,4800,T=1.00
 ct1_8,jev,confidence_at_errors,,,,,0.43343283582089553,67,
 ct1_8,jev,confidence_at_correct,,,,,0.9597049007553136,5693,
 ct1_8,haiku,confidence_at_errors,,,,,0.9760294117647058,204,
@@ -220,11 +263,14 @@ ct1_8,emb-bge,confidence_at_errors,,,,,0.4181818207793862,1096,
 ct1_8,emb-bge,confidence_at_correct,,,,,0.44287417630113446,824,
 ct1_8,openjev,confidence_at_errors,,,,,0.39582828646815316,214,
 ct1_8,openjev,confidence_at_correct,,,,,0.9009064506859213,5546,
+ct1_8,sonnet,confidence_at_errors,,,,,0.9520454545454545,220,
+ct1_8,sonnet,confidence_at_correct,,,,,0.9662220216606499,5540,
 ct1_8,jev,disagreement_rate,,,,,0.0026041666666666665,1920,
 ct1_8,haiku,disagreement_rate,,,,,0.014583333333333334,1920,
 ct1_8,nli-bart,disagreement_rate,,,,,0.0,1920,
 ct1_8,emb-bge,disagreement_rate,,,,,0.0,1920,
 ct1_8,openjev,disagreement_rate,,,,,0.008333333333333333,1920,
+ct1_8,sonnet,disagreement_rate,,,,,0.013020833333333334,1920,
 ct1_8,jev,avg_latency_ms,,,,,193.6854251595125,5760,
 ct1_8,jev,total_cost_usd,,,,,0.18093978000000052,5760,per_doc=$0.000031
 ct1_8,haiku,avg_latency_ms,,,,,762.9404713714798,5760,
@@ -235,6 +281,8 @@ ct1_8,emb-bge,avg_latency_ms,,,,,66.53671333543672,1440,
 ct1_8,emb-bge,total_cost_usd,,,,,0.0,1440,per_doc=$0.000000
 ct1_8,openjev,avg_latency_ms,,,,,607.1860606630758,5760,
 ct1_8,openjev,total_cost_usd,,,,,0.0,5760,per_doc=$0.000000
+ct1_8,sonnet,avg_latency_ms,,,,,1482.244393116838,5760,
+ct1_8,sonnet,total_cost_usd,,,,,20.732023999999992,5760,per_doc=$0.003599
 ct9,jev,end_to_end_accuracy,,,1,semantic,0.75,180,"ci=[0.6889,0.8167]"
 ct9,jev,end_to_end_accuracy,,,2,semantic,0.7111111111111111,180,"ci=[0.6444,0.7778]"
 ct9,jev,end_to_end_accuracy,,,5,semantic,0.3111111111111111,180,"ci=[0.2389,0.3778]"
@@ -250,6 +298,11 @@ ct9,openjev,end_to_end_accuracy,,,2,semantic,0.25555555555555554,180,"ci=[0.1944
 ct9,openjev,end_to_end_accuracy,,,5,semantic,0.19444444444444445,180,"ci=[0.1389,0.2556]"
 ct9,openjev,end_to_end_accuracy,,,10,opaque,0.20555555555555555,180,"ci=[0.1500,0.2667]"
 ct9,openjev,end_to_end_accuracy,,,10,semantic,0.15555555555555556,180,"ci=[0.1000,0.2111]"
+ct9,sonnet,end_to_end_accuracy,,,1,semantic,0.8666666666666667,180,"ci=[0.8167,0.9167]"
+ct9,sonnet,end_to_end_accuracy,,,2,semantic,0.5777777777777777,180,"ci=[0.5056,0.6501]"
+ct9,sonnet,end_to_end_accuracy,,,5,semantic,0.3,180,"ci=[0.2278,0.3667]"
+ct9,sonnet,end_to_end_accuracy,,,10,opaque,0.22777777777777777,180,"ci=[0.1667,0.2944]"
+ct9,sonnet,end_to_end_accuracy,,,10,semantic,0.22777777777777777,180,"ci=[0.1667,0.2889]"
 ct9,jev,local_step_accuracy,,,1,,0.96,1800,"ci=[0.9511,0.9683]"
 ct9,jev,local_step_accuracy,,,2,,0.9211111111111111,900,"ci=[0.9033,0.9389]"
 ct9,jev,local_step_accuracy,,,5,,0.48333333333333334,360,"ci=[0.4333,0.5333]"
@@ -262,18 +315,26 @@ ct9,openjev,local_step_accuracy,,,1,,0.855,1800,"ci=[0.8389,0.8711]"
 ct9,openjev,local_step_accuracy,,,2,,0.5033333333333333,900,"ci=[0.4711,0.5367]"
 ct9,openjev,local_step_accuracy,,,5,,0.3638888888888889,360,"ci=[0.3139,0.4139]"
 ct9,openjev,local_step_accuracy,,,10,,0.18055555555555555,360,"ci=[0.1417,0.2222]"
+ct9,sonnet,local_step_accuracy,,,1,,0.9811111111111112,1800,"ci=[0.9744,0.9872]"
+ct9,sonnet,local_step_accuracy,,,2,,0.8844444444444445,900,"ci=[0.8622,0.9044]"
+ct9,sonnet,local_step_accuracy,,,5,,0.4861111111111111,360,"ci=[0.4361,0.5389]"
+ct9,sonnet,local_step_accuracy,,,10,,0.22777777777777777,360,"ci=[0.1861,0.2722]"
 ct9,jev,confidence_at_local_errors,,,,,0.3996,575,
 ct9,jev,confidence_at_local_correct,,,,,0.8854586994727592,2845,
 ct9,haiku,confidence_at_local_errors,,,,,0.928,740,
 ct9,haiku,confidence_at_local_correct,,,,,0.9764626865671642,2680,
 ct9,openjev,confidence_at_local_errors,,,,,0.4844919086017872,1232,
 ct9,openjev,confidence_at_local_correct,,,,,0.7022063573819106,2188,
+ct9,sonnet,confidence_at_local_errors,,,,,0.9406988352745425,601,
+ct9,sonnet,confidence_at_local_correct,,,,,0.9800922312876907,2819,
 ct9,jev,disagreement_at_k10,,,10,semantic,0.08333333333333333,60,
 ct9,jev,disagreement_at_k10,,,10,opaque,0.1,60,
 ct9,haiku,disagreement_at_k10,,,10,semantic,0.0,60,
 ct9,haiku,disagreement_at_k10,,,10,opaque,0.0,60,
 ct9,openjev,disagreement_at_k10,,,10,semantic,0.13333333333333333,60,
 ct9,openjev,disagreement_at_k10,,,10,opaque,0.016666666666666666,60,
+ct9,sonnet,disagreement_at_k10,,,10,semantic,0.03333333333333333,60,
+ct9,sonnet,disagreement_at_k10,,,10,opaque,0.2,60,
 ct10,jev,exact_match_rate,,"mode=chained,with_key=False",,,0.8023333333333333,3000,"mae=0.200 ci=[0.788,0.816]"
 ct10,jev,exact_match_rate,,"mode=chained,with_key=True",,,0.872,3000,"mae=0.129 ci=[0.860,0.884]"
 ct10,jev,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.8273333333333334,3000,"mae=0.174 ci=[0.814,0.840]"
@@ -286,6 +347,10 @@ ct10,openjev,exact_match_rate,,"mode=chained,with_key=False",,,0.730666666666666
 ct10,openjev,exact_match_rate,,"mode=chained,with_key=True",,,0.7903333333333333,3000,"mae=0.219 ci=[0.776,0.804]"
 ct10,openjev,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.5766666666666667,3000,"mae=0.460 ci=[0.558,0.594]"
 ct10,openjev,exact_match_rate,,"mode=whole_exam,with_key=True",,,0.57,3000,"mae=0.476 ci=[0.552,0.587]"
+ct10,sonnet,exact_match_rate,,"mode=chained,with_key=False",,,0.83,3000,"mae=0.179 ci=[0.817,0.844]"
+ct10,sonnet,exact_match_rate,,"mode=chained,with_key=True",,,0.9613333333333334,3000,"mae=0.039 ci=[0.954,0.968]"
+ct10,sonnet,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.4713333333333333,3000,"mae=0.571 ci=[0.454,0.490]"
+ct10,sonnet,exact_match_rate,,"mode=whole_exam,with_key=True",,,0.5996666666666667,3000,"mae=0.442 ci=[0.582,0.617]"
 ct10,jev,total_score_mae,,"mode=chained,with_key=False",,,5.05,100,
 ct10,jev,total_score_mae,,"mode=chained,with_key=True",,,3.82,100,
 ct10,jev,total_score_mae,,"mode=whole_exam,with_key=False",,,4.63,100,
@@ -298,15 +363,22 @@ ct10,openjev,total_score_mae,,"mode=chained,with_key=False",,,7.09,100,
 ct10,openjev,total_score_mae,,"mode=chained,with_key=True",,,6.52,100,
 ct10,openjev,total_score_mae,,"mode=whole_exam,with_key=False",,,9.76,100,
 ct10,openjev,total_score_mae,,"mode=whole_exam,with_key=True",,,10.79,100,
+ct10,sonnet,total_score_mae,,"mode=chained,with_key=False",,,3.3,100,
+ct10,sonnet,total_score_mae,,"mode=chained,with_key=True",,,0.93,100,
+ct10,sonnet,total_score_mae,,"mode=whole_exam,with_key=False",,,16.44,100,
+ct10,sonnet,total_score_mae,,"mode=whole_exam,with_key=True",,,12.78,100,
 ct10,jev,confidence_at_errors,,chained,,,0.7538382804503583,977,
 ct10,jev,confidence_at_correct,,chained,,,0.9152498506868406,5023,
 ct10,haiku,confidence_at_errors,,chained,,,0.8866484716157205,916,
 ct10,haiku,confidence_at_correct,,chained,,,0.9017250196695515,5084,
 ct10,openjev,confidence_at_errors,,chained,,,0.7663369743423615,1437,
 ct10,openjev,confidence_at_correct,,chained,,,0.8725686011775703,4563,
+ct10,sonnet,confidence_at_errors,,chained,,,0.8390894568690096,626,
+ct10,sonnet,confidence_at_correct,,chained,,,0.9093226646818012,5374,
 ct10,jev,avg_latency_ms,,,,,102.36730693141969,12000,
 ct10,haiku,avg_latency_ms,,,,,402.38626251445385,12000,
 ct10,openjev,avg_latency_ms,,,,,237.92734023730736,12000,
+ct10,sonnet,avg_latency_ms,,,,,700.844953611827,12000,
 spend,corpus_generation,cost_usd,,,,,2.8561199999999998,77,model=claude-sonnet-5
 spend,jev_arm,cost_usd,,,,,0.18093978000000052,5764,model=jev-latest
 spend,haiku_arm,cost_usd,,,,,9.178637999999996,5774,model=claude-haiku-4-5
@@ -319,4 +391,7 @@ spend,examgrade_corpus_generation,cost_usd,,,,,6.924622,105,model=claude-sonnet-
 spend,jev_arm_ct10,cost_usd,,,,,0.2518645500000007,6203,model=jev-latest
 spend,haiku_arm_ct10,cost_usd,,,,,10.22250700000003,6208,model=claude-haiku-4-5
 spend,openjev_arm_ct10,cost_usd,,,,,0.0,6202,model=openjev
-spend,TOTAL,anthropic_cumulative_usd,,,,,41.26054400000013,,
+spend,sonnet_arm,cost_usd,,,,,20.732023999999992,5760,model=claude-sonnet-5
+spend,sonnet_arm_ct9,cost_usd,,,,,24.54968800000019,3420,model=claude-sonnet-5
+spend,sonnet_arm_ct10,cost_usd,,,,,22.816909999999954,6200,model=claude-sonnet-5
+spend,TOTAL,anthropic_cumulative_usd,,,,,109.35916599999945,,

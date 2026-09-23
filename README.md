@@ -1,12 +1,13 @@
 # Jev Benchmark: Rubric-Based Zero-Shot Classification, Chained Execution & Exam Grading
 
 **Does [Jev](https://typesafe.ai) (TypeSafe AI's rubric-conditioned classification model) genuinely
-read and apply a multi-clause rubric — and how does it stack up against a general-purpose LLM
-(Claude Haiku 4.5) and a free, self-hostable alternative (OpenJev), on both quality *and* price?**
+read and apply a multi-clause rubric — and how does it stack up against two general-purpose LLMs
+(Claude Haiku 4.5, Claude Sonnet 5) and a free, self-hostable alternative (OpenJev), on both
+quality *and* price?**
 
 This repo is the full benchmark: every corpus, every prediction, every dollar spent, every test
 that failed to find a difference as well as every one that did. Ten structurally distinct test
-suites, three models, **124 passing tests**, **$42.01 total spend**, all of it reproducible from
+suites, four models, **124 passing tests**, **$110.11 total spend**, all of it reproducible from
 the seeds and scripts in this repo.
 
 <p align="center">
@@ -15,20 +16,28 @@ the seeds and scripts in this repo.
 
 ## TL;DR
 
-| | Jev | Claude Haiku 4.5 | OpenJev (free) |
-|---|---|---|---|
-| **CT1-8 overall accuracy** | **98.83%** | 96.46% | 96.28% |
-| **Price per 1,000 calls (CT1-8)** | **$0.031** | $1.590 | $0.000 |
-| **Total spend, whole benchmark** | **$0.75** | $29.67 | $0.00 |
-| Calibration (confidence flags real errors) | **Consistently useful, 3/3 tasks** | Consistently useless, 3/3 tasks | In between |
+| | Jev | Claude Haiku 4.5 | Claude Sonnet 5 | OpenJev (free) |
+|---|---|---|---|---|
+| **CT1-8 overall accuracy** | **98.84%** | 96.46% | 96.18% | 96.28% |
+| **Price per 1,000 calls (CT1-8)** | **$0.031** | $1.590 | $3.599 | $0.000 |
+| **Total spend, whole benchmark** | **$0.75** | $29.67 | $68.10 | $0.00 |
+| Calibration (confidence flags real errors) | **Consistently useful, 3/3 tasks** | Consistently useless, 3/3 tasks | Consistently useless, 3/3 tasks | In between |
 
-**Jev is both more accurate and ~50x cheaper than Haiku on the core classification task** — the
-single clearest number in this repo. It also wins on rubric-following under adversarial
-relabeling, on the specific arithmetic weakness its own vendor documentation predicted, and on
-calibration (its confidence scores actually flag its mistakes; Haiku's don't). Its advantages
-are *not* universal, though — they concentrate specifically where task structure favors Jev's
-architecture (small-step execution, native multi-question batching) and disappear where it
-doesn't. Read on for the receipts.
+**Jev is both more accurate and ~50-116x cheaper than the two Claude models on the core
+classification task** — the single clearest number in this repo. It also wins on rubric-following
+under adversarial relabeling, on the specific arithmetic weakness its own vendor documentation
+predicted, and on calibration (its confidence scores actually flag its mistakes; neither Claude
+model's do). Its advantages are *not* universal, though — they concentrate specifically where task
+structure favors Jev's architecture (small-step execution, native multi-question batching) and
+disappear where it doesn't.
+
+**The most surprising result belongs to Sonnet, not Jev.** Anthropic's *stronger* model was added
+specifically to check whether Haiku's underperformance was a Haiku-specific weakness or a
+general-purpose-LLM one. It's neither, cleanly — Sonnet is the best of all four models at the
+narrowest, most focused version of every task (single document, single question, one decision
+step at a time) and the *worst* of all four at the broadest, most batched version of the same
+tasks (30-question whole-exam grading, full 10-layer tree traversal in one call). More capability
+did not transfer into more reliable batching; if anything, the opposite. Read on for the receipts.
 
 ---
 
@@ -87,6 +96,7 @@ approach turned out to be wrong and was replaced.
 |---|---|---|
 | **Jev** (`jev-1.13`) | TypeSafe AI's purpose-built rubric-classification model. Three primitives: `Noul` (yes/no), `Choice` (pick 1 of ≤255 options), `Score` (rate against an ordered rubric). | $0.042 / Mtok input, **output free** |
 | **Claude Haiku 4.5** | Anthropic's fast general-purpose LLM — the reference-ceiling comparison arm. | $1 / Mtok input, $5 / Mtok output |
+| **Claude Sonnet 5** | Anthropic's stronger general-purpose LLM, added later to check whether Haiku's underperformance was Haiku-specific or general — same rubric, same forced tool-use, same grid as Haiku throughout. | $2 / Mtok input, $10 / Mtok output |
 | **OpenJev** | `razorback16/openjev`, an open-weights model (DiffusionGemma 26B-A4B, Apache-2.0) that speaks Jev's exact wire API. Tested via the free-hosted [Codiv](https://codiv.ai) endpoint. | **Free** (hosted tier) |
 | NLI (bart-large-mnli) / Embeddings (bge-m3) | Standard zero-shot classification baselines — the "does it actually read the rubric" control group for Part 1. Not real contenders (they can't follow a rubric at all), included to prove the point. | Local, free |
 
@@ -128,30 +138,40 @@ matching, its accuracy under these conditions would collapse toward the NLI/embe
 **$1.06** total (one-time Sonnet 5 cost to build the 240-document corpus), Jev's own inference
 cost **$0.18** for all 2,880 classifications.
 
-### Part 2 — Jev vs. Haiku: head-to-head comparison
+### Part 2 — Jev vs. two Claude models: head-to-head comparison
 
 <p align="center"><img src="charts/02_overall_accuracy.png" width="560"></p>
 
-| | Jev | Haiku |
-|---|---|---|
-| CT1-4 (original corpus) | **100.00%** | 97.74% |
-| CT5-8 (hard mode, built to find Jev's limits) | **97.67%** | 95.17% |
-| **Price, CT1-4 + CT5-8 combined (5,760 calls)** | **$0.18** | **$9.18** |
+| | Jev | Haiku | Sonnet |
+|---|---|---|---|
+| CT1-4 (original corpus) | **100.00%** | 97.74% | 99.86% |
+| CT5-8 (hard mode, built to find Jev's limits) | **97.67%** | 95.17% | 92.50% |
+| **Price, CT1-4 + CT5-8 combined (5,760 calls)** | **$0.18** | $9.18 | $20.73 |
 
-**Jev wins on both accuracy and price**, by a wide margin on price (**~50x cheaper**). Digging
-into *why* CT5-8 exists:
+**Jev wins on both accuracy and price against both Claude models**, by a wide margin on price
+(**~50-116x cheaper**). Sonnet was added later specifically because Haiku underperformed Jev by a
+wider margin on CT9/CT10 than on CT1-8 — the question was whether a stronger model would close
+the gap. On CT1-4 it nearly does (99.86%, within noise of Jev's 100%). **On CT5-8 it doesn't — it's
+the worst of the three**, and for a different reason than Haiku's. Digging into *why* CT5-8 exists:
 
 <p align="center"><img src="charts/03_ct5_arithmetic.png" width="480"></p>
 
 Jev's one real weakness anywhere in CT1-8 — arithmetic near a stated threshold — was predicted in
-advance by the vendor's own model documentation. It's real (9.3% error rate), but **Haiku is
-worse at it** (18.2%, exactly 2x). Two other predicted weaknesses (multi-hop lookup, long-context
-distraction) never materialized for either model — reported as clean negative results, not
-hidden.
+advance by the vendor's own model documentation. It's real (9.3% error rate), and **both Claude
+models are worse at it** (Haiku 18.2%, Sonnet 13.7%). But CT5 arithmetic isn't what drags Sonnet's
+CT5-8 average down the most — **Sonnet has an isolated, severe failure on CT7's two-hop lookup
+under Condition C** (misleading-but-plausible folder names) that neither Jev nor Haiku share at
+all: accuracy collapses from 100% (every other condition) to **34.4%**, at *high* confidence
+(0.95 mean, indistinguishable from its confidence when correct) — see [Part 3](#part-3--openjev-fallback-viability)'s
+chart, which now shows this side-by-side with OpenJev's own, independently-diagnosed collapse on
+the exact same clause type and condition. Two of the three a priori predicted weaknesses
+(multi-hop lookup, long-context distraction) materialize for *exactly one* model each (Sonnet on
+CT7, nobody on CT8) — reported as found, not smoothed into an average.
 
 **Result, per the pre-registered comparison rule in [`test-plan.md`](./test-plan.md): Jev matches
-or exceeds Haiku on accuracy** in every scope tested, at ~50x lower price — a wide margin on both
-axes of the comparison.
+or exceeds both Claude models on accuracy** in every scope tested, at 50-116x lower price — a wide
+margin on both axes of the comparison. Being the *stronger* general-purpose model did not help
+Sonnet here; it has a sharper, more isolated failure mode than Haiku, not a smaller one.
 
 ### Part 3 — OpenJev fallback viability
 
@@ -162,13 +182,16 @@ simple classification. It has exactly one sharp, fully-diagnosed weakness: CT7's
 collapses to 40% under Condition C specifically (red bar above) — but the *identical* tree scores
 100% under the SHUFFLE control (opaque random IDs). That rules out "OpenJev can't follow the
 rubric" — it's a label-*collision* bug (Condition C's misleading names are other real, plausible
-labels; SHUFFLE's aren't), isolated to one clause type under one condition.
+labels; SHUFFLE's aren't), isolated to one clause type under one condition. **Sonnet (violet bar)
+independently collapses on the exact same clause type and condition**, to a similar 34.4% — two
+structurally different models, hitting the same specific trap, for what looks like the same
+underlying reason (both fail confidently, and both recover completely under SHUFFLE).
 
-**Price**: $0.00, always — the free Codiv tier never touched the $50 Anthropic budget for any of
+**Price**: $0.00, always — the free Codiv tier never touched the $110 Anthropic budget for any of
 CT1-8, CT9, or CT10.
 
 **Verdict**: viable free fallback for CT1-8-style classification; not yet viable for CT9-style
-chained execution (see below) — meaningfully behind both other models at every step size.
+chained execution (see below) — meaningfully behind all three other models at every step size.
 
 ### Part 4 — CT9: chained decision-tree execution
 
@@ -180,16 +203,21 @@ headline finding inverts the a priori hypothesis: going in, more handoffs (lower
 to *hurt* accuracy via compounding error. **It's the opposite for every model** — frequent small
 handoffs beat one unassisted full-chain call, decisively.
 
-**Jev's advantage is real but narrow**: +17-22pp over Haiku at k=1/2, but statistically tied at
+**Jev's advantage over Haiku is real but narrow**: +17-22pp at k=1/2, but statistically tied at
 k=5/10 — Jev's edge is about small-step execution discipline, not raw multi-hop reasoning
-capacity. **The one place in this whole benchmark where Jev is *less* stable than Haiku**: at
-k=10, Jev disagrees with itself across repeats 8.3% of the time vs. Haiku's 0% — reported as
-found, not smoothed over, since it's also Jev's single worst accuracy result anywhere in this
-project.
+capacity. **Sonnet crosses both other lines, in opposite directions, as k grows.** At k=1 it's the
+best of all three (86.7%, +11.7pp over Jev, +28.9pp over Haiku) — the strongest model wins
+decisively at the narrowest possible decision. By k=10 it's the *worst* of all three (22.8% vs.
+Jev's 29.4% and Haiku's 31.7%) — more capability did not help it hold up under one large,
+unassisted, multi-step call; if anything it degraded faster than either weaker model. **The one
+place in this whole benchmark where Jev is *less* stable than Haiku**: at k=10, Jev disagrees with
+itself across repeats 8.3-10% of the time vs. Haiku's 0% — but Sonnet is less stable still at k=10
+under opaque labeling (20%), the highest disagreement rate anywhere in this project. Reported as
+found, not smoothed over.
 
-**Price**: 900 traces × 3 arms = 3,420 API calls per model. Jev **$0.32**, Haiku **$10.27**,
-OpenJev **$0.00** — Jev's per-call cost advantage holds even on this much more demanding
-multi-step task (**~32x cheaper per 1,000 calls**, see [Price, in full](#price-in-full)).
+**Price**: 900 traces × 4 arms = 3,420 API calls per model. Jev **$0.32**, Haiku **$10.27**,
+Sonnet **$24.55**, OpenJev **$0.00** — Jev's per-call cost advantage holds even on this much more
+demanding multi-step task (**~32-76x cheaper per 1,000 calls**, see [Price, in full](#price-in-full)).
 
 ### Part 5 — CT10: AP World History exam grading
 
@@ -203,17 +231,33 @@ questions at once).
 
 **A genuine architecture-driven finding**: Jev is essentially flat between chained and whole-exam
 grading (its `system_one` call natively evaluates multiple `Score` questions in parallel, so its
-"whole exam" call is structurally ~30 independent judgments). **Haiku and OpenJev both lose
-15-22 percentage points in whole-exam mode** — their single-shared-JSON-object approach to "many
-answers in one call" is a genuinely harder task shape. This is avoidable by architecture, not an
-inherent model-quality gap.
+"whole exam" call is structurally ~30 independent judgments). **Haiku, Sonnet, and OpenJev all
+lose ground in whole-exam mode** — their single-shared-JSON-object approach to "many answers in
+one call" is a genuinely harder task shape. This is avoidable by architecture, not an inherent
+model-quality gap. **Sonnet loses by far the most: 90% → 54% exact-match, a 36-point drop** —
+more than double Haiku's 15pp drop and OpenJev's 19pp drop.
 
-On the knowledge question: **Haiku needs the answer key the least** (its own historical knowledge
-does almost as much work as being handed the key, +2.5-3pp gap vs. Jev's +5-7pp) — a genuinely
-different profile from the accuracy/price story above.
+**This is the sharpest, most decision-relevant Sonnet result in the whole benchmark.** In
+*chained-with-key* mode, Sonnet is the best grader of all four models by a wide margin — MAE
+0.039 (96.1% exact-match) vs. Jev's 0.129 and Haiku's 0.139, and total-exam-score error of just
+0.93 points vs. Jev's 3.82 and Haiku's 3.86. Ask it one focused question at a time, with the
+answer key, and it's clearly the strongest grader here. But in *whole-exam* mode — the exact same
+underlying knowledge, batched into one 30-question call — it becomes the **worst** grader of all
+four: MAE 0.44-0.57 (vs. Haiku's 0.30-0.33 and Jev's 0.12-0.17), total-exam-score error up to
+16.44 points (vs. Haiku's 8.84, Jev's 4.63). Same model, same material, same rubric — the only
+variable that moved is how many judgments it had to hold in one call, and on that axis alone it
+went from best to worst. Confidence doesn't flag this either: Sonnet's confidence-at-errors
+(0.839) is barely below its confidence-at-correct (0.909), the same "fails confidently" pattern
+as Haiku, just less extreme.
 
-**Price**: 6,200 grading actions × 3 arms = 18,600 calls. Jev **$0.25**, Haiku **$10.22**,
-OpenJev **$0.00**.
+On the knowledge question: **Haiku needs the answer key the least** in chained mode (its own
+historical knowledge does almost as much work as being handed the key, +2.5-3pp gap vs. Jev's
++5-7pp) — Sonnet needs it *the most* (+13pp chained exact-match gap between with/without key,
+the largest of the three LLM arms) — a genuinely different profile from the accuracy/price story
+above.
+
+**Price**: 6,200 grading actions × 4 arms = 24,800 calls. Jev **$0.25**, Haiku **$10.22**,
+Sonnet **$22.82**, OpenJev **$0.00**.
 
 ### Calibration, across every task
 
@@ -221,10 +265,13 @@ OpenJev **$0.00**.
 
 The single most decision-relevant number in this whole repo, replicated on **three structurally
 unrelated tasks**: does a model's confidence actually predict whether it's wrong? **Jev's does,
-consistently.** Haiku's confidence is nearly flat between correct and incorrect answers — it
-fails *confidently*, giving a downstream review queue nothing to act on. A rule like "route
-anything under 0.6 confidence to human review" would catch the large majority of Jev's mistakes;
-the equivalent rule for Haiku would catch almost none of them.
+consistently.** Both Claude models' confidence is nearly flat between correct and incorrect
+answers — they fail *confidently*, giving a downstream review queue nothing to act on. Sonnet's
+gap (0.01-0.07 across the three tasks) is marginally larger than Haiku's (0.00-0.05) but nowhere
+close to Jev's (0.16-0.49) — being a stronger model didn't make Sonnet's confidence more useful,
+either. A rule like "route anything under 0.6 confidence to human review" would catch the large
+majority of Jev's mistakes; the equivalent rule for either Claude model would catch almost none of
+them.
 
 ---
 
@@ -242,18 +289,21 @@ it, and here's the full picture:
 |---|---|---|---|---|
 | Jev | $0.18 | $0.32 | $0.25 | **$0.75** |
 | Claude Haiku 4.5 | $9.18 | $10.27 | $10.22 | **$29.67** |
+| Claude Sonnet 5 | $20.73 | $24.55 | $22.82 | **$68.10** |
 | OpenJev | $0.00 | $0.00 | $0.00 | **$0.00** |
 
-**Jev and OpenJev combined cost less than 3% of Haiku's spend across the entire benchmark.**
-Corpus generation (one-time, via Claude Sonnet 5, to build the 480 CT1-8 documents + 60 CT9 forms
-+ 100 CT10 exams) cost an additional $11.59 — not a recurring cost, since the corpus itself is
-committed to this repo and never needs regenerating. **Grand total: $42.01**, all logged to
-[`results/spend_ledger.jsonl`](./results/spend_ledger.jsonl) call-by-call as it was spent, not
-estimated after the fact.
+**Jev and OpenJev combined cost under 1% of the two Claude models' combined spend across the
+entire benchmark.** Corpus generation (one-time, via Claude Sonnet 5 in its upstream
+content-authoring role — not the same as its downstream grading-arm role above — to build the 480
+CT1-8 documents + 60 CT9 forms + 100 CT10 exams) cost an additional $11.59 — not a recurring cost,
+since the corpus itself is committed to this repo and never needs regenerating. **Grand total:
+$110.11**, all logged to [`results/spend_ledger.jsonl`](./results/spend_ledger.jsonl) call-by-call
+as it was spent, not estimated after the fact — cumulative Anthropic spend (corpus generation +
+Haiku + Sonnet) landed at $109.36 of the $110.00 approved budget, $0.64 under the hard cap.
 
 ## Methodology highlights
 
-Full detail in [`methodology.md`](./methodology.md) (15 sections, one per phase); the highlights
+Full detail in [`methodology.md`](./methodology.md) (16 sections, one per phase); the highlights
 that matter most for trusting these results:
 
 - **Seeded RNG discipline.** Every choice that should be uninfluenced by semantics — opaque folder
@@ -267,11 +317,16 @@ that matter most for trusting these results:
   is logged to `results/spend_ledger.jsonl` with a hard budget ceiling enforced *before* the call
   that would exceed it, not after.
 - **Negative results are reported, not hidden.** CT7 and CT8 (hard mode) found no weakness for
-  either Jev or Haiku. CT9 found Jev *less* stable than Haiku at k=10. Both are in the numbers
+  Jev or Haiku (Sonnet is the exception on CT7 — also reported, not smoothed over). CT9 found
+  Jev *less* stable than Haiku at k=10, and Sonnet less stable still. All of it is in the numbers
   above, not filtered out.
 - **Decomposition frozen up front** (test-plan.md §8): rubric-clause granularity is a large free
   parameter that can make a task look artificially easy or hard; the exact decomposition is fixed
   before any arm sees the test set and applied identically across every arm.
+- **A comparison arm added after the fact, reasoned about openly.** Sonnet was proposed, declined,
+  and later revisited once CT9/CT10 existed and showed Haiku underperforming Jev by a wider margin
+  than CT1-8 ever did — the reversal and its cost accounting are logged in methodology.md, not
+  presented as though Sonnet had been in scope from the start.
 
 ## Reproducing this benchmark
 
@@ -289,7 +344,7 @@ python -m scripts.generate_charts       # rebuild every chart in charts/
 # Re-running an arm against already-generated corpora (resumable, will skip
 # anything already in results/predictions/):
 python -m scripts.run_arm --arm nli-bart
-python -m scripts.run_api_arm --arm jev        # or haiku / openjev
+python -m scripts.run_api_arm --arm jev        # or haiku / sonnet / openjev
 python -m qtree.runner --arm jev               # CT9
 python -m examgrade.runner --arm jev           # CT10
 ```
@@ -303,7 +358,7 @@ equivalents), all seeded from `MASTER_SEED` in `harness/constants.py`.
 ```
 corpus/       CT1-8 document generator + frozen manifest + ground-truth engine
 rubrics/      Rubric clause text, folder-name conditions, shuffle-control permutation
-arms/         One module per CT1-8 arm: jev, haiku, openjev, nli-bart, emb-bge
+arms/         One module per CT1-8 arm: jev, haiku, sonnet, openjev, nli-bart, emb-bge
 qtree/        CT9: decision tree, chunked execution arms, scoring
 examgrade/    CT10: exam questions/rubrics, student corpus, grading arms, scoring
 harness/      Shared scoring (bootstrap CI, ECE, disagreement), spend ledger, constants

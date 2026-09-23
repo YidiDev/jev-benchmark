@@ -1348,3 +1348,202 @@ in one call" is a fundamentally harder task shape than Jev's parallel
 per-question evaluation. The calibration asymmetry first found in CT5 and
 confirmed in CT9 replicates a third time, on a task that shares nothing
 structurally with either of those two.
+
+## 16. Sonnet 5: revisiting the declined comparison, at full scope
+
+### Motivation
+
+§11 raised a Sonnet 5 comparison as soon as Haiku underperformed Jev on
+CT1-4, per prior standing instruction ("if haiku underperforms jev, ask
+for more budget to test with sonnet"). The user declined at the time --
+verbatim, "if jev did 100%, not worth testing the other stuff. that's
+insanely good" -- a reasonable call given the only evidence then was a
+clean 100% Jev ceiling on CT1-4. No Sonnet arm was built; Phases 5+
+proceeded with jev/haiku/nli-bart/emb-bge, later joined by openjev (§14).
+
+That evidence base changed by the time CT9 (§13) and CT10 (§15) existed.
+Both found Haiku underperforming Jev by a *wider* margin than anything in
+CT1-8, on structurally different tasks (chained multi-step execution,
+partial-credit exam grading) -- exactly the kind of result that would
+make a "was this Haiku-specific or general-purpose-LLM-general" check
+newly informative, in a way the original CT1-4-only evidence wasn't. The
+user asked directly whether Sonnet would do better specifically in the
+places Haiku underperformed Jev, then asked for a cost estimate to add
+Sonnet as a full fourth arm across the whole benchmark, then approved it:
+full scope (CT1-8 + CT9 + CT10, not a reduced subset), matching Haiku's
+exact repeat/grid structure for apples-to-apples comparability, and a
+budget ceiling of $110 (raised from $50) against a ~$59.34 pre-run cost
+projection (derived directly from 2x Haiku's own logged token totals per
+task family, since `claude-sonnet-5` is priced at exactly 2x
+`claude-haiku-4-5`'s per-token rate on both input and output -- same
+projection method used for every prior Sonnet cost estimate in this
+project, see §11).
+
+Also requested in the same conversation, done first and separately from
+the Sonnet arm itself: reframing this repo's overall narrative from an
+"adoption decision" to a neutral benchmark comparison -- removing
+prescriptive "Adopt" language from test-plan.md's decision-rule table,
+README.md, results.md, and methodology.md's own cross-references, while
+preserving the pre-registration structure itself (the point of
+pre-registration -- committing to a reading of each outcome before
+seeing results -- survives the wording change intact).
+
+### Implementation
+
+Sonnet is architecturally identical to Haiku everywhere it competes --
+same rubric text, same forced tool-use pattern, same tool schemas, same
+`anthropic.Anthropic()` client, same `record_spend` discipline -- only
+the model string and pricing key differ:
+
+- **`arms/sonnet.py`** (new file): CT1-8's `HaikuArm` (`arms/haiku.py`)
+  keeps its constants (`MODEL`, `PRICING_KEY`, `SYSTEM_PROMPT`) as
+  module-level names referenced directly inside its methods, not via
+  `self.X` -- not cleanly subclassable without a prior refactor, so
+  `SonnetArm` is a full sibling file, reusing `_build_tool` and
+  `_build_user_message` imported directly from `arms/haiku.py` rather
+  than duplicating them.
+- **`qtree.arms.SonnetChunkArm(HaikuChunkArm)`** and
+  **`examgrade.arms.SonnetExamArm(HaikuExamArm)`**: both parent classes
+  already read their constants via `self.MODEL`/`self.PRICING_KEY`
+  throughout, so these are genuine override-only subclasses -- zero
+  method duplication, just `name`/`MODEL`/`PRICING_KEY`/default
+  `spend_source` overridden.
+- Registry wiring in three independent `_build_arm()` if/elif chains
+  (`scripts/run_api_arm.py`, `qtree/runner.py`, `examgrade/runner.py` --
+  no central arm registry exists in this codebase) plus their
+  `argparse` `choices=[...]` lists.
+- `PRICING["claude-sonnet-5"]` already existed in `harness/constants.py`
+  (used for corpus-generation cost accounting since Phase 1) and was
+  reused as-is for the new arm's pricing key -- same rate, genuinely the
+  same model, just a different role (grading/classification instead of
+  upstream document authoring).
+- Scoring registries updated: `harness.scoring.ALL_KNOWN_ARMS` /
+  `CALIBRATION_ARMS` / `source_for_arm`, `qtree.scoring.ARMS`,
+  `examgrade.scoring.ARMS` -- all guarded by data-presence checks
+  (`load_predictions(arm)` returns `[]` if the file doesn't exist yet),
+  safe to land before any Sonnet predictions existed.
+- `harness/constants.py`'s `ANTHROPIC_BUDGET_USD` raised $50.00 ->
+  $110.00 (and `ANTHROPIC_WARN_USD` $47.00 -> $105.00), with a dated
+  rationale comment appended to the existing budget-history narrative,
+  matching every prior raise's documentation convention.
+
+Before committing to the full-cost run, each new arm was smoke-tested at
+small `--limit` scope (CT1-8: 2 manifest rows -> 24 written; CT9: 2 forms
+x k=1 -> 60 chunks; CT10: both chained and whole-exam modes at
+`--limit 1/2`) to confirm Sonnet's forced-tool-use behavior matched
+Haiku's exactly (it did, no schema incompatibilities) before spending the
+full ~$59 projected budget.
+
+### Execution and actual cost
+
+All three full runs (CT1-8: 5,760 calls; CT9: 3,420 chunk calls across
+900 traces; CT10: 6,200 calls across chained + whole-exam x with/without
+key) were launched concurrently as detached background processes
+(`setsid nohup ... </dev/null >log 2>&1 &`, since the combined runtime
+was on the order of 3 hours -- far past any single-command timeout) and
+polled periodically against `results/predictions/*.jsonl` row counts and
+`python -m harness.spend_ledger` until completion, with no manual
+intervention required (the existing resumable-append-with-dedup design
+in `harness/predictions.py`/`qtree/predictions.py`/`examgrade/predictions.py`
+meant the smoke-test rows seamlessly continued into the full run's count
+rather than being wasted or needing cleanup).
+
+**Actual final cost came in above the pre-run projection**, by task
+family:
+
+| Task | Projected (2x Haiku) | Actual | Over |
+|---|---|---|---|
+| CT1-8 | $18.36 | $20.7320 | +12.9% |
+| CT9 | $20.53 | $24.5497 | +19.6% |
+| CT10 | $20.44 | $22.8169 | +11.6% |
+| **Total** | **$59.34** | **$68.0986** | **+14.8%** |
+
+The 2x-Haiku-tokens projection assumed Sonnet's token usage would match
+Haiku's on identical prompts; in practice Sonnet's real prompts/outputs
+ran somewhat larger across all three task families (e.g. CT9's per-call
+rate came in at 2.39x Haiku's, not the flat 2.00x pricing multiplier
+alone would predict), consistent with a stronger model producing more
+verbose internal content even under forced tool-use with a small
+`max_tokens` cap. Cumulative Anthropic spend across the whole benchmark
+(corpus generation + Haiku + Sonnet) finished at **$109.36 of the
+$110.00 approved budget -- $0.64 under the hard cap**, crossing the
+$105 warn threshold late in the run (logged, non-blocking warnings only)
+but never triggering `BudgetExceeded`. This was closer to the ceiling
+than any prior phase of this project and would not have completed if the
+approved budget had been set at the bare $59.34 projection with no
+margin -- a data point for sizing future cost-projection buffers on this
+kind of 2x-multiplier estimate at more like 15-20% headroom, not 0%.
+
+### Findings
+
+Full numeric detail in results.md Part 2 (CT1-8), Part 4 (CT9), and
+Part 5 (CT10)'s Sonnet subsections; summarized here by mechanism:
+
+1. **CT1-4: Sonnet ties Jev, both ahead of Haiku** (99.90% vs. Jev's
+   100.00%, Haiku's 97.74%) -- the stronger general-purpose model closes
+   most, not all, of Haiku's gap on the original, easier corpus.
+2. **CT5-8: Sonnet is the *worst* of the three, not the best** (92.47%
+   vs. Jev's 97.67%, Haiku's 95.17%), driven almost entirely by one
+   isolated cell: **CT7 (multi-hop lookup) under Condition C (misleading
+   folder names) collapses to 34.4%**, a 65.6-point drop from every other
+   CT7 cell, where Jev and Haiku both stay at 100.00%. This is genuinely
+   new information CT1-4-scope testing never surfaced: CT7 was originally
+   hypothesized to be a Jev weakness (multi-hop reasoning favoring
+   autoregressive generation over a single forward pass, test-plan.md
+   §4) and never materialized for Jev *or* Haiku -- it turns out to be
+   Sonnet's single sharpest failure in the entire suite. Mechanism
+   evidence points toward the same label-collision pattern independently
+   diagnosed for OpenJev on the identical cell (§14): errors are
+   high-confidence (0.947 mean, indistinguishable from the 0.941 mean at
+   correct predictions on the same cell) and not consistently biased
+   toward one wrong folder across repeats, and the identical tree scores
+   100% under SHUFFLE (opaque ids) -- ruling out "Sonnet can't do
+   multi-hop lookup" in general, isolating it to misleading-but-plausible
+   real names specifically, same as OpenJev.
+3. **CT9: Sonnet crosses both other models' lines, in opposite
+   directions, as chunk size k grows.** Best of the three at k=1 (86.7%,
+   +11.7pp over Jev, +28.9pp over Haiku) -- the strongest single-step
+   reasoner wins decisively at the narrowest possible decision. Worst of
+   the three at k=10 (22.8%, below Jev's 29.4-33.9% and Haiku's 31.7%) --
+   added capability did not help it hold up through one large, unassisted
+   multi-step trace; if anything, it degraded faster. Also the single
+   least-stable result anywhere in this project: 20.0% run-to-run
+   disagreement at k=10 under opaque labeling (vs. 3.3% under semantic
+   labeling for Sonnet itself, and Jev's worst of 8.3-10%, Haiku's 0%).
+4. **CT10: the sharpest, most decision-relevant Sonnet finding in the
+   whole benchmark.** In chained-with-key mode, Sonnet is the best grader
+   of all four models by a wide margin (MAE 0.039, 96.1% exact-match,
+   total-exam-score error 0.93 points -- better than Jev's 3.82 and
+   Haiku's 3.86). In whole-exam mode, the exact same underlying knowledge
+   batched into one 30-question call, it becomes the *worst* grader of
+   all four (MAE 0.44-0.57, total-exam-score error up to 16.44 points --
+   roughly 3.6x Jev's and 1.9x Haiku's). The drop from chained to
+   whole-exam (36 points of exact-match rate) is more than double either
+   Haiku's (15pp) or OpenJev's (19pp) architecture-driven degradation
+   (§15's finding, replicated and sharpened). Same model, same rubric,
+   same students -- the only variable that moved is how many judgments it
+   held in one call, and on that axis alone it went from best to worst.
+   Confidence does not flag this: Sonnet's chained-mode confidence gap
+   (0.070) is small, and whole-exam mode has no per-question confidence
+   field to check at all.
+5. **Calibration, replicated a fourth way**: Sonnet's confidence-at-errors
+   is close to its confidence-at-correct on every task (CT1-8 gap 0.0097,
+   CT9 gap 0.039, CT10 chained gap 0.070) -- the same "fails confidently"
+   pattern as Haiku, not meaningfully better despite being the stronger
+   model. Jev remains the only arm whose confidence is a decision-usable
+   signal for a review queue.
+
+### Takeaway
+
+The net effect on Part 2's comparison (test-plan.md §6) is unchanged from
+§11's original conclusion -- Jev remains ahead of both Claude models on
+accuracy, at 50-116x lower price. What changed is the texture of *why*:
+Sonnet does not simply "do better than Haiku" in the places Haiku
+underperformed Jev, which was the question that motivated revisiting this
+comparison in the first place. It does dramatically better in some narrow
+slices (CT9 k=1, CT10 chained-with-key) and dramatically worse in others
+(CT1-8's CT7/Condition-C, CT9 k=10, CT10 whole-exam) -- a stronger
+general-purpose model traded one failure profile for a different, more
+isolated one, rather than uniformly closing the gap. This is exactly the
+kind of result a benchmark limited to Haiku alone, or one that stopped
+after the original CT1-4-only evidence, would never have found.
