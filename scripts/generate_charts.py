@@ -11,6 +11,7 @@ itself -- see pyproject.toml's dev group).
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -37,6 +38,28 @@ from examgrade.scoring import (
 )
 
 CHARTS_DIR = Path(__file__).resolve().parent.parent / "charts"
+SELF_HOSTED_ESTIMATE_PATH = Path(__file__).resolve().parent.parent / "results" / "self_hosted_cost_estimate.json"
+
+
+def _openjev_self_hosted_by_task() -> dict:
+    """OpenJev's real metered spend is $0.00 (free Codiv tier) -- this loads
+    the documented estimate of what self-hosting it would actually cost
+    (scripts/estimate_self_hosted_cost.py, harness/constants.py's
+    SELF_HOSTED_PRICING, methodology.md §17), keyed by task family plus a
+    'total' across all three. Charts use this instead of the real $0.00 so
+    the cost comparison isn't misleadingly flat -- the OpenJev bar/label is
+    styled distinctly (hatched) everywhere this is used, to keep "estimated"
+    visually distinct from every other arm's real, measured spend."""
+    if not SELF_HOSTED_ESTIMATE_PATH.exists():
+        return {"ct1_8": 0.0, "ct9": 0.0, "ct10": 0.0, "total": 0.0}
+    data = json.loads(SELF_HOSTED_ESTIMATE_PATH.read_text())
+    per_task = data["arms"]["openjev-self-hosted"]
+    return {
+        "ct1_8": per_task["ct1_8"]["estimated_cost_usd"],
+        "ct9": per_task["ct9"]["estimated_cost_usd"],
+        "ct10": per_task["ct10"]["estimated_cost_usd"],
+        "total": per_task["total"]["estimated_cost_usd"],
+    }
 
 # Consistent palette across every chart.
 COLOR = {
@@ -341,7 +364,7 @@ def chart_calibration() -> None:
 # ---------------------------------------------------------------------------
 # Chart 8: total cost per arm, whole benchmark (log scale)
 # ---------------------------------------------------------------------------
-def _arm_totals() -> dict:
+def _arm_totals(use_self_hosted_estimate: bool = False) -> dict:
     spend = spend_summarize()
     totals = {"jev": 0.0, "haiku": 0.0, "sonnet": 0.0, "openjev": 0.0}
     for agg in spend.values():
@@ -349,22 +372,37 @@ def _arm_totals() -> dict:
         for arm in totals:
             if source.startswith(arm):
                 totals[arm] += agg["cost_usd"]
+    if use_self_hosted_estimate:
+        # OpenJev's real spend above is genuinely $0.00 (free Codiv tier) --
+        # swap in the documented self-hosted estimate for reporting, so the
+        # cost comparison isn't misleadingly flat. See
+        # scripts/estimate_self_hosted_cost.py / methodology.md §17.
+        totals["openjev"] = _openjev_self_hosted_by_task()["total"]
     return totals
 
 
 def chart_cost() -> None:
-    totals = _arm_totals()
+    totals = _arm_totals(use_self_hosted_estimate=True)
     arms = ["jev", "haiku", "sonnet", "openjev"]
     vals = [max(totals[a], 0.001) for a in arms]  # floor for log scale visibility
 
     fig, ax = plt.subplots(figsize=(7.5, 5))
     bars = ax.bar([LABEL[a] for a in arms], vals, color=[COLOR[a] for a in arms], width=0.6)
+    bars[arms.index("openjev")].set_hatch("///")  # estimated, not measured -- see below
     for b, arm in zip(bars, arms):
-        label = f"${totals[arm]:.2f}" if totals[arm] >= 0.01 else "$0.00"
+        if arm == "openjev":
+            label = f"~${totals[arm]:.2f} est."
+        else:
+            label = f"${totals[arm]:.2f}" if totals[arm] >= 0.01 else "$0.00"
         ax.annotate(label, (b.get_x() + b.get_width() / 2, b.get_height()), ha="center", va="bottom", fontsize=10)
     ax.set_yscale("log")
     ax.set_ylabel("Total spend, whole benchmark (log scale, USD)")
-    ax.set_title("Cost across every test (CT1-10 combined)\nJev + OpenJev together cost under 1% of Haiku + Sonnet's combined spend")
+    ax.set_title("Cost across every test (CT1-10 combined)\nJev and a self-hosted OpenJev estimate both cost under 1% of Haiku + Sonnet's spend")
+    fig.text(
+        0.5, 0.005,
+        "OpenJev (hatched): real spend was $0.00 (free hosted tier) -- bar shows the documented self-hosted compute estimate instead",
+        fontsize=8, color="#4B5563", ha="center", va="bottom",
+    )
     _style_axes(ax)
     _save(fig, "08_cost.png")
 
@@ -380,6 +418,7 @@ def chart_cost_per_1000_calls() -> None:
         "jev_arm_ct9": "CT9", "haiku_arm_ct9": "CT9", "sonnet_arm_ct9": "CT9", "openjev_arm_ct9": "CT9",
         "jev_arm_ct10": "CT10", "haiku_arm_ct10": "CT10", "sonnet_arm_ct10": "CT10", "openjev_arm_ct10": "CT10",
     }
+    call_counts: dict[tuple[str, str], int] = {}
     for agg in spend.values():
         source = agg["source"]
         if source not in task_of_source:
@@ -388,6 +427,17 @@ def chart_cost_per_1000_calls() -> None:
         task = task_of_source[source]
         per_1000 = agg["cost_usd"] / agg["calls"] * 1000
         by_task_arm[(task, arm)] = per_1000
+        call_counts[(task, arm)] = agg["calls"]
+
+    # OpenJev's real per-call cost above is $0.00 (free Codiv tier) -- swap
+    # in the documented self-hosted estimate per task family instead, using
+    # the same call counts already collected. See
+    # scripts/estimate_self_hosted_cost.py / methodology.md §17.
+    openjev_est = _openjev_self_hosted_by_task()
+    for task, key in (("CT1-8", "ct1_8"), ("CT9", "ct9"), ("CT10", "ct10")):
+        calls = call_counts.get((task, "openjev"))
+        if calls:
+            by_task_arm[(task, "openjev")] = openjev_est[key] / calls * 1000
 
     tasks = ["CT1-8", "CT9", "CT10"]
     arms = ["jev", "haiku", "sonnet", "openjev"]
@@ -400,9 +450,15 @@ def chart_cost_per_1000_calls() -> None:
         vals = [max(by_task_arm.get((t, arm), 0.0), 0.0005) for t in tasks]
         offsets = [xi + (i - (n_arms - 1) / 2) * width for xi in x]
         bars = ax.bar(offsets, vals, width=width * 0.9, label=LABEL[arm], color=COLOR[arm])
+        if arm == "openjev":
+            for b in bars:
+                b.set_hatch("///")
         for b, t in zip(bars, tasks):
             real = by_task_arm.get((t, arm), 0.0)
-            label = f"${real:.3f}" if real >= 0.001 else "$0.00"
+            if arm == "openjev":
+                label = f"~${real:.3f} est."
+            else:
+                label = f"${real:.3f}" if real >= 0.001 else "$0.00"
             ax.annotate(label, (b.get_x() + b.get_width() / 2, b.get_height()), ha="center", va="bottom", fontsize=8, rotation=0)
 
     ax.set_yscale("log")
@@ -410,8 +466,12 @@ def chart_cost_per_1000_calls() -> None:
     ax.set_xticks(list(x))
     ax.set_xticklabels(tasks)
     ax.set_ylabel("Cost per 1,000 API calls (log scale, USD)")
-    ax.set_title("Price per 1,000 calls, by test suite\nJev runs 30-50x cheaper than Haiku on every task; OpenJev is free")
-    ax.legend(frameon=False, loc="upper center", ncol=3, bbox_to_anchor=(0.5, 1.0))
+    ax.set_title("Price per 1,000 calls, by test suite\nJev and a self-hosted OpenJev estimate both undercut the Claude arms by 15-500x")
+    ax.legend(frameon=False, loc="upper center", ncol=4, bbox_to_anchor=(0.5, 1.0))
+    ax.annotate(
+        "OpenJev (hatched) = documented self-hosted compute estimate, not the $0.00 free-tier price actually paid",
+        xy=(0.5, -0.16), xycoords="axes fraction", fontsize=8, color="#4B5563", ha="center", va="top",
+    )
     _style_axes(ax)
     _save(fig, "09_cost_per_1000_calls.png")
 
@@ -429,6 +489,10 @@ def chart_accuracy_vs_cost() -> None:
         if agg["source"] in ct1_8_sources:
             arm = next(a for a in totals if agg["source"].startswith(a))
             totals[arm] += agg["cost_usd"]
+    # OpenJev's real CT1-8 spend above is $0.00 -- swap in the documented
+    # self-hosted estimate so its point isn't misleadingly pinned to the
+    # x-axis floor. See scripts/estimate_self_hosted_cost.py / methodology.md §17.
+    totals["openjev"] = _openjev_self_hosted_by_task()["ct1_8"]
 
     arms = ["jev", "haiku", "sonnet", "openjev"]
 
@@ -444,14 +508,22 @@ def chart_accuracy_vs_cost() -> None:
         x_val = max(totals[arm], 0.001)
         # Haiku and Sonnet land close together on both axes (similar accuracy,
         # similar log-scale cost) -- push Sonnet's label below its point so
-        # the two annotations don't overlap; everyone else keeps the default
-        # above-point placement (Jev and OpenJev are isolated enough not to
-        # need it, and OpenJev sits too close to the axis for a below offset).
-        y_offset = -34 if arm == "sonnet" else 22
+        # the two annotations don't overlap. OpenJev's estimated cost now
+        # lands close to Jev's on the x-axis and low enough on the y-axis to
+        # collide with the "97.0%" gridline label when placed above -- push
+        # it below too.
+        y_offset = -34 if arm == "sonnet" else (-62 if arm == "openjev" else 22)
         va = "bottom" if y_offset > 0 else "top"
-        ax.scatter([x_val], [accs[arm]], s=420, color=COLOR[arm], zorder=3, edgecolor="white", linewidth=1.5)
+        marker_kwargs = (
+            {"facecolor": "none", "edgecolor": COLOR[arm], "linewidth": 2.5, "hatch": "///"}
+            if arm == "openjev"
+            else {"color": COLOR[arm], "edgecolor": "white", "linewidth": 1.5}
+        )
+        ax.scatter([x_val], [accs[arm]], s=420, zorder=3, **marker_kwargs)
+        arm_label = f"{LABEL[arm]} (self-hosted est.)" if arm == "openjev" else LABEL[arm]
+        cost_label = f"~${totals[arm]:.2f} est." if arm == "openjev" else f"${totals[arm]:.2f} total"
         ax.annotate(
-            f"{LABEL[arm]}\n{accs[arm]:.1%} accuracy, ${totals[arm]:.2f} total",
+            f"{arm_label}\n{accs[arm]:.1%} accuracy, {cost_label}",
             (x_val, accs[arm]),
             textcoords="offset points",
             xytext=(0, y_offset),

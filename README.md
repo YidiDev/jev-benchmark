@@ -16,12 +16,18 @@ the seeds and scripts in this repo.
 
 ## TL;DR
 
-| | Jev | Claude Haiku 4.5 | Claude Sonnet 5 | OpenJev (free) |
+| | Jev | Claude Haiku 4.5 | Claude Sonnet 5 | OpenJev |
 |---|---|---|---|---|
 | **CT1-8 overall accuracy** | **98.84%** | 96.46% | 96.18% | 96.28% |
-| **Price per 1,000 calls (CT1-8)** | **$0.031** | $1.590 | $3.599 | $0.000 |
-| **Total spend, whole benchmark** | **$0.75** | $29.67 | $68.10 | $0.00 |
+| **Price per 1,000 calls (CT1-8)** | $0.031 | $1.590 | $3.599 | **~$0.014 (self-hosted est.)** |
+| **Total spend, whole benchmark** | $0.75 | $29.67 | $68.10 | **$0.00 real / ~$0.43 self-hosted est.** |
 | Calibration (confidence flags real errors) | **Consistently useful, 3/3 tasks** | Consistently useless, 3/3 tasks | Consistently useless, 3/3 tasks | In between |
+
+OpenJev's real spend in this benchmark genuinely was $0.00 (Codiv's free hosted tier) — the
+"self-hosted est." figures are a documented estimate of what running it yourself on rented GPU
+compute would cost instead, so it isn't compared against metered API arms as if it were free to
+deploy. See [Price, in full](#price-in-full) and [methodology.md §17](./methodology.md#17-estimating-self-hosted-compute-cost-for-the-free-arms)
+for the exact assumptions.
 
 **Jev is both more accurate and ~50-116x cheaper than the two Claude models on the core
 classification task** — the single clearest number in this repo. It also wins on rubric-following
@@ -97,8 +103,8 @@ approach turned out to be wrong and was replaced.
 | **Jev** (`jev-1.13`) | TypeSafe AI's purpose-built rubric-classification model. Three primitives: `Noul` (yes/no), `Choice` (pick 1 of ≤255 options), `Score` (rate against an ordered rubric). | $0.042 / Mtok input, **output free** |
 | **Claude Haiku 4.5** | Anthropic's fast general-purpose LLM — the reference-ceiling comparison arm. | $1 / Mtok input, $5 / Mtok output |
 | **Claude Sonnet 5** | Anthropic's stronger general-purpose LLM, added later to check whether Haiku's underperformance was Haiku-specific or general — same rubric, same forced tool-use, same grid as Haiku throughout. | $2 / Mtok input, $10 / Mtok output |
-| **OpenJev** | `razorback16/openjev`, an open-weights model (DiffusionGemma 26B-A4B, Apache-2.0) that speaks Jev's exact wire API. Tested via the free-hosted [Codiv](https://codiv.ai) endpoint. | **Free** (hosted tier) |
-| NLI (bart-large-mnli) / Embeddings (bge-m3) | Standard zero-shot classification baselines — the "does it actually read the rubric" control group for Part 1. Not real contenders (they can't follow a rubric at all), included to prove the point. | Local, free |
+| **OpenJev** | `razorback16/openjev`, an open-weights model (DiffusionGemma 26B-A4B, Apache-2.0) that speaks Jev's exact wire API. Tested via the free-hosted [Codiv](https://codiv.ai) endpoint — real cost here is $0.00, but self-hosting it (its actual real-world deployment path) is estimated at ~$0.028/Mtok input on a 24GB-class GPU. | **$0.00** (hosted tier used) / ~$0.028/Mtok (self-hosted est.) |
+| NLI (bart-large-mnli) / Embeddings (bge-m3) | Standard zero-shot classification baselines — the "does it actually read the rubric" control group for Part 1. Not real contenders (they can't follow a rubric at all), included to prove the point. Ran locally in this benchmark (real cost $0.00); self-hosting either commercially is estimated at ~$0.03/Mtok on a small cloud GPU. | Local, **$0.00** real / ~$0.03/Mtok (self-hosted est.) |
 
 ## The ten test suites
 
@@ -134,9 +140,12 @@ matching, its accuracy under these conditions would collapse toward the NLI/embe
 **It doesn't — Jev stays at 100.00% in every single condition**, while the baselines collapse to
 26-48%. This is the foundational result everything else builds on.
 
-**Price**: this part uses only local, free baselines plus Jev — CT1-4 corpus generation cost
-**$1.06** total (one-time Sonnet 5 cost to build the 240-document corpus), Jev's own inference
-cost **$0.18** for all 2,880 classifications.
+**Price**: this part's baselines ran locally in this benchmark, real cost $0.00 — CT1-4 corpus
+generation cost **$1.06** total (one-time Sonnet 5 cost to build the 240-document corpus), Jev's
+own inference cost **$0.18** for all 2,880 classifications, and NLI/embeddings' estimated
+self-hosted cost (if you deployed them instead of running locally like this benchmark did) is
+**~$0.03 and ~$0.01** respectively for the same 1,440 real predictions each — see
+[methodology.md §17](./methodology.md#17-estimating-self-hosted-compute-cost-for-the-free-arms).
 
 ### Part 2 — Jev vs. two Claude models: head-to-head comparison
 
@@ -177,8 +186,10 @@ Sonnet here; it has a sharper, more isolated failure mode than Haiku, not a smal
 
 <p align="center"><img src="charts/04_ct7_openjev_collapse.png" width="640"></p>
 
-OpenJev is **free** and scores 96.28% overall on CT1-8 — a genuinely viable zero-cost fallback for
-simple classification. It has exactly one sharp, fully-diagnosed weakness: CT7's multi-hop lookup
+OpenJev cost $0.00 in this benchmark (free Codiv hosted tier) and scores 96.28% overall on CT1-8 —
+a genuinely viable, low-cost fallback for simple classification (self-hosting it for real is
+estimated at ~$0.014 per 1,000 calls on CT1-8, still 2-100x cheaper than every other arm — see
+[Price, in full](#price-in-full)). It has exactly one sharp, fully-diagnosed weakness: CT7's multi-hop lookup
 collapses to 40% under Condition C specifically (red bar above) — but the *identical* tree scores
 100% under the SHUFFLE control (opaque random IDs). That rules out "OpenJev can't follow the
 rubric" — it's a label-*collision* bug (Condition C's misleading names are other real, plausible
@@ -187,10 +198,12 @@ independently collapses on the exact same clause type and condition**, to a simi
 structurally different models, hitting the same specific trap, for what looks like the same
 underlying reason (both fail confidently, and both recover completely under SHUFFLE).
 
-**Price**: $0.00, always — the free Codiv tier never touched the $110 Anthropic budget for any of
-CT1-8, CT9, or CT10.
+**Price**: $0.00 real spend, always — the free Codiv tier never touched the $110 Anthropic budget
+for any of CT1-8, CT9, or CT10. Self-hosting it for real is estimated at **$0.43 total** across
+all three task families (methodology.md §17) — still far below every metered API arm, but not
+actually free the way "$0.00" implies.
 
-**Verdict**: viable free fallback for CT1-8-style classification; not yet viable for CT9-style
+**Verdict**: viable low-cost fallback for CT1-8-style classification; not yet viable for CT9-style
 chained execution (see below) — meaningfully behind all three other models at every step size.
 
 ### Part 4 — CT9: chained decision-tree execution
@@ -216,8 +229,9 @@ under opaque labeling (20%), the highest disagreement rate anywhere in this proj
 found, not smoothed over.
 
 **Price**: 900 traces × 4 arms = 3,420 API calls per model. Jev **$0.32**, Haiku **$10.27**,
-Sonnet **$24.55**, OpenJev **$0.00** — Jev's per-call cost advantage holds even on this much more
-demanding multi-step task (**~32-76x cheaper per 1,000 calls**, see [Price, in full](#price-in-full)).
+Sonnet **$24.55**, OpenJev $0.00 real / ~$0.20 self-hosted est. — both Jev and a self-hosted
+OpenJev undercut both Claude models by more than two orders of magnitude on this much more
+demanding multi-step task (see [Price, in full](#price-in-full)).
 
 ### Part 5 — CT10: AP World History exam grading
 
@@ -257,7 +271,7 @@ the largest of the three LLM arms) — a genuinely different profile from the ac
 above.
 
 **Price**: 6,200 grading actions × 4 arms = 24,800 calls. Jev **$0.25**, Haiku **$10.22**,
-Sonnet **$22.82**, OpenJev **$0.00**.
+Sonnet **$22.82**, OpenJev $0.00 real / ~$0.15 self-hosted est.
 
 ### Calibration, across every task
 
@@ -290,20 +304,34 @@ it, and here's the full picture:
 | Jev | $0.18 | $0.32 | $0.25 | **$0.75** |
 | Claude Haiku 4.5 | $9.18 | $10.27 | $10.22 | **$29.67** |
 | Claude Sonnet 5 | $20.73 | $24.55 | $22.82 | **$68.10** |
-| OpenJev | $0.00 | $0.00 | $0.00 | **$0.00** |
+| OpenJev, real spend | $0.00 | $0.00 | $0.00 | **$0.00** |
+| OpenJev, self-hosted estimate | ~$0.08 | ~$0.20 | ~$0.15 | **~$0.43** |
+| NLI (bart-large-mnli), self-hosted estimate | ~$0.03 | — | — | **~$0.03** |
+| Embeddings (bge-m3), self-hosted estimate | ~$0.01 | — | — | **~$0.01** |
 
-**Jev and OpenJev combined cost under 1% of the two Claude models' combined spend across the
-entire benchmark.** Corpus generation (one-time, via Claude Sonnet 5 in its upstream
-content-authoring role — not the same as its downstream grading-arm role above — to build the 480
-CT1-8 documents + 60 CT9 forms + 100 CT10 exams) cost an additional $11.59 — not a recurring cost,
-since the corpus itself is committed to this repo and never needs regenerating. **Grand total:
+**Two different numbers, deliberately kept apart.** OpenJev's row above genuinely cost $0.00 in
+this benchmark (Codiv's free hosted tier), and NLI/embeddings genuinely cost $0.00 too (ran
+locally on this project's own hardware) — that's the real, metered spend, unchanged in
+`results/spend_ledger.jsonl`. The "self-hosted estimate" rows are a separate, documented
+projection of what actually deploying each of these three yourself would cost on rented GPU
+compute (methodology.md §17) — not real spend, and never counted against the Anthropic budget
+below. Even under that estimate, Jev and a self-hosted OpenJev both still cost under 1% of the
+two Claude models' combined spend across the entire benchmark — Jev is not the *cheapest* option
+by this estimate on any single task family (OpenJev's self-hosted estimate undercuts it
+everywhere, a genuinely counterintuitive result explained in methodology.md §17), but both remain
+in a completely different cost class from either Claude model.
+
+Corpus generation (one-time, via Claude Sonnet 5 in its upstream content-authoring role — not the
+same as its downstream grading-arm role above — to build the 480 CT1-8 documents + 60 CT9 forms +
+100 CT10 exams) cost an additional $11.59 — not a recurring cost, since the corpus itself is
+committed to this repo and never needs regenerating. **Grand total (real, metered spend):
 $110.11**, all logged to [`results/spend_ledger.jsonl`](./results/spend_ledger.jsonl) call-by-call
 as it was spent, not estimated after the fact — cumulative Anthropic spend (corpus generation +
 Haiku + Sonnet) landed at $109.36 of the $110.00 approved budget, $0.64 under the hard cap.
 
 ## Methodology highlights
 
-Full detail in [`methodology.md`](./methodology.md) (16 sections, one per phase); the highlights
+Full detail in [`methodology.md`](./methodology.md) (17 sections, one per phase); the highlights
 that matter most for trusting these results:
 
 - **Seeded RNG discipline.** Every choice that should be uninfluenced by semantics — opaque folder
@@ -315,7 +343,9 @@ that matter most for trusting these results:
   model matches folder-name vibes," and it was applied to every classification-shaped task.
 - **Price tracked as it was spent**, not estimated afterward — every API call, successful or not,
   is logged to `results/spend_ledger.jsonl` with a hard budget ceiling enforced *before* the call
-  that would exceed it, not after.
+  that would exceed it, not after. Real spend for nli-bart/emb-bge/OpenJev genuinely is $0.00 in
+  this ledger — the separate self-hosted cost estimate (methodology.md §17) is exactly that,
+  clearly labeled and never mixed into the real ledger, precisely because this principle matters.
 - **Negative results are reported, not hidden.** CT7 and CT8 (hard mode) found no weakness for
   Jev or Haiku (Sonnet is the exception on CT7 — also reported, not smoothed over). CT9 found
   Jev *less* stable than Haiku at k=10, and Sonnet less stable still. All of it is in the numbers
@@ -337,7 +367,8 @@ cp .env.example .env   # fill in TYPESAFE_API_KEY, ANTHROPIC_API_KEY, CODIV_API_
 # Everything below is already committed (corpus, predictions, spend ledger) --
 # these commands regenerate results from what's already here, or extend it.
 pytest tests/ -q                        # 124 tests, exercises every scoring function
-python -m harness.spend_ledger          # print the full price ledger
+python -m harness.spend_ledger          # print the full price ledger (real, metered spend)
+python -m scripts.estimate_self_hosted_cost  # rebuild results/self_hosted_cost_estimate.json
 python -m scripts.generate_summary      # rebuild results/summary.{json,csv}
 python -m scripts.generate_charts       # rebuild every chart in charts/
 
@@ -362,8 +393,10 @@ arms/         One module per CT1-8 arm: jev, haiku, sonnet, openjev, nli-bart, e
 qtree/        CT9: decision tree, chunked execution arms, scoring
 examgrade/    CT10: exam questions/rubrics, student corpus, grading arms, scoring
 harness/      Shared scoring (bootstrap CI, ECE, disagreement), spend ledger, constants
-scripts/      run_arm / run_api_arm (CT1-8), generate_summary, generate_charts
-results/      Every raw prediction, the spend ledger, and the consolidated summary
+scripts/      run_arm / run_api_arm (CT1-8), generate_summary, generate_charts,
+              estimate_self_hosted_cost
+results/      Every raw prediction, the spend ledger, the self-hosted cost
+              estimate, and the consolidated summary
 charts/       Every chart in this README, regenerable via scripts/generate_charts.py
 tests/        124 tests covering ground truth, RNG determinism, and every scoring function
 ```

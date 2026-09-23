@@ -1547,3 +1547,122 @@ general-purpose model traded one failure profile for a different, more
 isolated one, rather than uniformly closing the gap. This is exactly the
 kind of result a benchmark limited to Haiku alone, or one that stopped
 after the original CT1-4-only evidence, would never have found.
+
+## 17. Estimating self-hosted compute cost for the "free" arms
+
+### Motivation
+
+Every cost table and chart in this repo through §16 reports nli-bart,
+emb-bge, and OpenJev at $0.00 -- and that is *accurate* as real, metered
+spend: nli-bart/emb-bge ran locally on this project's own machine, and
+OpenJev ran on Codiv's free hosted tier, so this benchmark genuinely paid
+nothing for any of the three. The user flagged this as misleading in a
+head-to-head cost *comparison* against Jev/Haiku/Sonnet, which all cost
+real money per token: "$0.00" implies these three are free to deploy,
+when what's actually true is narrower -- they were free *for this
+benchmark*, using resources (this machine's own GPU-less/local
+inference, a vendor's free tier) that a real deployment couldn't
+necessarily rely on. The request: estimate what self-hosting each of
+these three would actually cost per token, on real (if modest) rented
+compute, and report that instead of a flat zero -- cheaper than the
+metered API arms, almost certainly, but not free.
+
+This is explicitly a *reporting* change, not a change to what was really
+spent. `results/spend_ledger.jsonl`, `ANTHROPIC_BUDGET_USD`, and every
+"actual spend" number elsewhere in this repo are untouched -- the real
+ledger's entire reason for existing (§1, "price tracked as it was spent,
+not estimated after the fact") is precisely why this new estimate is
+implemented as a *separate*, clearly-labeled artifact rather than mixed
+into it.
+
+### Method
+
+**Pricing assumptions** (`harness/constants.py`'s `SELF_HOSTED_PRICING`,
+deliberately budget/spot-tier rates, since "self-hosted" implies run
+cost-consciously, not on a premium reserved instance):
+
+| Model | Params | Assumed hardware | $/hr | Assumed throughput | Derived $/Mtok (input) |
+|---|---|---|---|---|---|
+| nli-bart (`facebook/bart-large-mnli`) | ~407M | 16GB "T4-class" GPU | $0.20 | ~2,000 tok/s | $0.0278 |
+| emb-bge (`BAAI/bge-m3`) | ~568M | 16GB "T4-class" GPU | $0.20 | ~1,800 tok/s | $0.0309 |
+| openjev (`razorback16/openjev`, DiffusionGemma 26B-A4B) | 26B (A4B active) | 24GB-class GPU | $0.40 | ~4,000 tok/s | $0.0278 |
+
+Both small encoders are priced identically on the hardware side (a T4 is
+already far more GPU than either 400-600M-parameter model needs -- it's
+the smallest commonly-rented cloud tier, not a tight fit) and differ only
+slightly on assumed throughput (bge-m3 is somewhat larger). OpenJev's
+"24GB-class GPU" isn't a fresh guess -- `arms/openjev.py`'s own module
+docstring already established this figure when this project's actual
+hardware (RTX 3050, 8GB) was found insufficient to self-host it (§0), so
+this section reuses that already-documented real constraint rather than
+re-deriving it. All three assume no output-token cost for classification/
+embedding (nli-bart, emb-bge -- there's nothing generated, only scored),
+and OpenJev's output side is priced but never actually exercised (next
+paragraph).
+
+**Token counts.** nli-bart and emb-bge never logged token counts during
+their real run -- they call local model objects directly, not a metered
+API, so there was nothing to log. `scripts/estimate_self_hosted_cost.py`
+re-tokenizes the *exact* input each arm actually processed (document text
+from `corpus/documents/`, folder/hypothesis text from
+`rubrics.clauses.build_rubric()`, matched row-for-row against
+`results/predictions/{nli-bart,emb-bge}.jsonl`) using each model's real
+HuggingFace tokenizer -- no re-inference, no GPU, just re-deriving a count
+that should have been logged the first time. OpenJev's input tokens
+**were** already logged for real during the actual run (Codiv's endpoint
+reports them even on the free tier) -- summed directly from
+`results/predictions/{openjev,qtree_openjev,examgrade_openjev}.jsonl`,
+no re-tokenization needed. OpenJev's output tokens are logged as 0 in
+every single row across all three task families -- a genuine limitation
+of what Codiv's endpoint (or the SDK wrapping it) surfaces, not a design
+choice here -- so this estimate prices OpenJev's input/prompt side only;
+a real self-hosted deployment's cost would be somewhat higher once
+generation is accounted for.
+
+### Results
+
+`python -m scripts.estimate_self_hosted_cost` (writes
+`results/self_hosted_cost_estimate.json`):
+
+| Arm | Tokens | Estimated cost |
+|---|---|---|
+| nli-bart (CT1-8, 1,440 rows) | 1,229,376 input | **$0.0341** |
+| emb-bge (CT1-8, 1,440 rows) | 469,114 input | **$0.0145** |
+| openjev self-hosted, CT1-8 | 2,962,620 input | $0.0823 |
+| openjev self-hosted, CT9 | 7,167,730 input | $0.1991 |
+| openjev self-hosted, CT10 | 5,279,164 input | $0.1466 |
+| **openjev self-hosted, total** | 15,409,514 input | **$0.4280** |
+
+**A genuinely counterintuitive result**: under these assumptions, a
+self-hosted OpenJev is estimated *cheaper than Jev itself*, per 1,000
+calls, on all three task families (CT1-8: ~$0.014 vs. Jev's real $0.031;
+CT9: ~$0.058 vs. $0.093; CT10: ~$0.024 vs. $0.041). This isn't a
+modeling error -- it falls directly out of the stated assumptions
+(OpenJev's real calls tend to use fewer tokens than the equivalent
+Jev call on the same document, and the assumed self-hosted compute rate,
+$0.0278/Mtok on a cheap spot GPU, undercuts Jev's real $0.042/Mtok API
+price). It is a real, if narrow, illustration of why "self-hosting an
+open model on cheap spot compute" and "using a cheap hosted API" are
+genuinely different cost structures, not just cosmetically different
+zeros -- and why this section exists rather than leaving OpenJev at a
+flat $0.00 that would have obscured the comparison entirely. nli-bart
+and emb-bge remain far cheaper than either Claude model but not
+cheaper than Jev (their per-document token counts and the small extra
+GPU margin keep them above Jev's rate here).
+
+### Where this shows up
+
+- Charts 8, 9, and 10 (`scripts/generate_charts.py`) now plot OpenJev's
+  estimated self-hosted cost instead of $0.00, with the bar/point
+  rendered hatched and every affected label/annotation explicitly marked
+  "est." -- distinguishing "estimated" from every other arm's real,
+  measured spend at a glance, not just in a caption. nli-bart/emb-bge are
+  not part of these particular charts (they only ever competed in Part
+  1's shuffle-control instrument, not the cross-task cost comparison),
+  so their estimates are reported in prose/tables only (README.md,
+  results.md), not added to charts they were never part of.
+- `harness/spend_ledger.estimated_self_hosted_cost()` mirrors `cost_for()`
+  against `SELF_HOSTED_PRICING` instead of the real `PRICING` table --
+  never called from `record_spend()`, never written to the real ledger,
+  never checked against `ANTHROPIC_BUDGET_USD`. Purely a reporting-side
+  function.

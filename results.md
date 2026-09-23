@@ -254,7 +254,9 @@ methodology.md §12, §13, §15, §16).
 ## Part 3 — OpenJev fallback viability
 
 `CODIV_API_KEY` became available; OpenJev run at full scope on both CT1-8
-and CT9, matching Jev's own scope exactly. $0 cost (free Codiv tier).
+and CT9, matching Jev's own scope exactly. $0 real cost (free Codiv
+tier); estimated self-hosted cost (methodology.md §17, added later) is
+~$0.08 (CT1-8) and ~$0.20 (CT9) -- still far below every metered API arm.
 Full mechanism writeup: [methodology.md §14](./methodology.md#14-openjev-the-fallback-viability-arm-test-plan.mds-part-3).
 
 ### CT1-8 accuracy
@@ -318,15 +320,16 @@ the accuracy ranking is fixed to one arm once Sonnet is in the comparison.
 
 ### Verdict
 
-**Viable, free fallback for CT1-8-style rubric classification** (96.28%
+**Viable, low-cost fallback for CT1-8-style rubric classification** (96.28%
 overall, one specific, routable gap at CT7/misleading conditions, shared
-with Sonnet). **Not currently viable for CT9-style chained execution** —
-meaningfully behind Jev and Haiku at low-to-mid k, with faster degradation
-and (on semantic labeling) worse run-to-run stability than either — though
-no longer uniquely so: Sonnet's k=10/opaque instability (20.0%) is worse
-than OpenJev shows anywhere. A firm using Jev as primary could reasonably
-scope a zero-cost OpenJev fallback to single-hop classification tasks, not
-long decision chains.
+with Sonnet; $0.00 real cost here, ~$0.014/1,000 calls if self-hosted for
+real — methodology.md §17). **Not currently viable for CT9-style chained
+execution** — meaningfully behind Jev and Haiku at low-to-mid k, with
+faster degradation and (on semantic labeling) worse run-to-run stability
+than either — though no longer uniquely so: Sonnet's k=10/opaque
+instability (20.0%) is worse than OpenJev shows anywhere. A firm using
+Jev as primary could reasonably scope an OpenJev fallback to single-hop
+classification tasks, not long decision chains.
 
 ## Part 5 — CT10: AP World History exam grading
 
@@ -406,8 +409,10 @@ per-question confidence field to compare).
 
 ### Cost
 
-Jev $0.25, Haiku $10.22, Sonnet $22.82, OpenJev $0.00 (12,000 grade
-rows/arm; Sonnet 2.23x Haiku's rate on this task). Cumulative Anthropic
+Jev $0.25, Haiku $10.22, Sonnet $22.82, OpenJev $0.00 real / ~$0.15
+self-hosted estimate (12,000 grade rows/arm; Sonnet 2.23x Haiku's rate on
+this task; OpenJev's self-hosted estimate added later, methodology.md
+§17). Cumulative Anthropic
 spend at the end of the original 3-arm CT10 phase: **$41.26 / $50.00**,
 $8.74 remaining. Final cumulative spend after adding Sonnet across all
 three task families: **$109.36 / $110.00**, $0.64 remaining

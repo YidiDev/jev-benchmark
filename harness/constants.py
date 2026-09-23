@@ -82,6 +82,65 @@ PRICING = {
     "claude-sonnet-5": {"input_per_mtok": 2.00, "output_per_mtok": 10.00},
 }
 
+# --- Estimated self-hosted compute cost (USD), NOT real metered spend. ---
+#
+# PRICING above (and results/spend_ledger.jsonl, and ANTHROPIC_BUDGET_USD) is
+# the *actual* money spent running this benchmark -- nli-bart and emb-bge ran
+# locally on this machine's own hardware, and openjev ran on Codiv's free
+# hosted tier, so their real cost really was $0.00. But "$0.00" is a
+# misleading number to put next to Jev/Haiku/Sonnet's real API pricing in a
+# cost comparison: if you actually deployed nli-bart, emb-bge, or a
+# self-hosted OpenJev, you would pay for the compute, just not through this
+# benchmark's ledger. This table estimates that cost from a specific, stated
+# hardware/throughput assumption per model, documented in methodology.md §17,
+# so the estimate is auditable rather than a bare number. It is NEVER passed
+# to record_spend() or counted against ANTHROPIC_BUDGET_USD -- it exists only
+# for reporting (scripts/estimate_self_hosted_cost.py), computed once, after
+# the fact, from real token counts (re-tokenized from the committed corpus
+# for nli-bart/emb-bge, since those arms never logged token counts during the
+# actual local run; reused directly from openjev's already-logged real input
+# token counts, which recorded real usage even though PRICING["openjev"] is
+# $0/$0).
+#
+# Assumptions (all budget/community cloud-GPU spot rates, 2026 ballpark,
+# deliberately on the cheap end since "self-hosted" implies cost-consciously
+# run, not a premium reserved instance):
+#   - nli-bart (facebook/bart-large-mnli, ~407M params): a 16GB "T4-class"
+#     GPU is far more than this model needs, but is the smallest commonly
+#     rented cloud GPU tier -- $0.20/hr, ~2,000 input tok/s (encoder-only
+#     forward pass, batch=1, one (premise, hypothesis) pair per candidate
+#     folder -- see the HF zero-shot-classification pipeline's actual call
+#     shape in arms/nli_bart.py). No output tokens (classification scores
+#     only, nothing generated).
+#   - emb-bge (BAAI/bge-m3, ~568M params): same T4-class tier, $0.20/hr,
+#     ~1,800 input tok/s (slightly larger model, embedding forward pass).
+#     No output tokens.
+#   - openjev self-hosted (razorback16/openjev, DiffusionGemma 26B-A4B):
+#     arms/openjev.py's own module docstring already documents this model's
+#     real hardware requirement as "24GB-class GPU" (established when this
+#     machine's RTX 3050 8GB was found insufficient) -- used here directly
+#     rather than re-guessing. $0.40/hr for a 24GB-class budget cloud GPU
+#     (RTX 4090/A10G-tier), ~4,000 input tok/s (prefill/encode-style
+#     throughput scales well with parallelism regardless of the ~4B active
+#     parameters per token). Output tokens are never logged for this arm
+#     (Codiv's endpoint doesn't report them -- every openjev prediction
+#     record shows output_tokens=0), so this estimate prices the input/
+#     prompt side only; real self-hosted cost including generation would be
+#     somewhat higher. output_per_mtok is set anyway, for schema uniformity
+#     and in case a future logging fix populates real output token counts.
+SELF_HOSTED_GPU_HOURLY_USD = {
+    "t4_class_16gb": 0.20,
+    "gpu_24gb_class": 0.40,
+}
+SELF_HOSTED_PRICING = {
+    "nli-bart": {"input_per_mtok": 0.20 / (2_000 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
+    "emb-bge": {"input_per_mtok": 0.20 / (1_800 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
+    "openjev-self-hosted": {
+        "input_per_mtok": 0.40 / (4_000 * 3_600) * 1_000_000,
+        "output_per_mtok": 0.40 / (300 * 3_600) * 1_000_000,  # never exercised, see above
+    },
+}
+
 # Hard budget guardrails. See results.md / conversation log: user-provided
 # Anthropic credit was originally $5.00 total, shared across corpus
 # generation (Sonnet 5) and the Haiku reference arm. Raised to $12.00 on

@@ -14,7 +14,7 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
-from harness.constants import ANTHROPIC_BUDGET_USD, ANTHROPIC_WARN_USD, PRICING
+from harness.constants import ANTHROPIC_BUDGET_USD, ANTHROPIC_WARN_USD, PRICING, SELF_HOSTED_PRICING
 
 LEDGER_PATH = Path(__file__).resolve().parent.parent / "results" / "spend_ledger.jsonl"
 
@@ -63,6 +63,20 @@ def cost_for(
     if cache_read_tokens:
         cost += cache_read_tokens * rates["cache_read_per_mtok"] / 1_000_000
     return cost
+
+
+def estimated_self_hosted_cost(model: str, input_tokens: int, output_tokens: int) -> float:
+    """Mirrors cost_for(), but against SELF_HOSTED_PRICING (harness/constants.py)
+    instead of the real, metered PRICING table. Never written to
+    results/spend_ledger.jsonl and never checked against ANTHROPIC_BUDGET_USD --
+    this is a reporting-only estimate of what self-hosting `model` would cost,
+    not real spend. See scripts/estimate_self_hosted_cost.py and
+    methodology.md §17 for how it's used and its documented assumptions."""
+    rates = SELF_HOSTED_PRICING[model]
+    return (
+        input_tokens * rates["input_per_mtok"] / 1_000_000
+        + output_tokens * rates["output_per_mtok"] / 1_000_000
+    )
 
 
 def cumulative_spend(provider: str = "anthropic") -> float:

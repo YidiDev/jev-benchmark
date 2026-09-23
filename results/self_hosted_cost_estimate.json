@@ -1,0 +1,44 @@
+{
+  "note": "Estimated self-hosted compute cost, NOT real metered spend. Real spend for these three arms is $0.00 (local hardware / free hosted tier) and stays that way in results/spend_ledger.jsonl. See harness/constants.py's SELF_HOSTED_PRICING and methodology.md \u00a717 for the hardware/throughput assumptions behind every number below.",
+  "arms": {
+    "nli-bart": {
+      "task": "ct1_8",
+      "n_rows": 1440,
+      "input_tokens": 1229376,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.03414933333333334
+    },
+    "emb-bge": {
+      "task": "ct1_8",
+      "n_rows": 1440,
+      "input_tokens": 469114,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.014478827160493828
+    },
+    "openjev-self-hosted": {
+      "ct1_8": {
+        "n_rows": 5760,
+        "input_tokens": 2962620,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.082295
+      },
+      "ct9": {
+        "n_rows": 3420,
+        "input_tokens": 7167730,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.19910361111111113
+      },
+      "ct10": {
+        "n_rows": 12000,
+        "input_tokens": 5279164,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.14664344444444447
+      },
+      "total": {
+        "input_tokens": 15409514,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.42804205555555563
+      }
+    }
+  }
+}
