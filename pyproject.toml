@@ -1,7 +1,7 @@
 [project]
 name = "jev-benchmark"
 version = "0.1.0"
-description = "Rubric-Based Zero-Shot Classification Model Benchmark: Jev vs NLI vs embeddings vs Haiku vs OpenJev on rubric-conditioned document sorting, chained decision execution, and partial-credit exam grading."
+description = "Rubric-Based Zero-Shot Classification Model Benchmark: Jev vs NLI vs embeddings vs Claude Haiku 4.5 vs Claude Sonnet 5 vs OpenJev on rubric-conditioned document sorting, chained decision execution, and partial-credit exam grading."
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "Yidi Sprei" }]

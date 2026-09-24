@@ -8,6 +8,8 @@
 
 Part 1 (vs NLI) is an existence proof. Part 2 (vs Haiku) is the harder comparison — it measures whether Jev's rubric-conditioning holds up against a capable general-purpose model, not just against a non-contender.
 
+**Addendum (see methodology.md §16):** Part 2 was later extended to include a second, stronger general-purpose model, Claude Sonnet 5, once CT9/CT10 showed Haiku underperforming Jev by a wider margin than this original CT1-4 design ever tested. This section is left as originally drafted, before that decision — see results.md and README.md for the current, four-model comparison.
+
 
 Status: design only, not yet run. Drafted 2026-09-21.
 

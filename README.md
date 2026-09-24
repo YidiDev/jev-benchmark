@@ -54,7 +54,7 @@ did not transfer into more reliable batching; if anything, the opposite. Read on
 3. [The ten test suites](#the-ten-test-suites)
 4. [Results, part by part](#results-part-by-part)
    - [Part 1 — Does Jev genuinely read the rubric?](#part-1--does-jev-genuinely-read-the-rubric)
-   - [Part 2 — Jev vs. Haiku: head-to-head comparison](#part-2--jev-vs-haiku-head-to-head-comparison)
+   - [Part 2 — Jev vs. two Claude models: head-to-head comparison](#part-2--jev-vs-two-claude-models-head-to-head-comparison)
    - [Part 3 — OpenJev fallback viability](#part-3--openjev-fallback-viability)
    - [Part 4 — CT9: chained decision-tree execution](#part-4--ct9-chained-decision-tree-execution)
    - [Part 5 — CT10: AP World History exam grading](#part-5--ct10-ap-world-history-exam-grading)
