@@ -113,6 +113,7 @@ Full corpus (all 8 clause types), temperature fit on the validation split
 | Arm | Raw ECE | Fitted T | Fitted ECE |
 |---|---|---|---|
 | Jev | 0.0331 | 0.20 | 0.0112 |
+| OpenJev | 0.0795 | 0.50 | 0.0514 |
 | Haiku | 0.0098 | 1.00 (no improvement) | 0.0098 |
 
 Haiku's raw ECE looks *better* in aggregate — but this is exactly the
@@ -121,6 +122,19 @@ confident and mostly correct, which flatters an aggregate calibration
 curve while hiding what happens specifically on its errors. See
 confidence-at-errors below for the number that actually matters for a
 fallback-queue design.
+
+**The moat question (test-plan.md §6.1): does a single fitted temperature
+close the gap between RLCD-trained Jev and an untrained openjev
+reimplementation? No.** OpenJev's fitted ECE (0.0514) remains ~4.6x Jev's
+(0.0112) and its raw ECE was already ~2.4x worse than Jev's before fitting
+— one free parameter narrows but does not close the aggregate-calibration
+gap, on this corpus. That said, aggregate ECE is not the only lens: per
+Confidence-at-errors below, OpenJev's error/correct confidence gap (0.505)
+is comparable to Jev's own discrimination and far better than Haiku's, so
+OpenJev's raw confidence is still a usable fallback-queue signal even
+though it is not as well-calibrated in the ECE sense. The RLCD moat shows
+up specifically in aggregate calibration quality, not in whether
+confidence discriminates errors from correct predictions at all.
 
 ### Confidence at errors
 
@@ -296,7 +310,13 @@ benchmark that splits 2-and-2 rather than isolating one arm.
 
 Confidence at errors (0.396) vs. correct (0.901) — a 0.505 gap, comparable
 to Jev's own discrimination and far better than Haiku's near-zero gap.
-Disagreement: 16/1,920 = 0.83% (between Jev's 0.26% and Haiku's 1.46%).
+Raw ECE 0.0795, fitted ECE 0.0514 at T=0.50 (Part 2's Calibration table) —
+worse in the aggregate-ECE sense than Jev even after each arm gets its one
+free temperature parameter, so the moat question posed in test-plan.md
+§6.1 resolves in Jev's favor on this metric specifically, even though
+OpenJev's confidence still discriminates errors from correct predictions
+about as well as Jev's does. Disagreement: 16/1,920 = 0.83% (between
+Jev's 0.26% and Haiku's 1.46%).
 
 ### CT9 (chained decision-tree execution)
 
