@@ -25,15 +25,20 @@ from rubrics.ground_truth import correct_folder
 # identical between Condition B and SHUFFLE -- so their Condition B
 # predictions are reused as-is for SHUFFLE scoring (see scripts/run_arm.py's
 # docstring). jev/haiku/openjev DO see rubric text that differs between B
-# and SHUFFLE, so they have real SHUFFLE records on disk already.
+# and SHUFFLE, so they have real SHUFFLE records on disk already. laya/kev/
+# nimble also read real rubric text (see their arms modules) and get real
+# SHUFFLE runs -- see methodology.md §18.
 ARMS_SYNTHESIZE_SHUFFLE_FROM_B = {"nli-bart", "emb-bge"}
 
 # Arms whose `confidence` is a genuine per-call estimate worth calibrating.
 # nli-bart/emb-bge's confidence-like scores are documented as uncalibrated
 # in their own modules (temperature-1 softmax over raw scores) and excluded.
-CALIBRATION_ARMS = {"jev", "haiku", "openjev", "sonnet"}
+# laya ships a fitted-temperature calibrated confidence (see arms/laya.py);
+# kev/nimble likewise ship genuine calibrated/uncalibrated-but-real
+# confidence estimates worth reporting alongside jev/haiku/openjev/sonnet.
+CALIBRATION_ARMS = {"jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble"}
 
-ALL_KNOWN_ARMS = ("jev", "haiku", "nli-bart", "emb-bge", "openjev", "sonnet")
+ALL_KNOWN_ARMS = ("jev", "haiku", "nli-bart", "emb-bge", "openjev", "sonnet", "laya", "kev", "nimble")
 
 
 def _manifest_index() -> dict[str, DocumentMetadata]:
@@ -192,7 +197,15 @@ def cost_latency_table() -> list[dict]:
     """Actual logged latency + spend per arm -- real numbers, not list
     price, per test-plan.md's cost/latency requirement."""
     spend_by_source = summarize_spend()
-    source_for_arm = {"jev": "jev_arm", "haiku": "haiku_arm", "openjev": "openjev_arm", "sonnet": "sonnet_arm"}
+    source_for_arm = {
+        "jev": "jev_arm",
+        "haiku": "haiku_arm",
+        "openjev": "openjev_arm",
+        "sonnet": "sonnet_arm",
+        "laya": "laya_arm",
+        "kev": "kev_arm",
+        "nimble": "nimble_arm",
+    }
 
     out = []
     for arm in ALL_KNOWN_ARMS:

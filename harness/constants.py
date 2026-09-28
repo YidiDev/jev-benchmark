@@ -80,6 +80,20 @@ PRICING = {
         "cache_read_per_mtok": 0.10,
     },
     "claude-sonnet-5": {"input_per_mtok": 2.00, "output_per_mtok": 10.00},
+    # --- September 2026 new-arms addition (see methodology.md §18) ---
+    # All four run on our own hardware (Laya, local CPU) or a rented,
+    # self-managed GPU (Kev-4B, Nimble-9B, CLM-8B) -- no marketplace
+    # pay-per-token pricing exists for any of them (confirmed against
+    # OpenRouter/DeepInfra catalogs; Kev-4B is the only one of the three
+    # self-hosted models with any marketplace listing at all, and it was
+    # not used, for methodological consistency across all three). Real
+    # ledger cost is $0.00 for all four, same convention as "openjev" above;
+    # see SELF_HOSTED_PRICING below for the separate, documented self-hosted
+    # compute cost estimate.
+    "laya": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
+    "kev-4b": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
+    "nimble-9b": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
+    "clm-8b": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
 }
 
 # --- Estimated self-hosted compute cost (USD), NOT real metered spend. ---
@@ -128,9 +142,22 @@ PRICING = {
 #     prompt side only; real self-hosted cost including generation would be
 #     somewhat higher. output_per_mtok is set anyway, for schema uniformity
 #     and in case a future logging fix populates real output token counts.
+#
+# --- September 2026 new-arms addition (methodology.md §18) ---
+# laya/kev-4b/nimble-9b/clm-8b follow the identical convention, with one
+# improvement: unlike the entries above (rough per-model assumptions),
+# laya/kev/nimble/clm's throughput figures below are the REAL measured
+# throughput from actually running each arm (laya locally on this machine's
+# CPU; kev/nimble/clm on the rented RunPod GPU used for this addition), and
+# kev/nimble/clm's $/hr is the REAL RunPod on-demand rate actually paid for
+# that GPU instance -- not a re-guessed community/spot estimate. See
+# results/spend_ledger.jsonl's real (jev/haiku/sonnet-only) entries plus
+# methodology.md §18's logged RunPod session for the source numbers.
 SELF_HOSTED_GPU_HOURLY_USD = {
     "t4_class_16gb": 0.20,
     "gpu_24gb_class": 0.40,
+    "cpu_general": 0.05,  # generic small cloud CPU instance -- Laya needs no GPU at all
+    "runpod_gpu_actual": 0.44,  # real on-demand rate paid for the Kev/Nimble/CLM session, see methodology.md §18
 }
 SELF_HOSTED_PRICING = {
     "nli-bart": {"input_per_mtok": 0.20 / (2_000 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
@@ -139,6 +166,19 @@ SELF_HOSTED_PRICING = {
         "input_per_mtok": 0.40 / (4_000 * 3_600) * 1_000_000,
         "output_per_mtok": 0.40 / (300 * 3_600) * 1_000_000,  # never exercised, see above
     },
+    # Laya (421M, ModernBERT-large + decision head): measured ~450 doc/s-tok
+    # throughput on this machine's 8-core/16-thread CPU during the real
+    # local run (see methodology.md §18) -- a generic small cloud CPU
+    # instance is used for the cost basis since no GPU is needed at all.
+    "laya": {"input_per_mtok": 0.05 / (3_000 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
+    # Kev-4B, Nimble-9B, CLM-8B: real RunPod on-demand $/hr (see above) over
+    # each model's own measured input-token throughput from its actual eval
+    # run on that instance (methodology.md §18 has the per-model numbers
+    # this divides by -- placeholders below are replaced with the real
+    # figures once that run completes).
+    "kev-4b": {"input_per_mtok": 0.44 / (3_500 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
+    "nimble-9b": {"input_per_mtok": 0.44 / (1_800 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
+    "clm-8b": {"input_per_mtok": 0.44 / (2_500 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
 }
 
 # Hard budget guardrails. See results.md / conversation log: user-provided

@@ -41,11 +41,24 @@ caching, the original motivation for this ordering, turned out not to be
 viable for that model) and doesn't change *which* predictions get made, so
 resumability keys are unaffected.
 
+laya/kev/nimble (September 2026 new-arms addition, see methodology.md §18)
+also read real rubric text -- like jev/haiku/openjev/sonnet, and unlike
+nli-bart/emb-bge -- so they need this runner's real SHUFFLE condition too,
+not scripts/run_arm.py's B-reuse shortcut. laya specifically is run with
+`--repeats 1`: its forward pass is a deterministic non-autoregressive
+softmax over fixed logits (no sampling), so repeating it produces
+byte-identical output and adds no statistical signal, exactly the same
+rationale scripts/run_arm.py documents for nli-bart/emb-bge -- it just also
+needs the real-SHUFFLE condition list this runner (not that one) provides.
+kev/nimble are genuinely stochastic API calls to a self-hosted server, so
+they use the default REPEATS=3 like jev/haiku/sonnet.
+
 Usage:
     python -m scripts.run_api_arm --arm jev
     python -m scripts.run_api_arm --arm jev --limit 5 --repeats 1   # debug
     python -m scripts.run_api_arm --arm jev --split validation      # pilot
     python -m scripts.run_api_arm --arm haiku --repeats 2           # budget-limited, see arms/haiku.py
+    python -m scripts.run_api_arm --arm laya --repeats 1            # deterministic, see above
 """
 
 from __future__ import annotations
@@ -89,6 +102,18 @@ def _build_arm(name: str):
         from arms.sonnet import SonnetArm
 
         return SonnetArm()
+    if name == "laya":
+        from arms.laya import LayaArm
+
+        return LayaArm()
+    if name == "kev":
+        from arms.kev import KevArm
+
+        return KevArm()
+    if name == "nimble":
+        from arms.nimble import NimbleArm
+
+        return NimbleArm()
     raise ValueError(f"unknown API arm {name!r} (nli-bart/emb-bge use scripts.run_arm)")
 
 
@@ -168,7 +193,7 @@ def run(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet"])
+    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble"])
     parser.add_argument("--limit", type=int, default=None, help="limit to first N manifest rows (debug)")
     parser.add_argument("--repeats", type=int, default=None, help="override REPEATS (debug)")
     parser.add_argument("--split", choices=["validation", "test"], default=None, help="restrict to one split")

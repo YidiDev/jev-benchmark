@@ -11,7 +11,7 @@ from harness.bootstrap import bootstrap_ci
 from qtree.generate_metadata import load_manifest
 from qtree.predictions import ChunkRecord, group_traces, load_chunks
 
-ARMS = ("jev", "haiku", "openjev", "sonnet")
+ARMS = ("jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble", "clm")
 K_VALUES = (1, 2, 5, 10)
 
 

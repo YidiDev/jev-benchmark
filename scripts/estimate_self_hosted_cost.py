@@ -111,10 +111,47 @@ def _openjev_tokens_by_task() -> dict[str, tuple[int, int, int]]:
     return out
 
 
+def _logged_tokens_by_task(files: dict[str, Path]) -> dict[str, tuple[int, int, int]]:
+    """Same pattern as _openjev_tokens_by_task -- laya/kev/nimble/clm all
+    call record_spend from inside their arm implementations (see arms/
+    laya.py, arms/kev.py, arms/nimble.py, qtree/arms.py's CLMChunkArm), so
+    their real token counts are already on disk; no re-tokenization needed,
+    unlike nli-bart/emb-bge above."""
+    out = {}
+    for task, path in files.items():
+        rows = _load_jsonl(path)
+        in_tok = sum(r.get("input_tokens", 0) for r in rows)
+        out_tok = sum(r.get("output_tokens", 0) for r in rows)
+        out[task] = (in_tok, out_tok, len(rows))
+    return out
+
+
 def main() -> None:
     nli_tokens, nli_n = _nli_bart_tokens()
     bge_tokens, bge_n = _emb_bge_tokens()
     openjev_by_task = _openjev_tokens_by_task()
+    laya_by_task = _logged_tokens_by_task(
+        {
+            "ct1_8": PREDICTIONS_DIR / "laya.jsonl",
+            "ct9": PREDICTIONS_DIR / "qtree_laya.jsonl",
+            "ct10": PREDICTIONS_DIR / "examgrade_laya.jsonl",
+        }
+    )
+    kev_by_task = _logged_tokens_by_task(
+        {
+            "ct1_8": PREDICTIONS_DIR / "kev.jsonl",
+            "ct9": PREDICTIONS_DIR / "qtree_kev.jsonl",
+            "ct10": PREDICTIONS_DIR / "examgrade_kev.jsonl",
+        }
+    )
+    nimble_by_task = _logged_tokens_by_task(
+        {
+            "ct1_8": PREDICTIONS_DIR / "nimble.jsonl",
+            "ct9": PREDICTIONS_DIR / "qtree_nimble.jsonl",
+            "ct10": PREDICTIONS_DIR / "examgrade_nimble.jsonl",  # chained mode only, see examgrade/arms.py
+        }
+    )
+    clm_by_task = _logged_tokens_by_task({"ct9": PREDICTIONS_DIR / "qtree_clm.jsonl"})  # CT9-only, see qtree/arms.py
 
     report: dict = {
         "note": (
@@ -164,11 +201,39 @@ def main() -> None:
         "estimated_cost_usd": openjev_total_cost,
     }
 
+    for arm_label, pricing_key, by_task in (
+        ("laya", "laya", laya_by_task),
+        ("kev-4b", "kev-4b", kev_by_task),
+        ("nimble-9b", "nimble-9b", nimble_by_task),
+        ("clm-8b", "clm-8b", clm_by_task),
+    ):
+        report["arms"][arm_label] = {}
+        total_cost = total_in = total_out = 0
+        for task, (in_tok, out_tok, n_rows) in by_task.items():
+            cost = estimated_self_hosted_cost(pricing_key, in_tok, out_tok)
+            report["arms"][arm_label][task] = {
+                "n_rows": n_rows,
+                "input_tokens": in_tok,
+                "output_tokens": out_tok,
+                "estimated_cost_usd": cost,
+            }
+            total_cost += cost
+            total_in += in_tok
+            total_out += out_tok
+        report["arms"][arm_label]["total"] = {
+            "input_tokens": total_in,
+            "output_tokens": total_out,
+            "estimated_cost_usd": total_cost,
+        }
+
     OUT_PATH.write_text(json.dumps(report, indent=2) + "\n")
     print(f"Wrote {OUT_PATH}")
     print(f"nli-bart:  {nli_tokens:>10,} input tok -> ${report['arms']['nli-bart']['estimated_cost_usd']:.4f}")
     print(f"emb-bge:   {bge_tokens:>10,} input tok -> ${report['arms']['emb-bge']['estimated_cost_usd']:.4f}")
     print(f"openjev:   {openjev_total_in:>10,} input tok -> ${openjev_total_cost:.4f} (self-hosted, all 3 task families)")
+    for arm_label in ("laya", "kev-4b", "nimble-9b", "clm-8b"):
+        t = report["arms"][arm_label]["total"]
+        print(f"{arm_label:<10} {t['input_tokens']:>10,} input tok -> ${t['estimated_cost_usd']:.4f}")
 
 
 if __name__ == "__main__":

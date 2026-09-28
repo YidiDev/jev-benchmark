@@ -55,6 +55,22 @@ def _build_arm(name: str):
         from qtree.arms import SonnetChunkArm
 
         return SonnetChunkArm()
+    if name == "laya":
+        from qtree.arms import LayaChunkArm
+
+        return LayaChunkArm()
+    if name == "kev":
+        from qtree.arms import KevChunkArm
+
+        return KevChunkArm()
+    if name == "nimble":
+        from qtree.arms import NimbleChunkArm
+
+        return NimbleChunkArm()
+    if name == "clm":
+        from qtree.arms import CLMChunkArm
+
+        return CLMChunkArm()
     raise ValueError(f"unknown CT9 arm {name!r}")
 
 
@@ -158,7 +174,9 @@ def run(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet"])
+    parser.add_argument(
+        "--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble", "clm"]
+    )
     parser.add_argument("--limit", type=int, default=None, help="limit to first N manifest rows (debug)")
     parser.add_argument("--repeats", type=int, default=None, help="override REPEATS (debug)")
     parser.add_argument("--k", type=int, nargs="+", default=None, help="restrict to specific k values, e.g. --k 10")

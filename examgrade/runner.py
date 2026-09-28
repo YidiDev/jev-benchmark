@@ -65,6 +65,18 @@ def _build_arm(name: str):
         from examgrade.arms import SonnetExamArm
 
         return SonnetExamArm()
+    if name == "laya":
+        from examgrade.arms import LayaExamArm
+
+        return LayaExamArm()
+    if name == "kev":
+        from examgrade.arms import KevExamArm
+
+        return KevExamArm()
+    if name == "nimble":
+        from examgrade.arms import NimbleExamArm
+
+        return NimbleExamArm()
     raise ValueError(f"unknown CT10 arm {name!r}")
 
 
@@ -129,7 +141,16 @@ def run(
                     key = (student.student_id, with_key)
                     if key in whole_exam_done:
                         continue
-                    result = arm.grade_exam(full_text, with_key)
+                    try:
+                        result = arm.grade_exam(full_text, with_key)
+                    except NotImplementedError as e:
+                        # NimbleExamArm: whole-exam mode is explicitly unsupported
+                        # (8,192-token server cap) -- see examgrade/arms.py. Stop
+                        # asking for whole_exam for the rest of this arm's run
+                        # rather than re-raising per student.
+                        print(f"[examgrade/{arm_name}] whole_exam unsupported: {e}")
+                        modes = tuple(m for m in modes if m != "whole_exam")
+                        break
                     per_call_latency = result.latency_ms / len(EXAM_QUESTIONS)
                     per_call_input = result.input_tokens / len(EXAM_QUESTIONS)
                     per_call_output = result.output_tokens / len(EXAM_QUESTIONS)
@@ -168,7 +189,9 @@ def run(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet"])
+    parser.add_argument(
+        "--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble"]
+    )
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--modes", nargs="+", choices=["chained", "whole_exam"], default=None)
     args = parser.parse_args()

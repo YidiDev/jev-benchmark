@@ -155,6 +155,127 @@ class OpenJevExamArm(_TypeSafeGradingArm):
         super().__init__(client, pricing_key="openjev", spend_source=spend_source)
 
 
+class KevExamArm(_TypeSafeGradingArm):
+    """Self-hosted Kev-4B via kev.serve -- see arms/kev.py's module
+    docstring. Kev's server accepts states up to 65,536 tokens (well past a
+    full 30-question exam transcript), so both chained and whole-exam modes
+    run unmodified, same as Jev/OpenJev -- unlike NimbleExamArm below, which
+    hits a real, documented 8,192-token server limit in whole-exam mode."""
+
+    name = "kev"
+
+    def __init__(self, model: str = "kev-latest", spend_source: str = "kev_arm_ct10"):
+        client = TypeSafeClient(
+            model=model,
+            base_url=os.environ["KEV_BASE_URL"],
+            api_key=os.environ.get("KEV_API_KEY") or "local",
+        )
+        super().__init__(client, pricing_key="kev-4b", spend_source=spend_source)
+
+
+class NimbleExamArm(_TypeSafeGradingArm):
+    """Self-hosted Nimble-9B via the custom FastAPI wrapper (arms/nimble.py,
+    scripts/serving/nimble_server.py). **Chained mode only** -- see
+    arms/nimble.py's module docstring: the wrapper's Nimble backend caps
+    prompt length at 8,192 tokens by default, and a full 30-question exam
+    transcript plus 30 full rubrics (with or without the answer key) is
+    large enough to plausibly exceed that in with_key mode. Rather than
+    silently truncate or let a request fail mid-run, `grade_exam` raises
+    NotImplementedError up front so this limitation is explicit in the
+    results (an "unsupported," not a missing/zero data point) -- see
+    methodology.md §18 for the token-count evidence behind this decision.
+    """
+
+    name = "nimble"
+
+    def __init__(self, model: str = "nimble-latest", spend_source: str = "nimble_arm_ct10"):
+        client = TypeSafeClient(
+            model=model,
+            base_url=os.environ["NIMBLE_BASE_URL"],
+            api_key=os.environ.get("NIMBLE_API_KEY") or "local",
+        )
+        super().__init__(client, pricing_key="nimble-9b", spend_source=spend_source)
+
+    def grade_exam(self, full_exam_text: str, with_key: bool) -> GradingResult:
+        raise NotImplementedError(
+            "NimbleExamArm does not support whole-exam mode: the self-hosted wrapper's "
+            "8,192-token prompt cap (NIMBLE_MAX_PROMPT_TOKENS) is routinely exceeded by a "
+            "full 30-question exam transcript plus all 30 rubrics in one call -- see "
+            "methodology.md §18. Use chained mode (grade_question) instead."
+        )
+
+
+class LayaExamArm:
+    """Laya's CT10 arm -- same in-process convaiinnovations/laya agent as
+    arms/laya.py, using its native "score" question type (Laya supports
+    noul/choice/score identically to Jev's primitives -- see laya.agent
+    .Agent._decode_answers). Both chained and whole-exam modes run
+    unmodified: Laya's tokenizer-level truncation (512-token max_len)
+    degrades gracefully rather than erroring, so whole-exam mode's expected
+    truncation is itself a real, informative data point (same rationale as
+    letting CT8 run against Laya's arms/laya.py CT1-8 arm) rather than a
+    limitation to route around."""
+
+    name = "laya"
+
+    def __init__(self, model_id: str = "convaiinnovations/laya", spend_source: str = "laya_arm_ct10"):
+        from laya import load
+
+        self._agent = load(model_id, device="cpu")
+        self._spend_source = spend_source
+
+    def _grade(self, state_text: str, questions: dict[str, Score], with_key: bool, note: str) -> GradingResult:
+        laya_questions = {
+            qid: {"type": "score", "instructions": q.instructions, "criteria": q.criteria}
+            for qid, q in questions.items()
+        }
+
+        start = time.perf_counter()
+        response = self._agent.system_one(state=state_text, questions=laya_questions)
+        latency_ms = (time.perf_counter() - start) * 1000
+
+        usage = response["usage"]
+        input_tokens = usage["input_tokens"]
+        output_tokens = usage["output_tokens"]
+
+        record_spend(
+            source=self._spend_source,
+            model="laya",
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            note=note,
+        )
+
+        grades = {}
+        for qid in questions:
+            ans = response["answers"][qid]
+            grades[qid] = QuestionGrade(qid, round(ans["score"]), ans["confidence"])
+
+        return GradingResult(grades=grades, latency_ms=latency_ms, input_tokens=input_tokens, output_tokens=output_tokens)
+
+    def grade_question(self, answer_text: str, question: ExamQuestion, with_key: bool) -> GradingResult:
+        instructions = f"{CHAINED_INSTRUCTIONS_PREFIX}\n\n{question_rubric_text(question, with_key)}"
+        levels = score_level_descriptions(question.points)
+        q = Score(instructions=instructions, criteria=levels)
+        return self._grade(answer_text, {question.id: q}, with_key, f"chained grade {question.id} with_key={with_key}")
+
+    def grade_exam(self, full_exam_text: str, with_key: bool) -> GradingResult:
+        questions = {}
+        for q in EXAM_QUESTIONS:
+            instructions = f"{WHOLE_EXAM_INSTRUCTIONS_PREFIX}\n\n{question_rubric_text(q, with_key)}"
+            questions[q.id] = Score(instructions=instructions, criteria=score_level_descriptions(q.points))
+        return self._grade(full_exam_text, questions, with_key, f"whole-exam grade with_key={with_key}")
+
+    def close(self) -> None:
+        pass
+
+    def __enter__(self) -> "LayaExamArm":
+        return self
+
+    def __exit__(self, *exc_info: object) -> None:
+        self.close()
+
+
 class HaikuExamArm:
     name = "haiku"
 
