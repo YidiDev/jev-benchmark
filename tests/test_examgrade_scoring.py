@@ -11,13 +11,8 @@ from examgrade.scoring import (
 
 # Arms with both chained and whole-exam data (Nimble is chained-only -- its
 # whole-exam mode is documented unsupported, see examgrade/arms.py's
-# NimbleExamArm -- so it's tested separately below, not in this set). Laya's
-# CT10 run is not included here yet: unlike kev/nimble (both already fully
-# run on the rented GPU, see methodology.md §18), laya's local CPU run is
-# still in progress as of this test being written and is added to this set
-# in a follow-up once results/predictions/examgrade_laya.jsonl reaches its
-# full 12000 rows.
-FULL_MODE_ARMS = ("jev", "haiku", "sonnet", "openjev", "kev")
+# NimbleExamArm -- so it's tested separately below, not in this set).
+FULL_MODE_ARMS = ("jev", "haiku", "sonnet", "openjev", "kev", "laya")
 
 
 def test_question_level_error_structure():
@@ -85,8 +80,7 @@ def test_jev_confidence_discriminates_errors_from_correct():
 def test_cost_latency_table_has_all_arms():
     table = cost_latency_table()
     arms = {row["arm"] for row in table}
-    expected_present = set(FULL_MODE_ARMS) | {"nimble"}
-    assert expected_present <= arms
+    assert arms == set(FULL_MODE_ARMS) | {"nimble"}
     by_arm = {row["arm"]: row for row in table}
     for arm in FULL_MODE_ARMS:
         assert by_arm[arm]["n_grades"] == 12000
