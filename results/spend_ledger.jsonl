@@ -61786,3 +61786,4 @@
 {"ts": 1790137025.331742, "source": "sonnet_arm_ct10", "model": "claude-sonnet-5", "input_tokens": 1084, "output_tokens": 57, "cost_usd": 0.002738, "note": "chained grade q30 with_key=False", "cache_creation_tokens": 0, "cache_read_tokens": 0}
 {"ts": 1790137028.576902, "source": "sonnet_arm_ct10", "model": "claude-sonnet-5", "input_tokens": 15696, "output_tokens": 243, "cost_usd": 0.033822000000000005, "note": "whole-exam grade with_key=True", "cache_creation_tokens": 0, "cache_read_tokens": 0}
 {"ts": 1790137032.1133366, "source": "sonnet_arm_ct10", "model": "claude-sonnet-5", "input_tokens": 13728, "output_tokens": 243, "cost_usd": 0.029886000000000003, "note": "whole-exam grade with_key=False", "cache_creation_tokens": 0, "cache_read_tokens": 0}
+{"ts": 1790461067.2944715, "source": "laya_arm", "model": "laya", "input_tokens": 95, "output_tokens": 0, "cost_usd": 0.0, "note": "clause_type=1 condition=A", "cache_creation_tokens": 0, "cache_read_tokens": 0}
