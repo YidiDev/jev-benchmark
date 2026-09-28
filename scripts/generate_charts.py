@@ -70,6 +70,11 @@ COLOR = {
     "openjev": "#10B981",   # green -- the free fallback
     "nli-bart": "#9CA3AF",  # grey -- baseline
     "emb-bge": "#6B7280",   # darker grey -- baseline
+    # September 2026 new-arms addition (methodology.md §18):
+    "laya": "#EF4444",      # red -- the floor datapoint (512-token context)
+    "kev": "#0891B2",       # teal -- Jev-clone family, closest architecture to Jev
+    "nimble": "#CA8A04",    # dark gold -- contrastive-data-curation Qwen fine-tune
+    "clm": "#4338CA",       # indigo -- the CT9-only architecture-hypothesis arm
 }
 LABEL = {
     "jev": "Jev",
@@ -78,6 +83,10 @@ LABEL = {
     "openjev": "OpenJev",
     "nli-bart": "NLI (bart-large-mnli)",
     "emb-bge": "Embeddings (bge-m3)",
+    "laya": "Laya (421M)",
+    "kev": "Kev-4B",
+    "nimble": "Nimble-9B",
+    "clm": "CLM-8B",
 }
 
 plt.rcParams.update(
@@ -159,12 +168,16 @@ def chart_shuffle_control() -> None:
 # Chart 2: Part 2 -- CT1-4 vs CT5-8 overall accuracy, 3 arms
 # ---------------------------------------------------------------------------
 def chart_overall_accuracy() -> None:
-    arms = ["jev", "haiku", "sonnet", "openjev"]
+    # September 2026 new-arms addition (methodology.md §18): laya/kev/nimble
+    # read real rubric text like jev/haiku/sonnet/openjev (unlike nli-bart/
+    # emb-bge), so they belong in this comparison. Smaller bar width to fit
+    # seven arms without crowding.
+    arms = ["jev", "haiku", "sonnet", "openjev", "kev", "nimble", "laya"]
     groups = ["CT1-4\n(original)", "CT5-8\n(hard mode)"]
 
-    fig, ax = plt.subplots(figsize=(7, 5))
+    fig, ax = plt.subplots(figsize=(11, 5.5))
     n_arms = len(arms)
-    width = 0.8 / n_arms
+    width = 0.86 / n_arms
     x = range(len(groups))
 
     for i, arm in enumerate(arms):
@@ -177,15 +190,15 @@ def chart_overall_accuracy() -> None:
         offsets = [xi + (i - (n_arms - 1) / 2) * width for xi in x]
         bars = ax.bar(offsets, vals, width=width * 0.9, label=LABEL[arm], color=COLOR[arm])
         for b, v in zip(bars, vals):
-            ax.annotate(f"{v:.1%}", (b.get_x() + b.get_width() / 2, v), ha="center", va="bottom", fontsize=9)
+            ax.annotate(f"{v:.0%}", (b.get_x() + b.get_width() / 2, v), ha="center", va="bottom", fontsize=8)
 
     ax.set_xticks(list(x))
     ax.set_xticklabels(groups)
-    ax.set_ylim(0, 1.08)
+    ax.set_ylim(0, 1.1)
     _pct(ax)
     ax.set_ylabel("Overall accuracy")
-    ax.set_title("Classification accuracy: original corpus vs. corpus designed to break Jev")
-    ax.legend(frameon=False, loc="lower left")
+    ax.set_title("Classification accuracy: original corpus vs. corpus designed to break Jev\n(+ Kev-4B/Nimble-9B/Laya, self-hosted open-weight arms, Sep 2026 addition)")
+    ax.legend(frameon=False, loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.32))
     _style_axes(ax)
     _save(fig, "02_overall_accuracy.png")
 
@@ -254,14 +267,21 @@ def chart_ct7_collapse() -> None:
 # Chart 5: CT9 -- accuracy by chunk size k, the "smaller steps win" curve
 # ---------------------------------------------------------------------------
 def chart_ct9_k_curve() -> None:
-    arms = ["jev", "haiku", "sonnet", "openjev"]
+    # September 2026 new-arms addition (methodology.md §18): kev/nimble/clm
+    # ran CT9 too (laya as well, but at repeats=1 -- see qtree/arms.py's
+    # LayaChunkArm -- vs the original four's repeats=3; end_to_end_accuracy
+    # aggregates per (k, labeling) regardless of repeat count, so the curves
+    # are directly comparable, just built from fewer traces per point for
+    # the new arms).
+    arms = ["jev", "haiku", "sonnet", "openjev", "kev", "nimble", "clm", "laya"]
     k_values = [1, 2, 5, 10]
 
-    fig, ax = plt.subplots(figsize=(8, 5.5))
+    fig, ax = plt.subplots(figsize=(9, 6))
     for arm in arms:
         rows = {(r["k"], r["labeling"]): r["accuracy"] for r in end_to_end_accuracy(arm)}
         ys = [rows[(k, "semantic")] for k in k_values]
-        ax.plot(k_values, ys, marker="o", markersize=7, linewidth=2.5, label=LABEL[arm], color=COLOR[arm])
+        style = "--" if arm in ("kev", "nimble", "clm", "laya") else "-"
+        ax.plot(k_values, ys, marker="o", markersize=7, linewidth=2.5, linestyle=style, label=LABEL[arm], color=COLOR[arm])
 
     ax.set_xscale("log")
     ax.set_xticks(k_values)
@@ -270,7 +290,7 @@ def chart_ct9_k_curve() -> None:
     _pct(ax)
     ax.set_ylabel("End-to-end accuracy")
     ax.set_title("CT9: chained decision-tree execution\nFrequent small handoffs beat one unassisted full-chain call, for every model")
-    ax.legend(frameon=False, loc="upper right")
+    ax.legend(frameon=False, loc="upper right", ncol=2, fontsize=9)
     _style_axes(ax)
     ax.grid(axis="x", visible=False)
     _save(fig, "05_ct9_k_curve.png")
@@ -543,6 +563,59 @@ def chart_accuracy_vs_cost() -> None:
     _save(fig, "10_accuracy_vs_cost.png")
 
 
+# ---------------------------------------------------------------------------
+# Chart 11: CT9 architecture hypothesis -- does CLM's cached-action-embedding
+# design avoid OpenJev's collapse, or does it collapse too (a scaling story,
+# not an architecture one)? September 2026 new-arms addition, methodology.md
+# §18.
+# ---------------------------------------------------------------------------
+def chart_ct9_architecture_comparison() -> None:
+    from qtree.scoring import local_step_accuracy
+
+    arms = ["openjev", "clm"]
+    k_values = [1, 2, 5, 10]
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 5.5))
+
+    for arm in arms:
+        rows = {(r["k"], r["labeling"]): r["accuracy"] for r in end_to_end_accuracy(arm)}
+        ys = [rows[(k, "semantic")] for k in k_values]
+        ax1.plot(k_values, ys, marker="o", markersize=9, linewidth=2.5, label=LABEL[arm], color=COLOR[arm])
+
+    ax1.set_xscale("log")
+    ax1.set_xticks(k_values)
+    ax1.set_xticklabels([str(k) for k in k_values])
+    ax1.set_xlabel("Chunk size k")
+    _pct(ax1)
+    ax1.set_ylabel("End-to-end accuracy")
+    ax1.set_title("End-to-end accuracy")
+    ax1.legend(frameon=False, loc="upper right")
+    _style_axes(ax1)
+    ax1.grid(axis="x", visible=False)
+
+    for arm in arms:
+        rows = {r["k"]: r["accuracy"] for r in local_step_accuracy(arm)}
+        ys = [rows[k] for k in k_values]
+        ax2.plot(k_values, ys, marker="s", markersize=9, linewidth=2.5, label=LABEL[arm], color=COLOR[arm])
+    ax2.set_xscale("log")
+    ax2.set_xticks(k_values)
+    ax2.set_xticklabels([str(k) for k in k_values])
+    ax2.set_xlabel("Chunk size k")
+    _pct(ax2)
+    ax2.set_ylabel("Per-chunk local accuracy")
+    ax2.set_title("Local (per-call) accuracy")
+    ax2.legend(frameon=False, loc="upper right")
+    _style_axes(ax2)
+    ax2.grid(axis="x", visible=False)
+
+    fig.suptitle(
+        "CT9 architecture hypothesis: does a cached-action-embedding design avoid OpenJev's collapse?\n"
+        "CLM-8B (dual-encoder, dot-product scoring, cached action embeddings) vs. OpenJev (26B-A4B generative)",
+        fontsize=12,
+    )
+    _save(fig, "11_ct9_architecture_comparison.png")
+
+
 if __name__ == "__main__":
     chart_shuffle_control()
     chart_overall_accuracy()
@@ -554,4 +627,5 @@ if __name__ == "__main__":
     chart_cost()
     chart_cost_per_1000_calls()
     chart_accuracy_vs_cost()
+    chart_ct9_architecture_comparison()
     print("done")
