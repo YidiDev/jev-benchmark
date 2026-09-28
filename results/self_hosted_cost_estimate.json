@@ -39,6 +39,94 @@
         "output_tokens": 0,
         "estimated_cost_usd": 0.42804205555555563
       }
+    },
+    "laya": {
+      "ct1_8": {
+        "n_rows": 1920,
+        "input_tokens": 746520,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.02978550225031121
+      },
+      "ct9": {
+        "n_rows": 1140,
+        "input_tokens": 583680,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.023288327109068276
+      },
+      "ct10": {
+        "n_rows": 12000,
+        "input_tokens": 4790008,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.19111717577962908
+      },
+      "total": {
+        "input_tokens": 6120208,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.24419100513900857
+      }
+    },
+    "kev-4b": {
+      "ct1_8": {
+        "n_rows": 1920,
+        "input_tokens": 858924,
+        "output_tokens": 124302,
+        "estimated_cost_usd": 0.06464772304348475
+      },
+      "ct9": {
+        "n_rows": 1140,
+        "input_tokens": 2264615,
+        "output_tokens": 86112,
+        "estimated_cost_usd": 0.15456176712865785
+      },
+      "ct10": {
+        "n_rows": 12000,
+        "input_tokens": 4077580,
+        "output_tokens": 1614309,
+        "estimated_cost_usd": 0.37424525354929317
+      },
+      "total": {
+        "input_tokens": 7201119,
+        "output_tokens": 1824723,
+        "estimated_cost_usd": 0.5934547437214357
+      }
+    },
+    "nimble-9b": {
+      "ct1_8": {
+        "n_rows": 1920,
+        "input_tokens": 1160948,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.14084659616353065
+      },
+      "ct9": {
+        "n_rows": 1140,
+        "input_tokens": 2560069,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.31058841963100303
+      },
+      "ct10": {
+        "n_rows": 6000,
+        "input_tokens": 3083542,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.3740963374994277
+      },
+      "total": {
+        "input_tokens": 6804559,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.8255313532939614
+      }
+    },
+    "clm-8b": {
+      "ct9": {
+        "n_rows": 1140,
+        "input_tokens": 2079688,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.05375097238314823
+      },
+      "total": {
+        "input_tokens": 2079688,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.05375097238314823
+      }
     }
   }
 }

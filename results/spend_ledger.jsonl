@@ -90684,3 +90684,4 @@
 {"ts": 1790475668.5375986, "source": "laya_arm_ct10", "model": "laya", "input_tokens": 15360, "output_tokens": 0, "cost_usd": 0.0, "note": "whole-exam grade with_key=True", "cache_creation_tokens": 0, "cache_read_tokens": 0}
 {"ts": 1790475700.0817313, "source": "laya_arm_ct10", "model": "laya", "input_tokens": 15360, "output_tokens": 0, "cost_usd": 0.0, "note": "whole-exam grade with_key=False", "cache_creation_tokens": 0, "cache_read_tokens": 0}
 {"ts": 1790478004.8645074, "source": "laya_arm", "model": "laya", "input_tokens": 95, "output_tokens": 0, "cost_usd": 0.0, "note": "clause_type=1 condition=A", "cache_creation_tokens": 0, "cache_read_tokens": 0}
+{"ts": 1790478159.0316768, "source": "laya_arm", "model": "laya", "input_tokens": 95, "output_tokens": 0, "cost_usd": 0.0, "note": "clause_type=1 condition=A", "cache_creation_tokens": 0, "cache_read_tokens": 0}

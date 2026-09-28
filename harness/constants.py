@@ -146,18 +146,30 @@ PRICING = {
 # --- September 2026 new-arms addition (methodology.md §18) ---
 # laya/kev-4b/nimble-9b/clm-8b follow the identical convention, with one
 # improvement: unlike the entries above (rough per-model assumptions),
-# laya/kev/nimble/clm's throughput figures below are the REAL measured
-# throughput from actually running each arm (laya locally on this machine's
-# CPU; kev/nimble/clm on the rented RunPod GPU used for this addition), and
-# kev/nimble/clm's $/hr is the REAL RunPod on-demand rate actually paid for
-# that GPU instance -- not a re-guessed community/spot estimate. See
-# results/spend_ledger.jsonl's real (jev/haiku/sonnet-only) entries plus
-# methodology.md §18's logged RunPod session for the source numbers.
+# laya/kev/nimble/clm's throughput figures below are computed directly from
+# every real logged prediction's actual (input_tokens, output_tokens,
+# latency_ms) across the full CT1-8/CT9/CT10 run (laya: 15,060 calls on this
+# machine's own 8-core/16-thread CPU; kev: 15,060 calls; nimble: 9,060
+# calls; clm: 1,140 calls -- kev/nimble/clm all on the rented RunPod RTX
+# A6000), not a re-guessed community/spot estimate:
+#   laya:   6,120,208 input tok / 17,582.3s total latency =   348.1 tok/s
+#   kev:    (7,201,119 input + 1,824,723 output) tok / 4,031.1s = 2,239.1 tok/s
+#           (combined rate applied to both input/output -- kev's real
+#           per-call latency covers generating the output too, and the two
+#           can't be cleanly separated from aggregate latency alone)
+#   nimble: 6,804,559 input tok / 5,607.2s total latency = 1,213.5 tok/s
+#   clm:    2,079,688 input tok /   365.1s total latency = 5,696.2 tok/s
+#           (CLM's action-cache is a big part of why this is so much
+#           higher than kev/nimble -- see qtree/arms.py's CLMChunkArm)
+# kev/nimble/clm's $/hr (0.53) is the REAL RunPod secure-cloud on-demand
+# rate actually paid for pod vloa78op9peabo (community cloud had no RTX
+# A6000 stock at request time, see methodology.md §18); laya's is a generic
+# small cloud CPU instance rate, since it needs no GPU at all.
 SELF_HOSTED_GPU_HOURLY_USD = {
     "t4_class_16gb": 0.20,
     "gpu_24gb_class": 0.40,
     "cpu_general": 0.05,  # generic small cloud CPU instance -- Laya needs no GPU at all
-    "runpod_gpu_actual": 0.44,  # real on-demand rate paid for the Kev/Nimble/CLM session, see methodology.md §18
+    "runpod_gpu_actual": 0.53,  # real on-demand rate paid for the Kev/Nimble/CLM session, see methodology.md §18
 }
 SELF_HOSTED_PRICING = {
     "nli-bart": {"input_per_mtok": 0.20 / (2_000 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
@@ -166,19 +178,13 @@ SELF_HOSTED_PRICING = {
         "input_per_mtok": 0.40 / (4_000 * 3_600) * 1_000_000,
         "output_per_mtok": 0.40 / (300 * 3_600) * 1_000_000,  # never exercised, see above
     },
-    # Laya (421M, ModernBERT-large + decision head): measured ~450 doc/s-tok
-    # throughput on this machine's 8-core/16-thread CPU during the real
-    # local run (see methodology.md §18) -- a generic small cloud CPU
-    # instance is used for the cost basis since no GPU is needed at all.
-    "laya": {"input_per_mtok": 0.05 / (3_000 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
-    # Kev-4B, Nimble-9B, CLM-8B: real RunPod on-demand $/hr (see above) over
-    # each model's own measured input-token throughput from its actual eval
-    # run on that instance (methodology.md §18 has the per-model numbers
-    # this divides by -- placeholders below are replaced with the real
-    # figures once that run completes).
-    "kev-4b": {"input_per_mtok": 0.44 / (3_500 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
-    "nimble-9b": {"input_per_mtok": 0.44 / (1_800 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
-    "clm-8b": {"input_per_mtok": 0.44 / (2_500 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
+    "laya": {"input_per_mtok": 0.05 / (348.1 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
+    "kev-4b": {
+        "input_per_mtok": 0.53 / (2_239.1 * 3_600) * 1_000_000,
+        "output_per_mtok": 0.53 / (2_239.1 * 3_600) * 1_000_000,  # same combined rate, see above
+    },
+    "nimble-9b": {"input_per_mtok": 0.53 / (1_213.5 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
+    "clm-8b": {"input_per_mtok": 0.53 / (5_696.2 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
 }
 
 # Hard budget guardrails. See results.md / conversation log: user-provided
