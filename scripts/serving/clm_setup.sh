@@ -10,11 +10,18 @@
 # runs to ~3,100 tokens at points, above the 2,048 default.
 set -euo pipefail
 
+if ! command -v uv >/dev/null 2>&1; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    source "$HOME/.local/bin/env"
+fi
+
 cd "$HOME"
-python3.12 -m venv .cache/venvs/clm
+# Base image only ships python3.11 -- same fix as nimble_setup.sh, use
+# uv-managed 3.12 instead of depending on the base image.
+uv python install 3.12
+uv venv .cache/venvs/clm --python 3.12
 source .cache/venvs/clm/bin/activate
-python -m pip install -q --upgrade pip
-python -m pip install -q "contrastive-lm[serve,vllm]"
+uv pip install -q "contrastive-lm[serve,vllm]"
 
 nohup .cache/venvs/clm/bin/vllm serve Qwen/Qwen3-8B --served-model-name qwen3-8b \
     --runner pooling --max-model-len 8192 --port 8090 \

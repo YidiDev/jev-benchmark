@@ -44,14 +44,17 @@ resumability keys are unaffected.
 laya/kev/nimble (September 2026 new-arms addition, see methodology.md §18)
 also read real rubric text -- like jev/haiku/openjev/sonnet, and unlike
 nli-bart/emb-bge -- so they need this runner's real SHUFFLE condition too,
-not scripts/run_arm.py's B-reuse shortcut. laya specifically is run with
-`--repeats 1`: its forward pass is a deterministic non-autoregressive
-softmax over fixed logits (no sampling), so repeating it produces
-byte-identical output and adds no statistical signal, exactly the same
-rationale scripts/run_arm.py documents for nli-bart/emb-bge -- it just also
-needs the real-SHUFFLE condition list this runner (not that one) provides.
-kev/nimble are genuinely stochastic API calls to a self-hosted server, so
-they use the default REPEATS=3 like jev/haiku/sonnet.
+not scripts/run_arm.py's B-reuse shortcut. All three are run with
+`--repeats 1`, unlike jev/haiku/sonnet's default REPEATS=3: laya, Kev-4B,
+and Nimble-9B are each a single non-autoregressive forward pass through a
+classification/pointer head (softmax over fixed logits, no token sampling),
+confirmed empirically deterministic for kev (three identical calls, same
+bf16 probabilities to 4 decimal places -- see methodology.md §18), so
+repeating them at REPEATS=3 would triple rented-GPU billing for kev/nimble
+and local CPU time for laya while adding no statistical signal, exactly the
+rationale scripts/run_arm.py already documents for nli-bart/emb-bge -- these
+three just also need the real-SHUFFLE condition list this runner (not that
+one) provides.
 
 Usage:
     python -m scripts.run_api_arm --arm jev
@@ -59,6 +62,7 @@ Usage:
     python -m scripts.run_api_arm --arm jev --split validation      # pilot
     python -m scripts.run_api_arm --arm haiku --repeats 2           # budget-limited, see arms/haiku.py
     python -m scripts.run_api_arm --arm laya --repeats 1            # deterministic, see above
+    python -m scripts.run_api_arm --arm kev --repeats 1             # deterministic, see above
 """
 
 from __future__ import annotations

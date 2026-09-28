@@ -6,17 +6,26 @@
 # HTTP server of its own, see that file's docstring for the full rationale.
 set -euo pipefail
 
+if ! command -v uv >/dev/null 2>&1; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    source "$HOME/.local/bin/env"
+fi
+
 cd "$HOME"
 if [ ! -d nimble ]; then
     git clone https://github.com/bespokelabsai/nimble.git nimble
 fi
 cd nimble
 
-python3.12 -m venv .cache/venvs/nimble
+# Nimble's own README assumes a system python3.12; not every base image
+# ships one (this repo's RunPod image only has 3.11), so use uv to fetch
+# and manage 3.12 instead of depending on the base image -- same approach
+# kev_setup.sh already takes for its own uv-managed Python.
+uv python install 3.12
+uv venv .cache/venvs/nimble --python 3.12
 source .cache/venvs/nimble/bin/activate
-python -m pip install -q --upgrade pip
-python -m pip install -q torch==2.8.0 -r requirements/training.txt
-python -m pip install -q fastapi "uvicorn[standard]"
+uv pip install -q torch==2.8.0 -r requirements/training.txt
+uv pip install -q fastapi "uvicorn[standard]"
 
 python - <<'PYTHON'
 import hashlib

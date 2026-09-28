@@ -36,18 +36,24 @@ CONTAINER_DISK_GB = 80  # torch/vllm/transformers + 3 checkpoints (~9+20+16GB) w
 PORTS = "22/tcp,8009/http,8010/http,8700/http,8090/http"  # ssh, kev, nimble-wrapper, clm-serve, clm's vllm backend
 
 
-def create(name: str = "jev-benchmark-new-arms") -> dict:
+def _ssh_public_key() -> str:
+    path = os.path.expanduser(os.environ.get("SSH_PUBLIC_KEY_PATH", "~/.ssh/id_ed25519.pub"))
+    return open(path).read().strip()
+
+
+def create(name: str = "jev-benchmark-new-arms", gpu_type: str = GPU_TYPE, cloud_type: str = CLOUD_TYPE) -> dict:
     runpod.api_key = os.environ["RUNPOD_API_KEY"]
     pod = runpod.create_pod(
         name=name,
         image_name=IMAGE,
-        gpu_type_id=GPU_TYPE,
-        cloud_type=CLOUD_TYPE,
+        gpu_type_id=gpu_type,
+        cloud_type=cloud_type,
         gpu_count=1,
         container_disk_in_gb=CONTAINER_DISK_GB,
         ports=PORTS,
         support_public_ip=True,
         start_ssh=True,
+        env={"PUBLIC_KEY": _ssh_public_key()},
     )
     print(json.dumps(pod, indent=2))
     return pod
