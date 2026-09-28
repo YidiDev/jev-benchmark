@@ -10,6 +10,8 @@ Part 1 (vs NLI) is an existence proof. Part 2 (vs Haiku) is the harder compariso
 
 **Addendum (see methodology.md §16):** Part 2 was later extended to include a second, stronger general-purpose model, Claude Sonnet 5, once CT9/CT10 showed Haiku underperforming Jev by a wider margin than this original CT1-4 design ever tested. This section is left as originally drafted, before that decision — see results.md and README.md for the current, four-model comparison.
 
+**Second addendum (see methodology.md §18):** Four more real, independently-verified open-weight models — Kev-4B, Nimble-9B, CLM-8B (CT9 only), and Laya — were added still later, each testing one specific, pre-stated hypothesis about its own architecture or training data (context-window ceiling, contrastive-data-curation generalization, cached-action-embedding execution, and a deliberate context-length floor, respectively) rather than expanding this original design's scope. None of the falsifiable predictions attached to these four arms were guaranteed to confirm going in, and in fact two did not (see methodology.md §18 findings 4 and 6) — reported as found. This document, again, is left as originally drafted; results.md Part 6 and README.md have the full comparison.
+
 
 Status: design only, not yet run. Drafted 2026-09-21.
 

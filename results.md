@@ -6,12 +6,14 @@ the design these results answer.
 
 Status: **Corpus complete: 480 docs across 8 clause types (CT1-4 original +
 CT5-8 "hard mode," see [`methodology.md` §12](./methodology.md#12-hard-mode-ct5-ct8)).
-All four built arms (jev, haiku, nli-bart, emb-bge) have completed full
-3-repeat × 4-condition runs (including the shuffle control) across all 8
-clause types. Scoring harness (`harness/scoring.py`) built: bootstrap 95%
-CIs, calibration ECE (raw + temperature-fit), shuffle delta, confidence-at-
-errors, disagreement, cost/latency. OpenJev (Part 3) still pending
-`CODIV_API_KEY`.**
+Nine total arms now complete across CT1-8: jev, haiku, sonnet, openjev,
+nli-bart, emb-bge, laya, kev, nimble (see Part 6). CT9 (chained decision-tree
+execution) complete for jev/haiku/sonnet/openjev plus laya/kev/nimble/clm.
+CT10 (exam grading) complete for jev/haiku/sonnet/openjev plus laya/kev
+(nimble: chained mode only, whole-exam unsupported at its 8,192-token cap —
+see methodology.md §18). Scoring harness (`harness/scoring.py`) built:
+bootstrap 95% CIs, calibration ECE (raw + temperature-fit), shuffle delta,
+confidence-at-errors, disagreement, cost/latency.**
 
 ---
 
@@ -512,3 +514,132 @@ multiplier, since chunk descriptions grow with k and both compound).
 Combined with all prior phases, final Anthropic spend:
 **$24.11 / $30.00** budget (raised from an original $5.00 across two prior
 approvals plus this one, each with an explicit prior cost projection).
+
+## Part 6 — Four more open-weight arms: Laya, Kev-4B, Nimble-9B, CLM-8B
+
+Four independently-verified, real open-weight models, each testing one
+specific hypothesis rather than added just for coverage: **Kev-4B**
+(Qwen3.5-4B fine-tune, does a larger context window fix CT8?), **Nimble-9B**
+(Qwen3.5-9B fine-tune via "contrastive data curation" on 2,676 examples,
+does narrow curated training generalize off-distribution?), **CLM-8B**
+(dual-encoder dot-product architecture with cached action embeddings,
+CT9-only — does its shape avoid OpenJev's chained-execution collapse?),
+and **Laya** (421M ModernBERT encoder, 512-token context, the deliberate
+floor datapoint). All self-hosted: Kev/Nimble/CLM on one rented RunPod
+GPU (RTX A6000, $0.53/hr, real total spend **~$1.03**), Laya locally on
+CPU. Full verification notes, implementation, RunPod session log, and
+mechanism analysis: [methodology.md §18](./methodology.md#18-four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b).
+
+### CT1-8 accuracy by clause type (single pass, `--repeats 1` — confirmed deterministic)
+
+| Clause type | kev | nimble | laya |
+|---|---|---|---|
+| CT1 descriptive | 1.000 | 1.000 | 0.737 |
+| CT2 conjunctive_threshold | 0.900 | 0.954 | 0.492 |
+| CT3 relational | 0.696 | 1.000 | 0.654 |
+| CT4 negative_exclusionary | 1.000 | 1.000 | 0.617 |
+| CT5 computed_threshold | 0.875 | 0.825 | 0.512 |
+| CT6 temporal_reasoning | 0.938 | 0.938 | 0.537 |
+| CT7 multi_hop_relational | 0.750 | 0.833 | 0.317 |
+| CT8 long_context_distractor | **1.000** | **1.000** | **0.779** |
+| **Overall** | **89.48%** | **94.37%** | **58.07%** |
+
+For scale: jev 98.84%, haiku 96.46%, sonnet 96.18%, openjev 96.28%,
+nli-bart 43.96%, emb-bge 42.92% (Parts 1-3 above).
+
+**Kev-4B's CT8 hypothesis confirms cleanly**: CT8 is Kev's *best* category
+(tied for first, not its worst), and its actual weakest categories are
+CT3 (69.6%) and CT7 (75.0%) — lookup/multi-hop tasks, not long context.
+Kev's overall gap vs. Jev here (9.4pp) is wider than the vendor's own
+self-reported out-of-domain gap on their `transfer-v4` eval (~2pp for the
+current release) — this corpus is a harder transfer test than their own
+eval set implies.
+
+**Nimble-9B's contrastive-curation hypothesis is mixed, leaning
+positive**: CT5 (82.5%, its single weakest category) shows some
+degradation on the category least like its 10 training domains, but the
+drop from its own 94.4% overall is modest, not a collapse.
+
+**Laya's CT8/floor hypothesis does not hold up — an honest negative
+result**: CT8 is Laya's *best* category despite its 512-token window and
+CT8's deliberately padded, non-front-loaded long documents. Laya's real
+weak points are CT7 (31.7%) and CT2 (49.2%) — reasoning-shape problems,
+not context-length ones. Laya remains the clear floor overall (58.1%
+CT1-8), just not specifically because of CT8.
+
+### CT9 (chained decision-tree execution), end-to-end accuracy
+
+| k | jev | haiku | sonnet | openjev | kev | nimble | clm | laya |
+|---|---|---|---|---|---|---|---|---|
+| 1 | 0.750 | 0.578 | 0.867 | 0.428 | 0.383 | 0.467 | 0.200 | 0.233 |
+| 2 | 0.711 | 0.533 | 0.578 | 0.256 | 0.250 | 0.417 | 0.200 | 0.183 |
+| 5 | 0.311 | 0.317 | 0.300 | 0.194 | 0.317 | 0.300 | 0.200 | 0.167 |
+| 10 (semantic) | 0.294 | 0.317 | 0.228 | 0.156 | 0.267 | 0.267 | 0.200 | 0.150 |
+
+*(k=1/2/5 columns are from the new arms' own single-repeat traces, n=60
+per cell — noisier than the original four arms' 3-repeat/n=180 cells; see
+methodology.md §18 finding 6 for the exact-tie caveat on CLM's numbers.)*
+
+**CLM-8B's architecture-vs-scaling hypothesis does not clearly
+materialize**: at k=10, CLM (20.0%) lands closer to OpenJev's collapse
+(15.6%) than to any of the four originally-tested arms (22.8-31.7%). The
+cached-action-embedding design did not visibly rescue it from the same
+compounding-error pattern. Notably, CLM's end-to-end accuracy comes out
+to *exactly* 12/60 correct in several (k, labeling) buckets — confirmed
+via raw per-form traces to be a genuine small-n coincidence (n=60 per
+bucket), not a frozen/broken client: per-form answers do shift between a
+k=1/k=2 cluster and a k=5/k=10 cluster, they just net out to identical
+totals within each cluster. Read the 20.0% figure as noisy (95% CI
+[0.10, 0.30], overlapping OpenJev's own k=10 CI), not as a precise flat
+line. Kev and nimble both sit between openjev and jev at k=10 (26.7%
+each); laya matches openjev's collapse floor (15.0%).
+
+### CT10 (exam grading), chained mode, exact-match rate
+
+| Arm | Without key | With key |
+|---|---|---|
+| kev | — | 0.6523 |
+| nimble (chained only) | — | 0.5673 |
+| laya | — | 0.3843 |
+
+(with_key=True shown; jev 0.8720, haiku 0.8623, sonnet 0.9613, openjev
+0.7903 for comparison, from Part 5.) All three new arms trail every arm
+tested at full CT10 scope — consistent with grading being a harder,
+more compositional task than CT1-8 classification for smaller/narrower
+models. Nimble's whole-exam mode raises `NotImplementedError` rather
+than running against a prompt at risk of truncating past its 8,192-token
+cap on a full 30-question exam plus rubric plus answer key.
+
+### Calibration (CT1-8)
+
+| Arm | Raw ECE | Fitted ECE | Confidence gap (correct − errors) |
+|---|---|---|---|
+| kev | 0.164 | 0.140 (T=0.7) | 0.340 |
+| nimble | **0.039** | 0.049 (T=1.3) | **0.415** |
+| laya | 0.433 | 0.218 (T=5.0, ceiling) | 0.098 |
+
+Nimble has the best-calibrated confidence of the three new arms —
+comparable to Sonnet's (0.0141) and Haiku's (0.0098) raw ECE — and the
+largest error/correct confidence gap of the three. Kev's raw probabilities
+are numerically off (needs rescaling) but still discriminate reasonably
+well. Laya is weakest on both axes, consistent with being the floor model
+throughout. Disagreement rate is trivially 0.00% for all three (an
+artifact of `--repeats 1` — no second repeat exists to disagree with,
+not evidence of stability; do not compare directly to Jev/Haiku/Sonnet's
+disagreement rates above).
+
+### Self-hosted cost (real ledger spend: $0.00 for all four; separate documented estimate from actually-measured throughput)
+
+| Arm | Measured throughput | Estimated total cost |
+|---|---|---|
+| laya | 348.1 tok/s (CPU) | $0.2442 |
+| kev-4b | 2,239.1 tok/s | $0.5935 |
+| nimble-9b | 1,213.5 tok/s | $0.8255 |
+| clm-8b | 5,696.2 tok/s (CT9 only) | $0.0538 |
+
+CLM's much higher throughput is consistent with its action-embedding
+cache — CT9's destination-option set repeats across nodes, exactly the
+shape its cache is built for — even though that didn't translate into an
+end-to-end accuracy win (see CT9 section above). Real RunPod spend for
+the shared Kev/Nimble/CLM pod: **~$1.03** total, confirmed via account
+balance delta after termination.

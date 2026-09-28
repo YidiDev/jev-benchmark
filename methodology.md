@@ -1666,3 +1666,342 @@ GPU margin keep them above Jev's rate here).
   never called from `record_spend()`, never written to the real ledger,
   never checked against `ANTHROPIC_BUDGET_USD`. Purely a reporting-side
   function.
+
+## 18. Four more open-weight arms: Laya, Kev-4B, Nimble-9B, CLM-8B
+
+### Motivation
+
+Every open-weight arm through §17 (nli-bart, emb-bge, OpenJev) either
+isn't a genuine fine-tuned decision model (the two zero-shot instruments)
+or is one specific 26B-A4B generative model. The user proposed four
+additional real, independently-verified open-weight models, each chosen
+to test one specific, falsifiable hypothesis rather than just "more
+arms for coverage":
+
+1. **Kev-4B** (`jaredpalmer/kev-4b`, Qwen3.5-4B-Base fine-tune, part of
+   the same open Jev-clone community as OpenJev): does a model with a
+   far larger serving context window than a ~400M-parameter encoder fix
+   whatever kills small models on CT8's long-context distractor design?
+   Does its self-reported ~0.79-0.86 out-of-domain accuracy gap vs. Jev
+   (on the vendor's own `transfer-v4` eval) hold up on this corpus?
+2. **CLM-8B** (`Contrastive-LM/CLM-v0.1-8B`, CT9 only): a genuinely
+   different architecture from every other arm in this project -- a
+   dual state/action encoder scoring candidates by dot product, with a
+   cache specifically for reusing action embeddings across states with a
+   fixed action set. CT9's decision tree is exactly that shape (the same
+   destination-option set recurs across nodes). OpenJev collapses hard
+   at CT9 k=10 (§13); if CLM doesn't, that would be an architecture
+   finding, not a "needs more scale" one.
+3. **Nimble-9B** (`bespokelabs/Bespoke-Nimble-9B`, Qwen3.5-9B LoRA fine-
+   tune): trained via "contrastive data curation" (paired examples
+   differing in one fact that flips the label) on only 2,676 curated
+   examples across 10 categories -- does that narrow, carefully-curated
+   training set generalize to a corpus (CT5/CT6's arithmetic and date
+   reasoning specifically) it was never designed around, or does the
+   narrow training distribution show through off-distribution?
+4. **Laya** (`convaiinnovations/laya`, 421M ModernBERT-large encoder,
+   512-token context): the deliberate floor datapoint. Chosen specifically
+   for the shortest context window of any candidate considered (its
+   multilingual sibling has a longer context and would defeat the point),
+   expected to be dragged down hardest by CT8's long-context documents.
+
+All four speak TypeSafe's `/v1/systemone` wire contract (Kev/Nimble/CLM
+via a server process, Laya in-process) or a close conceptual equivalent,
+so each slots into the existing `Arm.predict()` interface (§8) without
+protocol changes.
+
+### Verification corrections to the initial research
+
+Before writing any code, every model was independently re-verified
+against its real GitHub repo, PyPI listing, and HF model card (the
+project's `docs.typesafe.ai`-sourced initial research turned out to
+need three corrections):
+
+- **Nimble ships no HTTP server at all.** The initial research assumed a
+  TypeSafe-compatible endpoint; the real repo is a Python library only
+  (`nimble.scoring.cuda_scorer.CudaCandidateScorer`, a from-scratch flat
+  enum/boolean schema, no native ordered-score type). A Modal+SGLang
+  demo exists in the repo's own docs but is Modal-specific infra, not a
+  general self-hosting recipe. Built `scripts/serving/nimble_server.py`,
+  a from-scratch FastAPI wrapper translating Nimble's native schema to
+  and from TypeSafe's shape (`scripts/serving/nimble_schema.py`,
+  including implementing TypeSafe's reference confidence formulas --
+  `(p_max - 1/K)/(1 - 1/K)` for choice, `max(0, 1 - E|level-mode|/D)`
+  for score -- since Nimble's own return dict has no confidence field).
+- **Kev-4B is not pip-installable** (PyPI's `kev` package is an
+  unrelated ORM) -- installed via `git clone` + `uv sync --extra serve`,
+  same pattern already used for OpenJev.
+- **CLM's PyPI package name (`contrastive-lm`) differs from its import
+  name (`clm`)** -- otherwise matched its documentation exactly,
+  including the two-process `vllm serve ... --runner pooling` +
+  `clm-serve` serving pattern and the `--action-cache` flag this
+  project's CT9 hypothesis specifically depends on.
+- Laya's PyPI package matched its documentation with no corrections
+  needed -- genuinely in-process, no server required, `max_len=512`
+  confirmed directly in `laya/agent.py`.
+
+### Implementation
+
+- **`arms/laya.py`** (`LayaArm`): in-process, calls `laya.load(...)`
+  once at construction, `agent.system_one(state=doc_text,
+  questions={...})` per prediction. Logs tokens via `record_spend` with
+  `PRICING_KEY="laya"` for consistent accounting even though real cost
+  is always $0 (matches nli-bart/emb-bge's convention of logging real
+  token counts despite free/local execution -- unlike them, Laya's
+  tokens *were* available for logging without a re-tokenization step,
+  since `laya.agent`'s own tokenizer runs inline).
+- **`arms/kev.py`** / **`arms/nimble.py`**: both `TypeSafeClient`
+  instances pointed at `os.environ["KEV_BASE_URL"]` /
+  `["NIMBLE_BASE_URL"]`, otherwise identical in shape to
+  `arms/openjev.py` (§14) -- same `record_spend` discipline, same
+  `Prediction` construction.
+- **`qtree/arms.py`**: `LayaChunkArm`, `KevChunkArm`, `NimbleChunkArm`,
+  `CLMChunkArm` (CLM only needed here, matching its CT9-only scope) --
+  all mirror `OpenJevChunkArm`'s shape.
+- **`examgrade/arms.py`**: `KevExamArm`, `NimbleExamArm` (both extend
+  `_TypeSafeGradingArm`), `LayaExamArm` (standalone, in-process).
+  **`NimbleExamArm.grade_exam()` raises `NotImplementedError`** --
+  Nimble's 8,192-token prompt cap risks silently truncating a full
+  30-question exam-plus-rubric-plus-answer-key prompt, and rather than
+  either skip whole-exam mode silently or let it run against truncated
+  input and report a misleadingly bad number, it's marked explicitly
+  unsupported with the token-limit evidence documented in the docstring.
+  `examgrade/runner.py`'s `run()` loop now wraps `grade_exam()` calls in
+  `try/except NotImplementedError`, logging and dropping `"whole_exam"`
+  from that run's active modes rather than crashing.
+- Every new arm registered in: `harness/constants.py` (`PRICING` at
+  $0/$0 for all four -- `_provider()` only flags `claude-*` models as
+  "anthropic", so none of these ever touch `ANTHROPIC_BUDGET_USD`, same
+  as OpenJev/nli-bart/emb-bge), `harness/scoring.py` (`ALL_KNOWN_ARMS`,
+  `CALIBRATION_ARMS` -- all three CT1-8 arms have genuine confidence
+  estimates, unlike nli-bart/emb-bge, so they're calibration-eligible),
+  `qtree/scoring.py` and `examgrade/scoring.py`'s `ARMS` tuples, and the
+  `_build_arm()` dispatch + `argparse choices=[...]` lists in
+  `scripts/run_api_arm.py`, `qtree/runner.py`, `examgrade/runner.py`.
+- `scripts/run_api_arm.py` runs laya/kev/nimble at **`--repeats 1`**
+  despite living in the "stochastic API arm" runner -- empirically
+  confirmed deterministic (bit-identical bf16 probabilities to 4 decimal
+  places across repeated identical live calls, verified against all
+  three running servers before committing to the full-scope run). This
+  is architecturally expected: none of the three do autoregressive
+  token sampling -- all are single forward-pass classification/pointer
+  heads or dot-product scorers, so nothing in their inference path is
+  stochastic the way Claude's or a real generative model's sampling is.
+  This means each arm's full CT1-8/CT9/CT10 run needed only 1x the
+  manifest's rows, not 3x -- a real, structural cost/time advantage
+  over Haiku/Sonnet's repeat requirement, independent of anything about
+  accuracy.
+- SHUFFLE handling: all three CT1-8-scope new arms read real rubric
+  text, so (per §6's rule) SHUFFLE ran as a genuine separate condition
+  for each, not synthesized from Condition B.
+
+### Execution: rented GPU, real cost
+
+Kev-4B (~9GB bf16), Nimble-9B merged (~18-20GB), and CLM-8B's
+Qwen3-8B vLLM pooling backend all exceed this project's own hardware
+(RTX 3050, 8GB VRAM) -- confirmed unable to self-host locally before
+looking elsewhere. Neither Nimble nor CLM has any pay-per-token
+marketplace hosting anywhere (checked OpenRouter's full model catalog,
+DeepInfra, and an independent open-model tracker site) -- only Kev-4B
+is marketplace-hosted (OpenRouter/SiliconFlow), and it was self-hosted
+anyway rather than mixing hosting methodologies across the three
+GPU-dependent arms. Laya (421M) needs no GPU and ran entirely on this
+project's own machine, on CPU, fully decoupled from any rented
+infrastructure.
+
+One RunPod GPU pod was rented for the three GPU-dependent arms,
+sequentially, on the smallest instance type with live stock at request
+time: **RTX A6000, secure cloud, 48GB VRAM, $0.53/hr**. Real, notable
+setup friction, all resolved without changing the eval methodology:
+Python 3.11 base image needed `uv python install 3.12` for Nimble/CLM's
+tooling; a mid-merge disk-space exhaustion during Nimble's LoRA-merge
+step was resolved by freeing `uv`'s package cache and deleting the
+now-redundant base-model blobs the merge had already baked in; an
+`import` path bug in the from-scratch Nimble FastAPI wrapper required
+moving the server script into the cloned repo's own root directory.
+Kev's and Nimble's CT9/CT10 runs were executed concurrently (both
+servers fit on the 48GB card simultaneously with headroom) to reduce
+wall-clock rental time; Laya ran throughout on local CPU, independent
+of the pod's lifecycle. The pod was terminated immediately after CLM's
+CT9 run finished. **Real total RunPod spend: ~$1.03** over ~1.93 hours
+-- confirmed via the account's spend-per-hour dropping to $0 and balance
+delta after termination, not just the nominal $0.53/hr x runtime
+estimate. This is separate from, and never touches, the Anthropic
+budget tracked elsewhere in this project (`ANTHROPIC_BUDGET_USD`) --
+Kev/Nimble/CLM/Laya are all non-Anthropic models on entirely different
+compute (rented consumer GPU + local CPU, not the Anthropic API).
+
+### Findings
+
+Full breakdowns in results.md; summarized here by arm and hypothesis.
+Every accuracy number below is at the new arms' full manifest coverage
+(1,920 CT1-8 predictions each, matching jev/haiku/sonnet/openjev's
+per-repeat coverage exactly -- see the `--repeats 1` note above for why
+these arms only needed one pass, not three, to cover the same ground).
+
+**1. CT1-8 overall ranking**: jev 98.84%, haiku 96.46%, openjev 96.28%,
+sonnet 96.18%, **nimble 94.37%**, **kev 89.48%**, **laya 58.07%** (vs.
+the two zero-shot instruments, nli-bart 43.96%/emb-bge 42.92%, for
+scale). All three land in a sensible order relative to their own
+training investment (Nimble: full fine-tune-class training pipeline >
+Kev: LoRA rank-16 adapter > Laya: 421M encoder never designed to
+compete with either) and, notably, all three sit clearly above the two
+zero-shot NLI/embedding instruments -- being an actual fine-tuned
+decision model, even a small or narrowly-trained one, beats a strong
+general-purpose zero-shot classifier repurposed for this task.
+
+**2. Kev-4B's CT8 hypothesis: confirmed, cleanly.** Kev-4B scores a
+perfect **100.0%** on CT8 (long-context distractor, ~500-700-word
+padded documents) -- its highest of all eight clause types, tied with
+CT1/CT4, and its *worst* category is actually CT3 (69.6%, direct
+lookup-plus-override) and CT7 (75.0%, multi-hop lookup), not CT8. A
+larger-context-class base model genuinely fixes whatever a small
+zero-shot encoder struggles with here (for calibration: nli-bart/
+emb-bge score 39.6%/38.3% on CT8, but that's not meaningfully worse
+than their other categories either -- see finding 4 below, this
+"CT8 kills small models" framing turns out to be less clean than
+expected across the board). Kev-4B's overall CT1-8 gap vs. Jev on this
+corpus (98.84% - 89.48% = 9.4pp) is **wider** than the vendor's own
+self-reported out-of-domain gap on their `transfer-v4` eval (0.857 -
+0.838 = ~2pp for the current release) -- closer to matching the user's
+originally-cited older-checkpoint figure (~0.79 vs. ~0.86, a 7pp gap)
+than the current release's own more favorable self-reported number.
+This corpus is evidently a harder out-of-domain transfer for Kev-4B
+than its own vendor-curated eval set implies -- a real, useful
+finding about how much self-reported OOD numbers travel.
+
+**3. Nimble-9B's contrastive-curation hypothesis: mixed, leaning
+positive.** CT5 (arithmetic, 82.5%) and CT6 (temporal reasoning, 93.8%)
+-- the two categories most unlike Nimble's 10 training categories
+(commerce/education/home/media/public-services/science/software/
+supply-chain/travel/workplace, none of which are "do the arithmetic" or
+"compare two dates") -- are not Nimble's weakest categories. CT3 (direct
+lookup, 100.0%) and CT8 (100.0%) are its strongest; CT5 is its single
+weakest (82.5%), which does line up with "arithmetic is hardest for a
+model that never trained on arithmetic-flavored contrasts," but the
+degradation is modest (82.5% vs. its own 94.4% overall), not the sharp
+collapse a narrow 2,676-example training set might predict. Nimble's
+narrow, carefully-curated training approach appears to generalize
+reasonably well off-distribution on this corpus, at least compared to
+how badly it could have gone.
+
+**4. Laya's floor/CT8-truncation hypothesis: did not materialize as
+expected -- an honest negative result.** CT8 (77.9%) is Laya's
+*single best* clause type, not its worst, despite Laya's 512-token
+context window and CT8's documents deliberately padded to ~500-700
+words with the load-bearing sentence placed away from the very start.
+Laya's actual weakest categories are CT7 (multi-hop lookup, 31.7%) and
+CT2 (49.2%) -- both requiring multi-step or exact-match
+reasoning Laya's small encoder is intrinsically bad at, independent of
+context length. The likely mechanism: CT8 reuses CT1's underlying
+classification logic (§12's design table -- "same descriptive logic as
+CT1, but padded") -- a *comparatively easy* signal even for a weak
+model once it's captured -- and Laya's 512-token truncation still
+captures the load-bearing sentence often enough (or the remaining
+truncated content is different enough that the easier CT1-style signal
+still dominates) that a real long-context penalty never clearly shows
+up. Laya remains a genuine floor overall (58.1% CT1-8, 38.4% CT10
+chained-with-key -- clearly the weakest of every rubric-reading arm in
+this project) -- it just isn't a floor *specifically because of CT8's
+context length*, which was the original, falsified hypothesis.
+
+**5. CT9 (chained decision-tree execution)**: at k=10 semantic, kev and
+nimble both land at 26.7% -- between openjev's 15.6% (§13's original
+collapse finding) and jev's 29.4% -- while laya sits at 15.0%, matching
+openjev's collapse floor. Local per-chunk accuracy at k=1 (before
+compounding) is high for both kev (84.5%) and nimble (90.5%,
+matching/exceeding openjev's own k=1 rate), confirming the same
+"locally competent, drifts across handoffs" pattern documented for
+every arm in §13 rather than a fundamentally different failure mode.
+
+**6. CLM-8B's architecture-vs-scaling hypothesis: did not clearly
+materialize, reported honestly rather than overclaimed.** CLM's
+end-to-end accuracy at k=10 semantic (20.0%) is closer to OpenJev's
+collapse (15.6%) than to any of the four originally-tested arms
+(22.8-31.7%) -- the action-embedding cache mechanism did not
+obviously rescue CLM from the same compounding-error pattern that
+sinks OpenJev on this task. One data artifact worth flagging plainly:
+CLM's end-to-end accuracy comes out to *exactly* 12/60 correct in
+several (k, labeling) buckets (k=1 semantic, k=2 semantic, and,
+separately, k=5 semantic tied with k=10 semantic, and k=10 opaque
+tied with k=1/k=2's count) -- confirmed via raw per-form traces this
+is a genuine coincidence of small n (60 traces per bucket, since CLM
+ran at `--repeats 1` matching the other new arms, vs. 180 for the
+original four arms' 3-repeat scope), not a broken/frozen client:
+per-form final answers do shift between the k=1/k=2 cluster and the
+k=5/k=10 cluster (confirmed by inspecting individual traces), they
+just happen to net out to identical totals within each cluster. Read
+this as "CLM's k=10 result is statistically noisier than the other
+arms' k=10 results, not flatly wrong" -- the qualitative finding
+(CLM did not clearly avoid the collapse) stands, but the exact 20.0%
+figure should not be treated as more precise than an n=60 sample
+supports (95% CI [0.10, 0.30], overlapping OpenJev's own k=10 CI).
+
+**7. CT10 (exam grading), chained-with-key exact-match**: jev 87.2%,
+haiku 86.2%, sonnet 96.1%, openjev 79.0%, **kev 65.2%**, **nimble
+56.7%**, **laya 38.4%**. All three new arms trail every arm tested at
+full CT10 scope in §15/§16, consistent with grading being a harder,
+more compositional task than CT1-8's single-clause classification for
+smaller/narrower models. Nimble's whole-exam mode is marked
+unsupported (§ Implementation above) rather than run against
+truncated input.
+
+**8. Calibration is genuinely different across the three CT1-8-scope
+new arms, not uniformly "worse than the original four."** Nimble has
+the best raw ECE of any arm in this comparison group (0.039, better
+than OpenJev's 0.080, in the same range as Sonnet's 0.014/Haiku's
+0.010) and the largest confidence-at-correct-minus-confidence-at-errors
+gap (0.415) of the three new arms -- its confidence is a genuinely
+useful, well-calibrated signal. Kev's raw ECE is markedly worse (0.164,
+needing a T=0.7 rescale to 0.140) despite also having a large,
+usable confidence gap (0.340) -- its raw probabilities are
+numerically off but still discriminate correct from incorrect
+reasonably well. Laya's confidence is the weakest of the three both in
+calibration (raw ECE 0.433, fitted T hits a 5.0 ceiling) and in
+discrimination (gap only 0.098) -- consistent with being the floor
+model on every other axis too. Disagreement-rate is trivially 0.0% for
+all three (§ scoring convention: disagreement needs \u22652 repeats per
+row to detect, and these arms ran at `--repeats 1` -- this is an
+artifact of the repeat count, not evidence of stability, and should
+not be read as "more consistent than Jev/Haiku/Sonnet").
+
+### Self-hosted cost accounting
+
+Same convention as §17: real ledger spend is $0.00 for all four (never
+touches `ANTHROPIC_BUDGET_USD`), with a separate, clearly-labeled
+self-hosted cost estimate computed from **actually measured** token
+throughput on the real rented-GPU/local-CPU run just completed (more
+auditable than a third-party pricing assumption, since real
+`(input_tokens, output_tokens, latency_ms)` were logged via
+`record_spend` for every single call these four arms made -- unlike
+nli-bart/emb-bge, which never logged tokens at all and needed
+post-hoc re-tokenization in §17):
+
+| Arm | Measured throughput | Assumed rate | Estimated total cost |
+|---|---|---|---|
+| laya | 348.1 tok/s (CPU) | $0.05/hr (generic small cloud CPU) | **$0.2442** |
+| kev-4b | 2,239.1 tok/s (combined in+out) | $0.53/hr (real RunPod rate paid) | **$0.5935** |
+| nimble-9b | 1,213.5 tok/s | $0.53/hr | **$0.8255** |
+| clm-8b | 5,696.2 tok/s (CT9 only; action-cache effect) | $0.53/hr | **$0.0538** |
+
+CLM's much higher measured throughput than Kev or Nimble on the same
+GPU class is consistent with its action-embedding cache -- CT9's
+destination-option set repeats across nodes, so cached (state, action)
+pairs skip the encoder call entirely, exactly the mechanism CLM's own
+documentation predicts should help this task shape, even though (per
+finding 6) it didn't translate into an end-to-end accuracy win.
+
+### Where this shows up
+
+- Chart 02 (overall accuracy) and chart 05 (CT9 k-curve) extended to
+  all four new arms -- new arms plotted with a dashed linestyle in
+  chart 05 to visually flag the different repeat-count (1 vs. 3) behind
+  each line.
+- New **chart 11** (`11_ct9_architecture_comparison.png`): OpenJev vs.
+  CLM-8B, end-to-end and per-chunk local accuracy across all four k
+  values -- the direct visual for finding 6 above, including both
+  curves' full trajectory (not just the k=10 headline number) so the
+  "flat at 20%" artifact for CLM is visible in context.
+- `results/summary.json`/`.csv` regenerated to include all four arms
+  across every metric already computed for the original arms.
+

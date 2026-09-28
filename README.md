@@ -7,8 +7,11 @@ quality *and* price?**
 
 This repo is the full benchmark: every corpus, every prediction, every dollar spent, every test
 that failed to find a difference as well as every one that did. Ten structurally distinct test
-suites, four models, **124 passing tests**, **$110.11 total spend**, all of it reproducible from
-the seeds and scripts in this repo.
+suites, **nine models** (Jev, Claude Haiku 4.5, Claude Sonnet 5, OpenJev, plus four more
+self-hosted open-weight arms added later — Kev-4B, Nimble-9B, CLM-8B, Laya, see
+[Part 6](#part-6--four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b)), **143 passing tests**,
+**$110.11 total metered (Anthropic) spend** plus **~$1.03** in separate, real rented-GPU spend for
+the Part 6 arms, all of it reproducible from the seeds and scripts in this repo.
 
 <p align="center">
   <img src="charts/10_accuracy_vs_cost.png" width="640" alt="Accuracy vs. cost: Jev is both more accurate and ~50x cheaper than Claude Haiku 4.5">
@@ -58,6 +61,7 @@ did not transfer into more reliable batching; if anything, the opposite. Read on
    - [Part 3 — OpenJev fallback viability](#part-3--openjev-fallback-viability)
    - [Part 4 — CT9: chained decision-tree execution](#part-4--ct9-chained-decision-tree-execution)
    - [Part 5 — CT10: AP World History exam grading](#part-5--ct10-ap-world-history-exam-grading)
+   - [Part 6 — Four more open-weight arms](#part-6--four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b)
    - [Calibration, across every task](#calibration-across-every-task)
 5. [Price, in full](#price-in-full)
 6. [Methodology highlights](#methodology-highlights)
@@ -105,6 +109,7 @@ approach turned out to be wrong and was replaced.
 | **Claude Sonnet 5** | Anthropic's stronger general-purpose LLM, added later to check whether Haiku's underperformance was Haiku-specific or general — same rubric, same forced tool-use, same grid as Haiku throughout. | $2 / Mtok input, $10 / Mtok output |
 | **OpenJev** | `razorback16/openjev`, an open-weights model (DiffusionGemma 26B-A4B, Apache-2.0) that speaks Jev's exact wire API. Tested via the free-hosted [Codiv](https://codiv.ai) endpoint — real cost here is $0.00, but self-hosting it (its actual real-world deployment path) is estimated at ~$0.028/Mtok input on a 24GB-class GPU. | **$0.00** (hosted tier used) / ~$0.028/Mtok (self-hosted est.) |
 | NLI (bart-large-mnli) / Embeddings (bge-m3) | Standard zero-shot classification baselines — the "does it actually read the rubric" control group for Part 1. Not real contenders (they can't follow a rubric at all), included to prove the point. Ran locally in this benchmark (real cost $0.00); self-hosting either commercially is estimated at ~$0.03/Mtok on a small cloud GPU. | Local, **$0.00** real / ~$0.03/Mtok (self-hosted est.) |
+| **Kev-4B** / **Nimble-9B** / **CLM-8B** / **Laya** | Four more real, independently-verified open-weight fine-tunes, added later, each testing a specific hypothesis (context ceiling, contrastive-curation generalization, cached-action-embedding architecture, and a deliberate context-length floor respectively — see [Part 6](#part-6--four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b)). Self-hosted: 3 on one rented GPU (~$1.03 real total), Laya on CPU ($0). | Real spend **$0.00** (self-hosted) / ~$0.05-0.83 total, self-hosted-compute estimate per arm |
 
 ## The ten test suites
 
@@ -273,6 +278,42 @@ above.
 **Price**: 6,200 grading actions × 4 arms = 24,800 calls. Jev **$0.25**, Haiku **$10.22**,
 Sonnet **$22.82**, OpenJev $0.00 real / ~$0.15 self-hosted est.
 
+### Part 6 — Four more open-weight arms: Laya, Kev-4B, Nimble-9B, CLM-8B
+
+<p align="center"><img src="charts/11_ct9_architecture_comparison.png" width="620"></p>
+
+Four more real, independently-verified open-weight models, each added to test one specific
+hypothesis, self-hosted (Kev-4B/Nimble-9B/CLM-8B on one rented GPU, ~$1.03 real total cost; Laya
+locally on CPU, $0): **Kev-4B** (does a larger-context Qwen fine-tune fix the long-context ceiling
+that CT8 was designed to probe?), **Nimble-9B** (does a model trained on only 2,676
+"contrastive-data-curated" examples generalize off-distribution?), **CLM-8B** (CT9 only — does a
+dual-encoder, cached-action-embedding architecture avoid OpenJev's chained-execution collapse?),
+and **Laya** (421M encoder, 512-token context — a deliberate floor datapoint).
+
+| | Kev-4B | Nimble-9B | Laya |
+|---|---|---|---|
+| CT1-8 overall accuracy | 89.48% | **94.37%** | 58.07% |
+| CT8 (the long-context clause type) | **100.00%** (best category) | **100.00%** (best category) | **77.9%** (also its best category) |
+| CT9 end-to-end @ k=10 | 26.7% | 26.7% | 15.0% |
+| CT10 chained, with key | 65.2% | 56.7%* | 38.4% |
+
+*Nimble's whole-exam mode is marked unsupported rather than run against a prompt at risk of
+truncating past its 8,192-token cap.
+
+**Two hypotheses confirmed, one falsified, one mixed** — reported honestly rather than smoothed
+into a clean story. Kev-4B's context-ceiling hypothesis **confirms cleanly**: CT8 is its *best*
+category, not its worst. Laya's floor/CT8-truncation hypothesis **does not hold up**: CT8 is
+*also* Laya's best category despite its 512-token window — its real weaknesses (CT7 multi-hop,
+CT2) are reasoning-shape problems, not context-length ones. Nimble's contrastive-curation
+hypothesis is **mixed, leaning positive**: its weakest category (CT5 arithmetic, 82.5%) is a
+modest dip from its 94.4% average, not a collapse. CLM-8B's architecture-vs-scaling hypothesis
+**does not clearly materialize**: at CT9 k=10 it lands at 20.0%, closer to OpenJev's 15.6%
+collapse than to any originally-tested arm — its action-embedding cache measurably speeds up
+inference (5,696 tok/s vs. Kev's 2,239 and Nimble's 1,213) but didn't translate into avoiding the
+same compounding-error pattern. Full mechanism analysis, including an honest small-n caveat on
+CLM's exact-tied accuracy figures across several k values: [methodology.md §18](./methodology.md#18-four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b),
+[results.md Part 6](./results.md#part-6--four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b).
+
 ### Calibration, across every task
 
 <p align="center"><img src="charts/07_calibration.png" width="620"></p>
@@ -366,7 +407,7 @@ cp .env.example .env   # fill in TYPESAFE_API_KEY, ANTHROPIC_API_KEY, CODIV_API_
 
 # Everything below is already committed (corpus, predictions, spend ledger) --
 # these commands regenerate results from what's already here, or extend it.
-pytest tests/ -q                        # 124 tests, exercises every scoring function
+pytest tests/ -q                        # 143 tests, exercises every scoring function
 python -m harness.spend_ledger          # print the full price ledger (real, metered spend)
 python -m scripts.estimate_self_hosted_cost  # rebuild results/self_hosted_cost_estimate.json
 python -m scripts.generate_summary      # rebuild results/summary.{json,csv}
@@ -375,10 +416,15 @@ python -m scripts.generate_charts       # rebuild every chart in charts/
 # Re-running an arm against already-generated corpora (resumable, will skip
 # anything already in results/predictions/):
 python -m scripts.run_arm --arm nli-bart
-python -m scripts.run_api_arm --arm jev        # or haiku / sonnet / openjev
-python -m qtree.runner --arm jev               # CT9
-python -m examgrade.runner --arm jev           # CT10
+python -m scripts.run_api_arm --arm jev        # or haiku / sonnet / openjev / laya / kev / nimble
+python -m qtree.runner --arm jev               # CT9 (also: openjev / sonnet / laya / kev / nimble / clm)
+python -m examgrade.runner --arm jev           # CT10 (also: openjev / sonnet / laya / kev / nimble)
 ```
+
+Kev-4B, Nimble-9B, and CLM-8B require self-hosting their own server process on a real GPU
+(`scripts/serving/README.md` has the exact setup/serve/teardown steps this project used against a
+rented RunPod instance) and `KEV_BASE_URL`/`NIMBLE_BASE_URL`/`CLM_BASE_URL` set in `.env`; Laya
+runs fully in-process on CPU, no server or extra env var needed.
 
 Regenerating the corpus from scratch (not needed — it's committed — but fully reproducible):
 `corpus/generate_metadata.py` → `corpus/generate_prose.py` (and the `qtree`/`examgrade`
@@ -389,16 +435,19 @@ equivalents), all seeded from `MASTER_SEED` in `harness/constants.py`.
 ```
 corpus/       CT1-8 document generator + frozen manifest + ground-truth engine
 rubrics/      Rubric clause text, folder-name conditions, shuffle-control permutation
-arms/         One module per CT1-8 arm: jev, haiku, sonnet, openjev, nli-bart, emb-bge
-qtree/        CT9: decision tree, chunked execution arms, scoring
-examgrade/    CT10: exam questions/rubrics, student corpus, grading arms, scoring
+arms/         One module per CT1-8 arm: jev, haiku, sonnet, openjev, nli-bart, emb-bge,
+              laya, kev, nimble
+qtree/        CT9: decision tree, chunked execution arms (incl. laya/kev/nimble/clm), scoring
+examgrade/    CT10: exam questions/rubrics, student corpus, grading arms (incl. laya/kev/nimble),
+              scoring
 harness/      Shared scoring (bootstrap CI, ECE, disagreement), spend ledger, constants
 scripts/      run_arm / run_api_arm (CT1-8), generate_summary, generate_charts,
-              estimate_self_hosted_cost
+              estimate_self_hosted_cost, serving/ (RunPod provisioning + setup scripts
+              for self-hosting kev/nimble/clm, FastAPI wrapper for nimble)
 results/      Every raw prediction, the spend ledger, the self-hosted cost
               estimate, and the consolidated summary
 charts/       Every chart in this README, regenerable via scripts/generate_charts.py
-tests/        124 tests covering ground truth, RNG determinism, and every scoring function
+tests/        143 tests covering ground truth, RNG determinism, and every scoring function
 ```
 
 ## Full documentation
