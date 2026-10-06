@@ -11,7 +11,7 @@ from collections import defaultdict
 from harness.bootstrap import bootstrap_ci
 from examgrade.predictions import GradeRecord, load_grades
 
-ARMS = ("jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble")
+ARMS = ("jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble", "cygnet", "winnow", "strands")
 MODES = ("chained", "whole_exam")
 
 

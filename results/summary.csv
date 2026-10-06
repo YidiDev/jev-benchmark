@@ -287,6 +287,102 @@ ct1_8,nimble,accuracy,8,A,,,1.0,60,"ci=[1.0000,1.0000]"
 ct1_8,nimble,accuracy,8,B,,,1.0,60,"ci=[1.0000,1.0000]"
 ct1_8,nimble,accuracy,8,C,,,1.0,60,"ci=[1.0000,1.0000]"
 ct1_8,nimble,accuracy,8,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,1,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,1,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,1,C,,,0.9333333333333333,60,"ci=[0.8667,0.9833]"
+ct1_8,cygnet,accuracy,1,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,2,A,,,0.9666666666666667,60,"ci=[0.9167,1.0000]"
+ct1_8,cygnet,accuracy,2,B,,,0.9333333333333333,60,"ci=[0.8667,0.9833]"
+ct1_8,cygnet,accuracy,2,C,,,0.9666666666666667,60,"ci=[0.9167,1.0000]"
+ct1_8,cygnet,accuracy,2,SHUFFLE,,,0.95,60,"ci=[0.8833,1.0000]"
+ct1_8,cygnet,accuracy,3,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,3,B,,,0.9666666666666667,60,"ci=[0.9167,1.0000]"
+ct1_8,cygnet,accuracy,3,C,,,0.9833333333333333,60,"ci=[0.9500,1.0000]"
+ct1_8,cygnet,accuracy,3,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,4,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,4,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,4,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,4,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,5,A,,,0.8166666666666667,60,"ci=[0.7167,0.9167]"
+ct1_8,cygnet,accuracy,5,B,,,0.8333333333333334,60,"ci=[0.7333,0.9167]"
+ct1_8,cygnet,accuracy,5,C,,,0.8333333333333334,60,"ci=[0.7333,0.9167]"
+ct1_8,cygnet,accuracy,5,SHUFFLE,,,0.8333333333333334,60,"ci=[0.7333,0.9167]"
+ct1_8,cygnet,accuracy,6,A,,,0.9833333333333333,60,"ci=[0.9500,1.0000]"
+ct1_8,cygnet,accuracy,6,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,6,C,,,0.9833333333333333,60,"ci=[0.9500,1.0000]"
+ct1_8,cygnet,accuracy,6,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,7,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,7,B,,,0.0,60,"ci=[0.0000,0.0000]"
+ct1_8,cygnet,accuracy,7,C,,,0.0,60,"ci=[0.0000,0.0000]"
+ct1_8,cygnet,accuracy,7,SHUFFLE,,,0.0,60,"ci=[0.0000,0.0000]"
+ct1_8,cygnet,accuracy,8,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,8,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,8,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,cygnet,accuracy,8,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,1,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,1,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,1,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,1,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,2,A,,,0.9833333333333333,60,"ci=[0.9500,1.0000]"
+ct1_8,winnow,accuracy,2,B,,,0.9833333333333333,60,"ci=[0.9500,1.0000]"
+ct1_8,winnow,accuracy,2,C,,,0.9833333333333333,60,"ci=[0.9500,1.0000]"
+ct1_8,winnow,accuracy,2,SHUFFLE,,,0.95,60,"ci=[0.8833,1.0000]"
+ct1_8,winnow,accuracy,3,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,3,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,3,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,3,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,4,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,4,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,4,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,4,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,5,A,,,0.8,60,"ci=[0.6833,0.9000]"
+ct1_8,winnow,accuracy,5,B,,,0.8166666666666667,60,"ci=[0.7167,0.9167]"
+ct1_8,winnow,accuracy,5,C,,,0.8166666666666667,60,"ci=[0.7167,0.9167]"
+ct1_8,winnow,accuracy,5,SHUFFLE,,,0.8333333333333334,60,"ci=[0.7333,0.9167]"
+ct1_8,winnow,accuracy,6,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,6,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,6,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,6,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,7,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,7,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,7,C,,,0.016666666666666666,60,"ci=[0.0000,0.0500]"
+ct1_8,winnow,accuracy,7,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,8,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,8,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,8,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,winnow,accuracy,8,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,1,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,1,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,1,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,1,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,2,A,,,0.9666666666666667,60,"ci=[0.9167,1.0000]"
+ct1_8,strands,accuracy,2,B,,,0.9833333333333333,60,"ci=[0.9500,1.0000]"
+ct1_8,strands,accuracy,2,C,,,0.8,60,"ci=[0.7000,0.9000]"
+ct1_8,strands,accuracy,2,SHUFFLE,,,0.9833333333333333,60,"ci=[0.9496,1.0000]"
+ct1_8,strands,accuracy,3,A,,,0.7333333333333333,60,"ci=[0.6167,0.8333]"
+ct1_8,strands,accuracy,3,B,,,0.8,60,"ci=[0.7000,0.8833]"
+ct1_8,strands,accuracy,3,C,,,0.85,60,"ci=[0.7500,0.9333]"
+ct1_8,strands,accuracy,3,SHUFFLE,,,0.8833333333333333,60,"ci=[0.8000,0.9500]"
+ct1_8,strands,accuracy,4,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,4,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,4,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,4,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,5,A,,,0.5166666666666667,60,"ci=[0.3833,0.6337]"
+ct1_8,strands,accuracy,5,B,,,0.5166666666666667,60,"ci=[0.3833,0.6500]"
+ct1_8,strands,accuracy,5,C,,,0.5166666666666667,60,"ci=[0.3833,0.6333]"
+ct1_8,strands,accuracy,5,SHUFFLE,,,0.5166666666666667,60,"ci=[0.3833,0.6500]"
+ct1_8,strands,accuracy,6,A,,,0.5333333333333333,60,"ci=[0.4000,0.6667]"
+ct1_8,strands,accuracy,6,B,,,0.5333333333333333,60,"ci=[0.4167,0.6504]"
+ct1_8,strands,accuracy,6,C,,,0.55,60,"ci=[0.4167,0.6833]"
+ct1_8,strands,accuracy,6,SHUFFLE,,,0.5333333333333333,60,"ci=[0.4000,0.6500]"
+ct1_8,strands,accuracy,7,A,,,0.9,60,"ci=[0.8167,0.9667]"
+ct1_8,strands,accuracy,7,B,,,0.38333333333333336,60,"ci=[0.2667,0.5004]"
+ct1_8,strands,accuracy,7,C,,,0.43333333333333335,60,"ci=[0.3167,0.5667]"
+ct1_8,strands,accuracy,7,SHUFFLE,,,0.4166666666666667,60,"ci=[0.3000,0.5500]"
+ct1_8,strands,accuracy,8,A,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,8,B,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,8,C,,,1.0,60,"ci=[1.0000,1.0000]"
+ct1_8,strands,accuracy,8,SHUFFLE,,,1.0,60,"ci=[1.0000,1.0000]"
 ct1_8,jev,overall_accuracy,,,,,0.9883680555555555,5760,"ci=[0.9856,0.9910]"
 ct1_8,haiku,overall_accuracy,,,,,0.9645833333333333,5760,"ci=[0.9597,0.9694]"
 ct1_8,nli-bart,overall_accuracy,,,,,0.4395833333333333,1920,"ci=[0.4182,0.4610]"
@@ -296,6 +392,9 @@ ct1_8,sonnet,overall_accuracy,,,,,0.9618055555555556,5760,"ci=[0.9569,0.9668]"
 ct1_8,laya,overall_accuracy,,,,,0.5807291666666666,1920,"ci=[0.5588,0.6026]"
 ct1_8,kev,overall_accuracy,,,,,0.8947916666666667,1920,"ci=[0.8802,0.9078]"
 ct1_8,nimble,overall_accuracy,,,,,0.94375,1920,"ci=[0.9328,0.9542]"
+ct1_8,cygnet,overall_accuracy,,,,,0.8744791666666667,1920,"ci=[0.8589,0.8891]"
+ct1_8,winnow,overall_accuracy,,,,,0.9432291666666667,1920,"ci=[0.9333,0.9536]"
+ct1_8,strands,overall_accuracy,,,,,0.7921875,1920,"ci=[0.7740,0.8094]"
 ct1_8,jev,shuffle_delta,1,,,,0.0,,b=1.0000 shuffle=1.0000
 ct1_8,jev,shuffle_delta,2,,,,0.0,,b=1.0000 shuffle=1.0000
 ct1_8,jev,shuffle_delta,3,,,,0.0,,b=1.0000 shuffle=1.0000
@@ -368,6 +467,30 @@ ct1_8,nimble,shuffle_delta,5,,,,-0.016666666666666607,,b=0.8000 shuffle=0.8167
 ct1_8,nimble,shuffle_delta,6,,,,0.0,,b=0.9500 shuffle=0.9500
 ct1_8,nimble,shuffle_delta,7,,,,0.0,,b=1.0000 shuffle=1.0000
 ct1_8,nimble,shuffle_delta,8,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,cygnet,shuffle_delta,1,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,cygnet,shuffle_delta,2,,,,-0.016666666666666607,,b=0.9333 shuffle=0.9500
+ct1_8,cygnet,shuffle_delta,3,,,,-0.033333333333333326,,b=0.9667 shuffle=1.0000
+ct1_8,cygnet,shuffle_delta,4,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,cygnet,shuffle_delta,5,,,,0.0,,b=0.8333 shuffle=0.8333
+ct1_8,cygnet,shuffle_delta,6,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,cygnet,shuffle_delta,7,,,,0.0,,b=0.0000 shuffle=0.0000
+ct1_8,cygnet,shuffle_delta,8,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,winnow,shuffle_delta,1,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,winnow,shuffle_delta,2,,,,0.033333333333333326,,b=0.9833 shuffle=0.9500
+ct1_8,winnow,shuffle_delta,3,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,winnow,shuffle_delta,4,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,winnow,shuffle_delta,5,,,,-0.01666666666666672,,b=0.8167 shuffle=0.8333
+ct1_8,winnow,shuffle_delta,6,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,winnow,shuffle_delta,7,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,winnow,shuffle_delta,8,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,strands,shuffle_delta,1,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,strands,shuffle_delta,2,,,,0.0,,b=0.9833 shuffle=0.9833
+ct1_8,strands,shuffle_delta,3,,,,-0.08333333333333326,,b=0.8000 shuffle=0.8833
+ct1_8,strands,shuffle_delta,4,,,,0.0,,b=1.0000 shuffle=1.0000
+ct1_8,strands,shuffle_delta,5,,,,0.0,,b=0.5167 shuffle=0.5167
+ct1_8,strands,shuffle_delta,6,,,,0.0,,b=0.5333 shuffle=0.5333
+ct1_8,strands,shuffle_delta,7,,,,-0.033333333333333326,,b=0.3833 shuffle=0.4167
+ct1_8,strands,shuffle_delta,8,,,,0.0,,b=1.0000 shuffle=1.0000
 ct1_8,jev,raw_ece,,,,,0.0331375000000001,4800,
 ct1_8,jev,fitted_ece,,,,,0.01116817920359478,4800,T=0.20
 ct1_8,haiku,raw_ece,,,,,0.00981666666666664,4800,
@@ -382,6 +505,12 @@ ct1_8,kev,raw_ece,,,,,0.163838375,1600,
 ct1_8,kev,fitted_ece,,,,,0.1397589452651686,1600,T=0.70
 ct1_8,nimble,raw_ece,,,,,0.03924521358683703,1600,
 ct1_8,nimble,fitted_ece,,,,,0.049077097125286726,1600,T=1.30
+ct1_8,cygnet,raw_ece,,,,,0.08199092874253881,1600,
+ct1_8,cygnet,fitted_ece,,,,,0.06651758914925573,1600,T=0.80
+ct1_8,winnow,raw_ece,,,,,0.059950768398040886,1600,
+ct1_8,winnow,fitted_ece,,,,,0.020473925868567614,1600,T=0.50
+ct1_8,strands,raw_ece,,,,,0.12491831249999999,1600,
+ct1_8,strands,fitted_ece,,,,,0.11141533116659944,1600,T=0.50
 ct1_8,jev,confidence_at_errors,,,,,0.43343283582089553,67,
 ct1_8,jev,confidence_at_correct,,,,,0.9597049007553136,5693,
 ct1_8,haiku,confidence_at_errors,,,,,0.9760294117647058,204,
@@ -400,6 +529,12 @@ ct1_8,kev,confidence_at_errors,,,,,0.4291836633663366,202,
 ct1_8,kev,confidence_at_correct,,,,,0.7690813154831199,1718,
 ct1_8,nimble,confidence_at_errors,,,,,0.5179596642653147,108,
 ct1_8,nimble,confidence_at_correct,,,,,0.9332445103995848,1812,
+ct1_8,cygnet,confidence_at_errors,,,,,0.643867468407991,241,
+ct1_8,cygnet,confidence_at_correct,,,,,0.86389325332169,1679,
+ct1_8,winnow,confidence_at_errors,,,,,0.42761419747955637,109,
+ct1_8,winnow,confidence_at_correct,,,,,0.9248971973493155,1811,
+ct1_8,strands,confidence_at_errors,,,,,0.4363651629072682,399,
+ct1_8,strands,confidence_at_correct,,,,,0.7296473372781065,1521,
 ct1_8,jev,disagreement_rate,,,,,0.0026041666666666665,1920,
 ct1_8,haiku,disagreement_rate,,,,,0.014583333333333334,1920,
 ct1_8,nli-bart,disagreement_rate,,,,,0.0,1920,
@@ -409,6 +544,9 @@ ct1_8,sonnet,disagreement_rate,,,,,0.013020833333333334,1920,
 ct1_8,laya,disagreement_rate,,,,,0.0,1920,
 ct1_8,kev,disagreement_rate,,,,,0.0,1920,
 ct1_8,nimble,disagreement_rate,,,,,0.0,1920,
+ct1_8,cygnet,disagreement_rate,,,,,0.0,1920,
+ct1_8,winnow,disagreement_rate,,,,,0.0,1920,
+ct1_8,strands,disagreement_rate,,,,,0.0,1920,
 ct1_8,jev,avg_latency_ms,,,,,193.6854251595125,5760,
 ct1_8,jev,total_cost_usd,,,,,0.18093978000000052,5760,per_doc=$0.000031
 ct1_8,haiku,avg_latency_ms,,,,,762.9404713714798,5760,
@@ -427,6 +565,12 @@ ct1_8,kev,avg_latency_ms,,,,,294.3986911923882,1920,
 ct1_8,kev,total_cost_usd,,,,,0.0,1920,per_doc=$0.000000
 ct1_8,nimble,avg_latency_ms,,,,,394.0297365338665,1920,
 ct1_8,nimble,total_cost_usd,,,,,0.0,1920,per_doc=$0.000000
+ct1_8,cygnet,avg_latency_ms,,,,,329.86051338521065,1920,
+ct1_8,cygnet,total_cost_usd,,,,,0.0,1920,per_doc=$0.000000
+ct1_8,winnow,avg_latency_ms,,,,,352.70323894110334,1920,
+ct1_8,winnow,total_cost_usd,,,,,0.0,1920,per_doc=$0.000000
+ct1_8,strands,avg_latency_ms,,,,,262.19531638865493,1920,
+ct1_8,strands,total_cost_usd,,,,,0.0,1920,per_doc=$0.000000
 ct9,jev,end_to_end_accuracy,,,1,semantic,0.75,180,"ci=[0.6889,0.8167]"
 ct9,jev,end_to_end_accuracy,,,2,semantic,0.7111111111111111,180,"ci=[0.6444,0.7778]"
 ct9,jev,end_to_end_accuracy,,,5,semantic,0.3111111111111111,180,"ci=[0.2389,0.3778]"
@@ -467,6 +611,21 @@ ct9,clm,end_to_end_accuracy,,,2,semantic,0.2,60,"ci=[0.1000,0.3000]"
 ct9,clm,end_to_end_accuracy,,,5,semantic,0.2,60,"ci=[0.1000,0.3000]"
 ct9,clm,end_to_end_accuracy,,,10,opaque,0.2,60,"ci=[0.1000,0.3000]"
 ct9,clm,end_to_end_accuracy,,,10,semantic,0.2,60,"ci=[0.1000,0.3000]"
+ct9,cygnet,end_to_end_accuracy,,,1,semantic,0.5833333333333334,60,"ci=[0.4500,0.7167]"
+ct9,cygnet,end_to_end_accuracy,,,2,semantic,0.5666666666666667,60,"ci=[0.4500,0.6833]"
+ct9,cygnet,end_to_end_accuracy,,,5,semantic,0.3333333333333333,60,"ci=[0.2167,0.4500]"
+ct9,cygnet,end_to_end_accuracy,,,10,opaque,0.3,60,"ci=[0.1833,0.4171]"
+ct9,cygnet,end_to_end_accuracy,,,10,semantic,0.21666666666666667,60,"ci=[0.1167,0.3333]"
+ct9,winnow,end_to_end_accuracy,,,1,semantic,0.6333333333333333,60,"ci=[0.5167,0.7500]"
+ct9,winnow,end_to_end_accuracy,,,2,semantic,0.6333333333333333,60,"ci=[0.5167,0.7500]"
+ct9,winnow,end_to_end_accuracy,,,5,semantic,0.4166666666666667,60,"ci=[0.2833,0.5337]"
+ct9,winnow,end_to_end_accuracy,,,10,opaque,0.36666666666666664,60,"ci=[0.2500,0.4833]"
+ct9,winnow,end_to_end_accuracy,,,10,semantic,0.3,60,"ci=[0.1833,0.4167]"
+ct9,strands,end_to_end_accuracy,,,1,semantic,0.4,60,"ci=[0.2829,0.5333]"
+ct9,strands,end_to_end_accuracy,,,2,semantic,0.18333333333333332,60,"ci=[0.0833,0.2833]"
+ct9,strands,end_to_end_accuracy,,,5,semantic,0.21666666666666667,60,"ci=[0.1167,0.3167]"
+ct9,strands,end_to_end_accuracy,,,10,opaque,0.2833333333333333,60,"ci=[0.1667,0.4000]"
+ct9,strands,end_to_end_accuracy,,,10,semantic,0.18333333333333332,60,"ci=[0.0833,0.2833]"
 ct9,jev,local_step_accuracy,,,1,,0.96,1800,"ci=[0.9511,0.9683]"
 ct9,jev,local_step_accuracy,,,2,,0.9211111111111111,900,"ci=[0.9033,0.9389]"
 ct9,jev,local_step_accuracy,,,5,,0.48333333333333334,360,"ci=[0.4333,0.5333]"
@@ -499,6 +658,18 @@ ct9,clm,local_step_accuracy,,,1,,0.47333333333333333,600,"ci=[0.4333,0.5133]"
 ct9,clm,local_step_accuracy,,,2,,0.18666666666666668,300,"ci=[0.1433,0.2300]"
 ct9,clm,local_step_accuracy,,,5,,0.13333333333333333,120,"ci=[0.0750,0.1917]"
 ct9,clm,local_step_accuracy,,,10,,0.2,120,"ci=[0.1250,0.2667]"
+ct9,cygnet,local_step_accuracy,,,1,,0.9233333333333333,600,"ci=[0.9017,0.9433]"
+ct9,cygnet,local_step_accuracy,,,2,,0.81,300,"ci=[0.7667,0.8533]"
+ct9,cygnet,local_step_accuracy,,,5,,0.5166666666666667,120,"ci=[0.4333,0.6167]"
+ct9,cygnet,local_step_accuracy,,,10,,0.25833333333333336,120,"ci=[0.1833,0.3417]"
+ct9,winnow,local_step_accuracy,,,1,,0.94,600,"ci=[0.9183,0.9583]"
+ct9,winnow,local_step_accuracy,,,2,,0.8633333333333333,300,"ci=[0.8233,0.9000]"
+ct9,winnow,local_step_accuracy,,,5,,0.5333333333333333,120,"ci=[0.4417,0.6167]"
+ct9,winnow,local_step_accuracy,,,10,,0.3333333333333333,120,"ci=[0.2500,0.4250]"
+ct9,strands,local_step_accuracy,,,1,,0.785,600,"ci=[0.7517,0.8183]"
+ct9,strands,local_step_accuracy,,,2,,0.47333333333333333,300,"ci=[0.4167,0.5333]"
+ct9,strands,local_step_accuracy,,,5,,0.36666666666666664,120,"ci=[0.2833,0.4500]"
+ct9,strands,local_step_accuracy,,,10,,0.23333333333333334,120,"ci=[0.1583,0.3083]"
 ct9,jev,confidence_at_local_errors,,,,,0.3996,575,
 ct9,jev,confidence_at_local_correct,,,,,0.8854586994727592,2845,
 ct9,haiku,confidence_at_local_errors,,,,,0.928,740,
@@ -515,6 +686,12 @@ ct9,nimble,confidence_at_local_errors,,,,,0.5477367649143365,269,
 ct9,nimble,confidence_at_local_correct,,,,,0.9226200431841933,871,
 ct9,clm,confidence_at_local_errors,,,,,0.26462135077504795,760,
 ct9,clm,confidence_at_local_correct,,,,,0.2827036772628757,380,
+ct9,cygnet,confidence_at_local_errors,,,,,0.4605289232667016,250,
+ct9,cygnet,confidence_at_local_correct,,,,,0.8428246147592464,890,
+ct9,winnow,confidence_at_local_errors,,,,,0.3187753980452512,213,
+ct9,winnow,confidence_at_local_correct,,,,,0.8534348016236114,927,
+ct9,strands,confidence_at_local_errors,,,,,0.13943538461538463,455,
+ct9,strands,confidence_at_local_correct,,,,,0.3057502189781022,685,
 ct9,jev,disagreement_at_k10,,,10,semantic,0.08333333333333333,60,
 ct9,jev,disagreement_at_k10,,,10,opaque,0.1,60,
 ct9,haiku,disagreement_at_k10,,,10,semantic,0.0,60,
@@ -531,6 +708,12 @@ ct9,nimble,disagreement_at_k10,,,10,semantic,0.0,60,
 ct9,nimble,disagreement_at_k10,,,10,opaque,0.0,60,
 ct9,clm,disagreement_at_k10,,,10,semantic,0.0,60,
 ct9,clm,disagreement_at_k10,,,10,opaque,0.0,60,
+ct9,cygnet,disagreement_at_k10,,,10,semantic,0.0,60,
+ct9,cygnet,disagreement_at_k10,,,10,opaque,0.0,60,
+ct9,winnow,disagreement_at_k10,,,10,semantic,0.0,60,
+ct9,winnow,disagreement_at_k10,,,10,opaque,0.0,60,
+ct9,strands,disagreement_at_k10,,,10,semantic,0.0,60,
+ct9,strands,disagreement_at_k10,,,10,opaque,0.0,60,
 ct10,jev,exact_match_rate,,"mode=chained,with_key=False",,,0.8023333333333333,3000,"mae=0.200 ci=[0.788,0.816]"
 ct10,jev,exact_match_rate,,"mode=chained,with_key=True",,,0.872,3000,"mae=0.129 ci=[0.860,0.884]"
 ct10,jev,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.8273333333333334,3000,"mae=0.174 ci=[0.814,0.840]"
@@ -557,6 +740,18 @@ ct10,kev,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.6676666666666666
 ct10,kev,exact_match_rate,,"mode=whole_exam,with_key=True",,,0.7733333333333333,3000,"mae=0.228 ci=[0.758,0.788]"
 ct10,nimble,exact_match_rate,,"mode=chained,with_key=False",,,0.6036666666666667,3000,"mae=0.432 ci=[0.585,0.622]"
 ct10,nimble,exact_match_rate,,"mode=chained,with_key=True",,,0.5673333333333334,3000,"mae=0.495 ci=[0.550,0.585]"
+ct10,cygnet,exact_match_rate,,"mode=chained,with_key=False",,,0.6123333333333333,3000,"mae=0.410 ci=[0.596,0.629]"
+ct10,cygnet,exact_match_rate,,"mode=chained,with_key=True",,,0.6206666666666667,3000,"mae=0.406 ci=[0.603,0.638]"
+ct10,cygnet,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.7326666666666667,3000,"mae=0.271 ci=[0.717,0.749]"
+ct10,cygnet,exact_match_rate,,"mode=whole_exam,with_key=True",,,0.803,3000,"mae=0.206 ci=[0.789,0.817]"
+ct10,winnow,exact_match_rate,,"mode=chained,with_key=False",,,0.704,3000,"mae=0.346 ci=[0.688,0.720]"
+ct10,winnow,exact_match_rate,,"mode=chained,with_key=True",,,0.8096666666666666,3000,"mae=0.201 ci=[0.795,0.823]"
+ct10,winnow,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.7883333333333333,3000,"mae=0.214 ci=[0.773,0.803]"
+ct10,winnow,exact_match_rate,,"mode=whole_exam,with_key=True",,,0.814,3000,"mae=0.188 ci=[0.800,0.828]"
+ct10,strands,exact_match_rate,,"mode=chained,with_key=False",,,0.527,3000,"mae=0.519 ci=[0.510,0.545]"
+ct10,strands,exact_match_rate,,"mode=chained,with_key=True",,,0.546,3000,"mae=0.474 ci=[0.528,0.564]"
+ct10,strands,exact_match_rate,,"mode=whole_exam,with_key=False",,,0.4726666666666667,3000,"mae=0.584 ci=[0.456,0.491]"
+ct10,strands,exact_match_rate,,"mode=whole_exam,with_key=True",,,0.49633333333333335,3000,"mae=0.563 ci=[0.478,0.514]"
 ct10,jev,total_score_mae,,"mode=chained,with_key=False",,,5.05,100,
 ct10,jev,total_score_mae,,"mode=chained,with_key=True",,,3.82,100,
 ct10,jev,total_score_mae,,"mode=whole_exam,with_key=False",,,4.63,100,
@@ -583,6 +778,18 @@ ct10,kev,total_score_mae,,"mode=whole_exam,with_key=False",,,6.72,100,
 ct10,kev,total_score_mae,,"mode=whole_exam,with_key=True",,,3.39,100,
 ct10,nimble,total_score_mae,,"mode=chained,with_key=False",,,10.45,100,
 ct10,nimble,total_score_mae,,"mode=chained,with_key=True",,,14.16,100,
+ct10,cygnet,total_score_mae,,"mode=chained,with_key=False",,,6.35,100,
+ct10,cygnet,total_score_mae,,"mode=chained,with_key=True",,,6.56,100,
+ct10,cygnet,total_score_mae,,"mode=whole_exam,with_key=False",,,3.26,100,
+ct10,cygnet,total_score_mae,,"mode=whole_exam,with_key=True",,,4.95,100,
+ct10,winnow,total_score_mae,,"mode=chained,with_key=False",,,5.79,100,
+ct10,winnow,total_score_mae,,"mode=chained,with_key=True",,,5.02,100,
+ct10,winnow,total_score_mae,,"mode=whole_exam,with_key=False",,,5.68,100,
+ct10,winnow,total_score_mae,,"mode=whole_exam,with_key=True",,,5.58,100,
+ct10,strands,total_score_mae,,"mode=chained,with_key=False",,,13.37,100,
+ct10,strands,total_score_mae,,"mode=chained,with_key=True",,,12.0,100,
+ct10,strands,total_score_mae,,"mode=whole_exam,with_key=False",,,14.93,100,
+ct10,strands,total_score_mae,,"mode=whole_exam,with_key=True",,,14.18,100,
 ct10,jev,confidence_at_errors,,chained,,,0.7538382804503583,977,
 ct10,jev,confidence_at_correct,,chained,,,0.9152498506868406,5023,
 ct10,haiku,confidence_at_errors,,chained,,,0.8866484716157205,916,
@@ -597,6 +804,12 @@ ct10,kev,confidence_at_errors,,chained,,,0.4481029589041096,1825,
 ct10,kev,confidence_at_correct,,chained,,,0.5567454850299401,4175,
 ct10,nimble,confidence_at_errors,,chained,,,0.8045627588681055,2487,
 ct10,nimble,confidence_at_correct,,chained,,,0.8662735083839209,3513,
+ct10,cygnet,confidence_at_errors,,chained,,,0.49439629223273457,2301,
+ct10,cygnet,confidence_at_correct,,chained,,,0.5830772879956176,3699,
+ct10,winnow,confidence_at_errors,,chained,,,0.7445910617204464,1459,
+ct10,winnow,confidence_at_correct,,chained,,,0.8903196947550603,4541,
+ct10,strands,confidence_at_errors,,chained,,,0.4532328658755843,2781,
+ct10,strands,confidence_at_correct,,chained,,,0.44834585274930105,3219,
 ct10,jev,avg_latency_ms,,,,,102.36730693141969,12000,
 ct10,haiku,avg_latency_ms,,,,,402.38626251445385,12000,
 ct10,openjev,avg_latency_ms,,,,,237.92734023730736,12000,
@@ -604,6 +817,9 @@ ct10,sonnet,avg_latency_ms,,,,,700.844953611827,12000,
 ct10,laya,avg_latency_ms,,,,,1021.366295903698,12000,
 ct10,kev,avg_latency_ms,,,,,246.48316192509083,12000,
 ct10,nimble,avg_latency_ms,,,,,549.1063922809359,6000,
+ct10,cygnet,avg_latency_ms,,,,,222.23545192494444,12000,
+ct10,winnow,avg_latency_ms,,,,,219.98115592368413,12000,
+ct10,strands,avg_latency_ms,,,,,207.63932436807468,12000,
 spend,corpus_generation,cost_usd,,,,,2.8561199999999998,77,model=claude-sonnet-5
 spend,jev_arm,cost_usd,,,,,0.18093978000000052,5764,model=jev-latest
 spend,haiku_arm,cost_usd,,,,,9.178637999999996,5774,model=claude-haiku-4-5
@@ -630,3 +846,12 @@ spend,kev_arm_ct10,cost_usd,,,,,0.0,6200,model=kev-4b
 spend,nimble_arm_ct10,cost_usd,,,,,0.0,6000,model=nimble-9b
 spend,clm_arm_ct9,cost_usd,,,,,0.0,1143,model=clm-8b
 spend,TOTAL,anthropic_cumulative_usd,,,,,109.35916599999945,,
+spend,cygnet_arm,cost_usd,,,,,0.0,1921,model=cygnet-12b
+spend,cygnet_arm_ct9,cost_usd,,,,,0.0,1140,model=cygnet-12b
+spend,cygnet_arm_ct10,cost_usd,,,,,0.0,6200,model=cygnet-12b
+spend,winnow_arm,cost_usd,,,,,0.0,1920,model=winnow-12b-q8
+spend,winnow_arm_ct9,cost_usd,,,,,0.0,1140,model=winnow-12b-q8
+spend,winnow_arm_ct10,cost_usd,,,,,0.0,6200,model=winnow-12b-q8
+spend,strands_arm,cost_usd,,,,,0.0,1920,model=strands-decider-2b
+spend,strands_arm_ct9,cost_usd,,,,,0.0,1140,model=strands-decider-2b
+spend,strands_arm_ct10,cost_usd,,,,,0.0,6200,model=strands-decider-2b

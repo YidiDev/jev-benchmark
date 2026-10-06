@@ -49,6 +49,10 @@ def _answer_text(full_text: str, question_id: str) -> str:
 
 
 def _build_arm(name: str):
+    if name in ("cygnet", "winnow", "strands"):
+        from examgrade.arms import CygnetExamArm, WinnowExamArm, StrandsExamArm
+
+        return {"cygnet": CygnetExamArm, "winnow": WinnowExamArm, "strands": StrandsExamArm}[name]()
     if name == "jev":
         from examgrade.arms import JevExamArm
 
@@ -190,7 +194,7 @@ def run(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble"]
+        "--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble", "cygnet", "winnow", "strands"]
     )
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--modes", nargs="+", choices=["chained", "whole_exam"], default=None)

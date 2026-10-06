@@ -21,6 +21,9 @@ from typing import Optional
 
 import anthropic
 from typesafe_sdk import Score, TypeSafeClient
+from arms.cygnet import CygnetArm
+from arms.winnow import WinnowArm
+from arms.strands import StrandsArm
 
 import harness.env  # noqa: F401 -- loads .env before any client init
 from harness.spend_ledger import record_spend
@@ -134,6 +137,29 @@ class _TypeSafeGradingArm:
 
     def __exit__(self, *exc_info: object) -> None:
         self.close()
+
+
+class _HostedExamArm(_TypeSafeGradingArm):
+    ARM_CLASS = None
+
+    def __init__(self, model: str | None = None, spend_source: str | None = None):
+        arm = self.ARM_CLASS(model=model, spend_source=spend_source or f"{self.name}_arm_ct10")
+        super().__init__(arm._client, pricing_key=arm.PRICING_KEY, spend_source=arm._spend_source)
+
+
+class CygnetExamArm(_HostedExamArm):
+    name = "cygnet"
+    ARM_CLASS = CygnetArm
+
+
+class WinnowExamArm(_HostedExamArm):
+    name = "winnow"
+    ARM_CLASS = WinnowArm
+
+
+class StrandsExamArm(_HostedExamArm):
+    name = "strands"
+    ARM_CLASS = StrandsArm
 
 
 class JevExamArm(_TypeSafeGradingArm):

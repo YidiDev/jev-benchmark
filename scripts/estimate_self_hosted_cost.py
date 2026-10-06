@@ -152,12 +152,21 @@ def main() -> None:
         }
     )
     clm_by_task = _logged_tokens_by_task({"ct9": PREDICTIONS_DIR / "qtree_clm.jsonl"})  # CT9-only, see qtree/arms.py
+    new_by_task = {
+        arm: _logged_tokens_by_task({
+            "ct1_8": PREDICTIONS_DIR / f"{arm}.jsonl",
+            "ct9": PREDICTIONS_DIR / f"qtree_{arm}.jsonl",
+            "ct10": PREDICTIONS_DIR / f"examgrade_{arm}.jsonl",
+        })
+        for arm in ("cygnet", "winnow", "strands")
+    }
 
     report: dict = {
         "note": (
             "Estimated self-hosted compute cost, NOT real metered spend. "
-            "Real spend for these three arms is $0.00 (local hardware / free "
-            "hosted tier) and stays that way in results/spend_ledger.jsonl. "
+            "API-token ledger charges for these arms are $0.00. Real rented "
+            "infrastructure charges are separate; see methodology.md §§18–19 "
+            "and results/gemma_strands_run.json. "
             "See harness/constants.py's SELF_HOSTED_PRICING and "
             "methodology.md §17 for the hardware/throughput assumptions "
             "behind every number below."
@@ -206,6 +215,9 @@ def main() -> None:
         ("kev-4b", "kev-4b", kev_by_task),
         ("nimble-9b", "nimble-9b", nimble_by_task),
         ("clm-8b", "clm-8b", clm_by_task),
+        ("cygnet-12b", "cygnet-12b", new_by_task["cygnet"]),
+        ("winnow-12b-q8", "winnow-12b-q8", new_by_task["winnow"]),
+        ("strands-decider-2b", "strands-decider-2b", new_by_task["strands"]),
     ):
         report["arms"][arm_label] = {}
         total_cost = total_in = total_out = 0
@@ -231,7 +243,7 @@ def main() -> None:
     print(f"nli-bart:  {nli_tokens:>10,} input tok -> ${report['arms']['nli-bart']['estimated_cost_usd']:.4f}")
     print(f"emb-bge:   {bge_tokens:>10,} input tok -> ${report['arms']['emb-bge']['estimated_cost_usd']:.4f}")
     print(f"openjev:   {openjev_total_in:>10,} input tok -> ${openjev_total_cost:.4f} (self-hosted, all 3 task families)")
-    for arm_label in ("laya", "kev-4b", "nimble-9b", "clm-8b"):
+    for arm_label in ("laya", "kev-4b", "nimble-9b", "clm-8b", "cygnet-12b", "winnow-12b-q8", "strands-decider-2b"):
         t = report["arms"][arm_label]["total"]
         print(f"{arm_label:<10} {t['input_tokens']:>10,} input tok -> ${t['estimated_cost_usd']:.4f}")
 

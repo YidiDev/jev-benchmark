@@ -400,17 +400,12 @@ four in chained mode becomes *worst* of the four in whole-exam mode.
 Total-exam-score MAE tells the same story more starkly: Sonnet
 whole-exam-without-key total-score error is **16.44 points** (100-point
 exam) vs. Jev's 4.63 and Haiku's 8.84 — roughly 3.6x Jev's error and 1.9x
-Haiku's, on the exact same students and rubric. Mechanism: Jev's
-`system_one` call natively evaluates multiple `Score` questions in
-parallel within one round-trip, so its "whole exam" call is
-architecturally ~30 independent judgments, not one bulk task. Haiku,
-Sonnet, and OpenJev have no such primitive — whole-exam mode forces a
-single shared JSON object holding all 30 scores at once, a genuinely
-harder task shape for all three, and evidently a much harder one for
-Sonnet specifically than for either of the other two. This is *avoidable
-by architecture*, not an inherent model-quality gap — but it is a real,
-sharp capability cliff for Sonnet that a chained-mode-only evaluation
-would have completely missed.
+Haiku's, on the exact same students and rubric. Jev and OpenJev both receive
+30 native `Score` questions in whole-exam mode; only the Claude arms use a
+shared generated JSON object. Thus OpenJev's decline is not explained by
+lacking a multi-question primitive. These observations establish a task-shape
+effect, including Sonnet's sharp cliff, but do not isolate its architectural
+cause. A chained-mode-only evaluation would have missed that cliff.
 
 ### Calibration (chained mode — the only mode with per-question confidence for all arms)
 
@@ -547,9 +542,9 @@ mechanism analysis: [methodology.md §18](./methodology.md#18-four-more-open-wei
 For scale: jev 98.84%, haiku 96.46%, sonnet 96.18%, openjev 96.28%,
 nli-bart 43.96%, emb-bge 42.92% (Parts 1-3 above).
 
-**Kev-4B's CT8 hypothesis confirms cleanly**: CT8 is Kev's *best* category
-(tied for first, not its worst), and its actual weakest categories are
-CT3 (69.6%) and CT7 (75.0%) — lookup/multi-hop tasks, not long context.
+**Kev scores 100% on CT8**, tied for its best category; its weakest categories
+are CT3 (69.6%) and CT7 (75.0%). This is an observed corpus result, not a
+causal confirmation of a context-window fix: no context ablation was run.
 Kev's overall gap vs. Jev here (9.4pp) is wider than the vendor's own
 self-reported out-of-domain gap on their `transfer-v4` eval (~2pp for the
 current release) — this corpus is a harder transfer test than their own
@@ -557,7 +552,7 @@ eval set implies.
 
 **Nimble-9B's contrastive-curation hypothesis is mixed, leaning
 positive**: CT5 (82.5%, its single weakest category) shows some
-degradation on the category least like its 10 training domains, but the
+degradation on arithmetic, but the
 drop from its own 94.4% overall is modest, not a collapse.
 
 **Laya's CT8/floor hypothesis does not hold up — an honest negative
@@ -573,7 +568,7 @@ CT1-8), just not specifically because of CT8.
 |---|---|---|---|---|---|---|---|---|
 | 1 | 0.750 | 0.578 | 0.867 | 0.428 | 0.383 | 0.467 | 0.200 | 0.233 |
 | 2 | 0.711 | 0.533 | 0.578 | 0.256 | 0.250 | 0.417 | 0.200 | 0.183 |
-| 5 | 0.311 | 0.317 | 0.300 | 0.194 | 0.317 | 0.300 | 0.200 | 0.167 |
+| 5 | 0.311 | 0.317 | 0.300 | 0.194 | 0.300 | 0.300 | 0.200 | 0.167 |
 | 10 (semantic) | 0.294 | 0.317 | 0.228 | 0.156 | 0.267 | 0.267 | 0.200 | 0.150 |
 
 *(k=1/2/5 columns are from the new arms' own single-repeat traces, n=60
@@ -582,12 +577,13 @@ methodology.md §18 finding 6 for the exact-tie caveat on CLM's numbers.)*
 
 **CLM-8B's architecture-vs-scaling hypothesis does not clearly
 materialize**: at k=10, CLM (20.0%) lands closer to OpenJev's collapse
-(15.6%) than to any of the four originally-tested arms (22.8-31.7%). The
-cached-action-embedding design did not visibly rescue it from the same
-compounding-error pattern. Notably, CLM's end-to-end accuracy comes out
+(15.6%) than to the other three original arms (22.8-31.7%). Its local
+k=1 accuracy is also much lower than OpenJev's (47.3% versus 85.5%), so a
+shared handoff-error mechanism is not established. There is no across-call
+compounding at k=10. Notably, CLM's end-to-end accuracy comes out
 to *exactly* 12/60 correct in several (k, labeling) buckets — confirmed
 via raw per-form traces to be a genuine small-n coincidence (n=60 per
-bucket), not a frozen/broken client: per-form answers do shift between a
+bucket), not a frozen-output artifact: per-form answers do shift between a
 k=1/k=2 cluster and a k=5/k=10 cluster, they just net out to identical
 totals within each cluster. Read the 20.0% figure as noisy (95% CI
 [0.10, 0.30], overlapping OpenJev's own k=10 CI), not as a precise flat
@@ -643,3 +639,114 @@ shape its cache is built for — even though that didn't translate into an
 end-to-end accuracy win (see CT9 section above). Real RunPod spend for
 the shared Kev/Nimble/CLM pod: **~$1.03** total, confirmed via account
 balance delta after termination.
+
+## Part 7 — Cygnet, Winnow-Q8 and Strands Decider
+
+Completed 2026-10-06 on the frozen CT1–10 corpus. Each arm has 1,920
+document predictions, 1,140 tree chunks and 12,000 question-grade rows,
+covering real A/B/C/SHUFFLE calls, every CT9 condition, both CT10 modes
+and both key conditions. One repeat; CT9 cells have 60 forms, CT10 cells
+3,000 question grades. Protocol and source pins: methodology.md §19 and
+`scripts/serving/gemma_strands.md`. These are released-system comparisons,
+not an isolated fine-tuning ablation.
+
+![New decision systems](charts/12_new_decision_systems.png)
+
+### CT1–8: document sorting
+
+| Arm | Correct / rows | Overall accuracy | Bootstrap 95% CI |
+|---|---|---|---|
+| Cygnet-12B | 1,679 / 1,920 | 87.45% | 85.89–88.91% |
+| Winnow-12B Q8 | 1,811 / 1,920 | 94.32% | 93.33–95.36% |
+| Strands Decider 2B | 1,521 / 1,920 | 79.22% | 77.40–80.94% |
+
+Jev remains at 98.84%, OpenJev at 96.28% and Nimble at 94.37% under the
+existing overall-accuracy convention. Winnow is strongest among these
+three additions; its document score is almost identical to Nimble's.
+Cygnet's largest isolated failure is CT7: 100% with semantic folder names
+but **0% under B, C and SHUFFLE**. Its frozen-model readout does not transfer
+the published composite leaderboard rank into uniformly reliable rubric
+execution on this corpus. CT8 is 100% for Cygnet; that alone is not a causal
+test of context length.
+
+CT7 exposes a separate naming-condition failure even for Winnow:
+
+| CT7 condition | Cygnet | Winnow Q8 | Strands |
+|---|---|---|---|
+| A: semantic | 100.00% | 100.00% | 90.00% |
+| B: opaque | 0.00% | 100.00% | 38.33% |
+| C: misleading | 0.00% | **1.67%** | 43.33% |
+| SHUFFLE | 0.00% | 100.00% | 41.67% |
+
+Winnow's stronger aggregate is not uniform robustness: it fails 59 of
+60 CT7 Condition-C cases while succeeding on the other naming conditions.
+
+### CT9: end-to-end accuracy
+
+| Chunk size / labeling | Cygnet | Winnow Q8 | Strands |
+|---|---|---|---|
+| k=1, semantic | 58.33% | 63.33% | 40.00% |
+| k=2, semantic | 56.67% | 63.33% | 18.33% |
+| k=5, semantic | 33.33% | 41.67% | 21.67% |
+| k=10, semantic | 21.67% | 30.00% | 18.33% |
+| k=10, opaque | 30.00% | 36.67% | 28.33% |
+
+Winnow has the highest observed k=5 semantic accuracy of all tested arms,
+and its k=10 semantic point estimate is close to Jev's 29.44%. It still
+trails Jev (75.0%) and Sonnet (86.7%) at k=1. These small-n comparisons
+do not establish statistical superiority: Winnow's k=5 CI is 28.33–53.38%,
+and its k=10 semantic CI is 18.33–41.67%. Strands' curve is non-monotonic;
+there is no universal smaller-chunk rule across models.
+
+### CT10: exact-match grading
+
+| Arm | Chained, no key | Chained, key | Whole exam, no key | Whole exam, key |
+|---|---|---|---|---|
+| Cygnet | 61.23% | 62.07% | 73.27% | 80.30% |
+| Winnow Q8 | 70.40% | 80.97% | 78.83% | 81.40% |
+| Strands | 52.70% | 54.60% | 47.27% | 49.63% |
+
+Cygnet improves by 18.23 percentage points from chained to whole-exam
+with the key; Winnow is almost flat (+0.43pp), and Strands declines
+4.97pp. Cygnet's gain cannot be attributed simply to shared-prefill
+batching: its shim makes independent question requests, and both the
+state presented to each question and backend cache behavior differ by
+mode. Strands uses its released 4,096-token window and native truncation,
+so these whole-exam results do not characterize an enlarged-window model.
+Jev's whole-exam-with-key score remains higher (87.57%); Sonnet remains
+the best chained-with-key grader (96.13%).
+
+### CT1–8 calibration
+
+| Arm | Raw probability ECE | Diagnostic fitted ECE | Native confidence: errors / correct |
+|---|---|---|---|
+| Cygnet | 0.082 | 0.067 (T=0.8) | 0.644 / 0.864 |
+| Winnow Q8 | 0.060 | 0.020 (T=0.5, search floor) | 0.428 / 0.925 |
+| Strands | 0.125 | 0.111 (T=0.5, search floor) | 0.436 / 0.730 |
+
+The existing diagnostic fit uses 320 validation rows and evaluates ECE
+on 1,600 test rows; it does not alter the stored predictions. Confidence
+formulas differ across servers, so interpret the within-arm separation
+rather than comparing their mean scales as calibrated correctness probabilities.
+Winnow has particularly strong separation here (0.497 correct-minus-error).
+That finding does not generalize unchanged across tasks: in chained CT10,
+Strands' mean confidence is slightly higher at errors (0.453) than correct
+grades (0.448), while Cygnet and Winnow retain positive gaps (0.089 and 0.146).
+
+### Compute spend
+
+The shared RTX A6000 pod cost **$2.10695 actual**, measured by RunPod
+balance delta, including setup and debugging. It was terminated after
+the final run; active account spend was verified at $0/hour. No additional
+Anthropic calls were made. All three API-token ledger entries remain $0.
+
+| Arm | Summed client latency | Inference-only projection at $0.53/hour |
+|---|---|---|
+| Cygnet | 3,862.5 seconds | $0.5687 |
+| Winnow Q8 | 3,818.2 seconds | $0.5621 |
+| Strands | 3,445.8 seconds | $0.5073 |
+
+These projections exclude setup/idle time and are not additional charges.
+Different prefix-usage accounting makes cross-model reported-token rates
+unsuitable as a raw hardware throughput comparison. Full measurements,
+revisions and teardown evidence are in `results/gemma_strands_run.json`.

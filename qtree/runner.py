@@ -39,6 +39,10 @@ def _form_text(form_id: str) -> str:
 
 
 def _build_arm(name: str):
+    if name in ("cygnet", "winnow", "strands"):
+        from qtree.arms import CygnetChunkArm, WinnowChunkArm, StrandsChunkArm
+
+        return {"cygnet": CygnetChunkArm, "winnow": WinnowChunkArm, "strands": StrandsChunkArm}[name]()
     if name == "jev":
         from qtree.arms import JevChunkArm
 
@@ -86,7 +90,7 @@ def run(
     k_values: tuple[int, ...] = K_VALUES,
     split: str | None = None,
 ) -> None:
-    repeats = repeats or REPEATS
+    repeats = repeats or (1 if arm_name in ("cygnet", "winnow", "strands") else REPEATS)
     print(f"[qtree/{arm_name}] initializing (repeats={repeats}, k={k_values})...")
     arm = _build_arm(arm_name)
 
@@ -175,7 +179,7 @@ def run(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble", "clm"]
+        "--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble", "clm", "cygnet", "winnow", "strands"]
     )
     parser.add_argument("--limit", type=int, default=None, help="limit to first N manifest rows (debug)")
     parser.add_argument("--repeats", type=int, default=None, help="override REPEATS (debug)")

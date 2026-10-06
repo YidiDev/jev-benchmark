@@ -1267,22 +1267,13 @@ large, real accuracy drop in whole-exam mode.**
 Jev shows **no meaningful degradation at all** when grading all 30
 questions in one call versus one at a time -- if anything, whole-exam
 mode is marginally more accurate. Haiku and OpenJev both drop 15-22
-percentage points. The most plausible explanation, grounded directly in
-the two implementations (not speculation about model quality in the
-abstract): Jev's whole-exam call is architecturally **30 independent
-`Score` evaluations bundled into one API round-trip** (each with its own
-rubric instructions, evaluated in parallel per TypeSafe's own
-documentation), essentially identical in kind to 30 separate chained
-calls, just cheaper to make. Haiku and OpenJev's whole-exam mode is a
-**single shared JSON-generation task** -- one forced tool call that must
-hold and correctly reason about all 30 questions' rubrics simultaneously
-to fill in one 30-field object. This is a much harder task shape, and the
-accuracy drop tracks that difficulty gap closely. This is conceptually
-related to CT9's finding that smaller, more isolated units of work
-outperform one large bulk call (methodology.md §13) -- but here the
-degradation is *avoidable by architecture*, not inherent to the model:
-Jev's native multi-question primitive sidesteps the exact problem that
-hurts Haiku and OpenJev.
+percentage points. Jev and OpenJev both receive 30 independent `Score`
+questions in a single API round-trip, through the same grading adapter.
+Haiku uses a forced tool call producing a shared 30-field JSON object.
+An earlier interpretation incorrectly grouped OpenJev with that JSON-generation
+implementation. Its accuracy drop cannot be explained by lacking native
+multi-question support. The results demonstrate sensitivity to task shape;
+they do not isolate a causal architecture mechanism.
 
 **Total-score MAE (out of 100, mean absolute error per student's summed
 graded total vs. true total):**
@@ -1339,13 +1330,11 @@ the material without being handed the answer": all three arms benefit
 from the key, but Haiku benefits least -- its own historical knowledge is
 nearly as good as having the key, a genuinely different profile from
 Jev's larger reliance on the reference answer. On "does grading
-architecture matter for bulk grading": yes, decisively -- Jev's native
-multi-question-per-call primitive lets it grade a full 30-question exam
-in one round-trip with no accuracy cost, while both Haiku and OpenJev pay
-a real, double-digit-percentage-point accuracy penalty for the same bulk
-task, because their single-shared-JSON-object approach to "many answers
-in one call" is a fundamentally harder task shape than Jev's parallel
-per-question evaluation. The calibration asymmetry first found in CT5 and
+task shape matter for bulk grading": yes -- Jev grades a full 30-question
+exam in one round-trip with no observed accuracy cost, while Haiku and
+OpenJev suffer a double-digit-percentage-point penalty. OpenJev has the
+same native multi-question request shape as Jev, so that API distinction
+alone does not explain the difference. The calibration asymmetry first found in CT5 and
 confirmed in CT9 replicates a third time, on a task that shares nothing
 structurally with either of those two.
 
@@ -1850,17 +1839,16 @@ zero-shot NLI/embedding instruments -- being an actual fine-tuned
 decision model, even a small or narrowly-trained one, beats a strong
 general-purpose zero-shot classifier repurposed for this task.
 
-**2. Kev-4B's CT8 hypothesis: confirmed, cleanly.** Kev-4B scores a
+**2. Kev-4B succeeds on the observed CT8 corpus.** Kev-4B scores a
 perfect **100.0%** on CT8 (long-context distractor, ~500-700-word
 padded documents) -- its highest of all eight clause types, tied with
 CT1/CT4, and its *worst* category is actually CT3 (69.6%, direct
-lookup-plus-override) and CT7 (75.0%, multi-hop lookup), not CT8. A
-larger-context-class base model genuinely fixes whatever a small
-zero-shot encoder struggles with here (for calibration: nli-bart/
-emb-bge score 39.6%/38.3% on CT8, but that's not meaningfully worse
-than their other categories either -- see finding 4 below, this
-"CT8 kills small models" framing turns out to be less clean than
-expected across the board). Kev-4B's overall CT1-8 gap vs. Jev on this
+lookup-plus-override) and CT7 (75.0%, multi-hop lookup), not CT8. This
+is not evidence that context length caused the improvement: there is
+no within-model context-window ablation, and nli-bart/emb-bge's
+39.6%/38.3% on CT8 is not meaningfully worse than their other
+categories. Finding 4 further weakens the premise that CT8 isolates
+a small-model context ceiling. Kev-4B's overall CT1-8 gap vs. Jev on this
 corpus (98.84% - 89.48% = 9.4pp) is **wider** than the vendor's own
 self-reported out-of-domain gap on their `transfer-v4` eval (0.857 -
 0.838 = ~2pp for the current release) -- closer to matching the user's
@@ -1872,14 +1860,13 @@ finding about how much self-reported OOD numbers travel.
 
 **3. Nimble-9B's contrastive-curation hypothesis: mixed, leaning
 positive.** CT5 (arithmetic, 82.5%) and CT6 (temporal reasoning, 93.8%)
--- the two categories most unlike Nimble's 10 training categories
+-- categories intended to probe reasoning beyond the training-domain labels
 (commerce/education/home/media/public-services/science/software/
-supply-chain/travel/workplace, none of which are "do the arithmetic" or
-"compare two dates") -- are not Nimble's weakest categories. CT3 (direct
+supply-chain/travel/workplace). These broad domain names do not establish
+that arithmetic or date comparisons were absent from training. CT3 (direct
 lookup, 100.0%) and CT8 (100.0%) are its strongest; CT5 is its single
-weakest (82.5%), which does line up with "arithmetic is hardest for a
-model that never trained on arithmetic-flavored contrasts," but the
-degradation is modest (82.5% vs. its own 94.4% overall), not the sharp
+weakest (82.5%), while CT6 is stronger. The degradation is
+modest (82.5% vs. its own 94.4% overall), not the sharp
 collapse a narrow 2,676-example training set might predict. Nimble's
 narrow, carefully-curated training approach appears to generalize
 reasonably well off-distribution on this corpus, at least compared to
@@ -1917,17 +1904,20 @@ every arm in §13 rather than a fundamentally different failure mode.
 **6. CLM-8B's architecture-vs-scaling hypothesis: did not clearly
 materialize, reported honestly rather than overclaimed.** CLM's
 end-to-end accuracy at k=10 semantic (20.0%) is closer to OpenJev's
-collapse (15.6%) than to any of the four originally-tested arms
-(22.8-31.7%) -- the action-embedding cache mechanism did not
-obviously rescue CLM from the same compounding-error pattern that
-sinks OpenJev on this task. One data artifact worth flagging plainly:
+collapse (15.6%) than to the other three originally-tested arms
+(22.8-31.7%). Cached action embeddings did not yield a clear execution
+accuracy advantage here. CLM also has low local k=1 accuracy (47.3%,
+versus OpenJev's 85.5%); this is not evidence of the same handoff-drift
+mechanism. At k=10 there is only one call, so that endpoint cannot
+measure errors compounding across calls. One data artifact worth flagging plainly:
 CLM's end-to-end accuracy comes out to *exactly* 12/60 correct in
 several (k, labeling) buckets (k=1 semantic, k=2 semantic, and,
 separately, k=5 semantic tied with k=10 semantic, and k=10 opaque
 tied with k=1/k=2's count) -- confirmed via raw per-form traces this
-is a genuine coincidence of small n (60 traces per bucket, since CLM
+occurs with different individual outcomes at small n (60 traces per bucket, since CLM
 ran at `--repeats 1` matching the other new arms, vs. 180 for the
-original four arms' 3-repeat scope), not a broken/frozen client:
+original four arms' 3-repeat scope). This rules out a completely frozen
+output but does not independently establish that the client has no bugs:
 per-form final answers do shift between the k=1/k=2 cluster and the
 k=5/k=10 cluster (confirmed by inspecting individual traces), they
 just happen to net out to identical totals within each cluster. Read
@@ -2005,3 +1995,145 @@ finding 6) it didn't translate into an end-to-end accuracy win.
 - `results/summary.json`/`.csv` regenerated to include all four arms
   across every metric already computed for the original arms.
 
+## 19. Cygnet / Winnow-Q8 / Strands Decider: released-system comparison
+
+Added 2026-10-05 after the preceding results. This is a post-hoc extension
+to the frozen CT1–10 benchmark. The hypotheses and serving contracts were
+recorded before collecting these arms' results in the third `test-plan.md`
+addendum and [`scripts/serving/gemma_strands.md`](./scripts/serving/gemma_strands.md).
+Published JevBench results motivated selection; they did not supply any
+ground-truth labels or rubric tuning for this corpus.
+
+### Systems and protocol
+
+**Cygnet** uses frozen `google/gemma-4-12B-it` weights with a letter-logit
+decision readout and upstream temperature 3.4. We use the upstream
+`shim/decision_server.py`, which accepts arbitrary named questions,
+including CT10's 30-question request. It scores each question independently;
+accepting a multi-question HTTP request does not imply shared-prefill batching.
+The actual vLLM engine has automatic prefix caching enabled. Independent shim
+requests therefore do not imply that every state prefix was recomputed; this
+run does not isolate the benefit of a native branching API from backend caching.
+The serving window is 16,384 tokens. Source and weight revisions are pinned
+in `scripts/serving/cygnet_setup.sh`.
+
+**Winnow** uses the explicit `Winnow-12B-Q8_0.gguf` checkpoint, not the
+generic Hugging Face BF16 selector or the optional assistant model. Its
+Gemma-4-12B base is fine-tuned with LoRA; the upstream llama.cpp-based
+typed-decision runtime uses shared-state prefill and question branches.
+We configure 16K context, temperature 1, and disable reasoning, MTP and
+vision. The source build and upstream release-manifest verification are
+retained in the serving setup. Q8 is the tested system's precision, not a
+BF16 proxy.
+
+**Strands Decider** uses `StrandsAgents/strands-decider-2B-hobson-v21`,
+revision `2b52a6235c1b8306bbfa30b00b9d4b74b63a39f5`, with its shipped
+pointer head and per-question-kind temperatures. Its Qwen3.5-2B base is
+identified by the checkpoint provenance. The released window remains
+4,096 tokens, with native default state truncation and prefix caching.
+This matters for long documents and whole exams: the benchmark client
+sends the entire original state, but the released server can discard part
+of it. Requests are serial to avoid racing the engine's mutable cache.
+
+All three run the full CT1–10 grid: separate A/B/C/SHUFFLE document calls;
+CT9 k=1/2/5/10 plus opaque labels at k=10; and CT10 chained/whole-exam,
+each with and without the key. Rubrics, transcripts, question order and
+score conversion remain the same as the existing decision arms. The
+primary pass uses one repeat per deterministic readout; this does not
+establish bitwise stability or make a zero observed disagreement rate
+comparable to the original three-repeat arms. Native confidence and
+probability distributions are preserved rather than recalibrated to
+these test labels.
+
+### Interpretation boundaries
+
+Cygnet versus Winnow is a **released-system comparison sharing a base
+model**. Precision, prompts, calibration, backend and prefix handling all
+differ. An accuracy gap is therefore not an isolated estimate of the
+effect of fine-tuning. Likewise, differences in chained CT10 grading
+cannot be explained by multi-question batching: that mode already sends
+one question per call. Shared-prefill handling is relevant to whole-exam
+performance and latency.
+
+Strands' published public-JevBench score and Cygnet/Winnow composite
+leaderboard ranks are background context, not evidence of parity on this
+benchmark. A composite includes dimensions other than accuracy. Confidence
+statistics also require care: entropy-based confidence and maximum-probability
+readouts need not have the same numerical scale. Within-arm separation
+between correct and erroneous decisions is more interpretable than simply
+ranking mean confidence across implementations.
+
+### Serving and spend accounting
+
+Setup and evaluation use an RTX A6000 48GB rented at $0.53/hour. The
+CUDA-12.4 base image needed CMake/OpenSSL development packages for Winnow.
+Cygnet's vLLM 0.30.0 wheel uses newer CUDA libraries, so its FlashInfer
+sampling JIT was disabled in favor of vLLM's native sampler; the benchmark
+still reads letter logits rather than generated answers. Strands uses
+PyTorch 2.7.1/CUDA 12.6 with a compatible causal-convolution kernel.
+
+Every successful client call logs input/output tokens through
+`record_spend`. Zero entries in the API-token ledger mean **no per-token
+API charge**, not free infrastructure. Actual rented-GPU spend is recorded
+separately from throughput-based self-hosted projections and from the
+Anthropic budget. Setup time contributes to the real rental bill; it is
+not silently included in a per-inference throughput estimate.
+
+### Completed run and findings (2026-10-06)
+
+All three full grids completed: 1,920 document rows, 1,140 tree chunks,
+and 12,000 grade rows per arm. That is 15,060 stored rows but **9,260
+primary HTTP requests**, because CT10's 200 whole-exam requests each
+yield 30 rows, alongside 6,000 single-question requests. Smoke-test rows
+were reused by the resumable runners. Failed startup probes are not
+predictions; their elapsed rental time is included in the actual bill.
+
+| Metric | Cygnet | Winnow Q8 | Strands |
+|---|---|---|---|
+| CT1–8 overall accuracy | 87.45% | 94.32% | 79.22% |
+| CT9 semantic k=1 | 58.33% | 63.33% | 40.00% |
+| CT9 semantic k=5 | 33.33% | 41.67% | 21.67% |
+| CT9 semantic k=10 | 21.67% | 30.00% | 18.33% |
+| CT10 chained, key | 62.07% | 80.97% | 54.60% |
+| CT10 whole exam, key | 80.30% | 81.40% | 49.63% |
+
+Winnow transfers best among the additions, without establishing a causal
+fine-tuning effect. Its k=5 point estimate is the highest observed across
+the tested arms, but n=60 and overlapping bootstrap intervals limit that
+claim. Cygnet fails CT7 under all three nonsemantic naming conditions
+(0% each), despite 100% under semantic names. A composite public rank
+therefore did not predict uniform reliability on this benchmark.
+Winnow also has a sharp CT7 naming failure: 1/60 correct under misleading
+Condition C, versus 60/60 under A, B and SHUFFLE. Its aggregate advantage
+does not establish robust behavior under every relabeling.
+
+Whole-exam behavior differs sharply: Cygnet improves, Winnow is nearly
+flat and Strands declines. This does not isolate shared-prefill quality:
+Cygnet's question requests are independent, vLLM prefix caching is enabled,
+and whole-exam state contains other answers absent from the chained state.
+Strands retains its native 4K truncation policy. Chained performance gaps
+are not explained by multi-question batching.
+
+Strands initially failed cold FLA/Triton autotuning. The successful run
+used Torch 2.7.1+cu126, Triton 3.3.1, Transformers 5.18.0,
+flash-linear-attention 0.5.0 and causal-conv1d 1.7.0, with a fresh server
+and a 600-second client deadline. A short default deadline could trigger
+overlapping retries against mutable autotuning state. These changes were
+made before any valid Strands prediction rows; the trial does not isolate
+which environment/restart change resolved the issue. Its native prefix
+path handles whole-exam fields in groups of at most four.
+
+The secure-cloud RTX A6000 pod `fay9pekxn94dom` cost **$2.1069514254** by
+account balance delta at $0.53/hour. After termination RunPod reported
+$0/hour active spend. The separate inference-only projections are
+Cygnet $0.56865, Winnow $0.56212 and Strands $0.50729, based on summed
+client latencies. No additional Anthropic calls were needed. Complete
+source/weight pins, usage totals and rental evidence are in
+`results/gemma_strands_run.json`; these are never mixed into API-token
+pricing or the Anthropic budget. The rental termination watchdog was
+cancelled after manual teardown.
+
+The summary now includes every new arm in the existing scoring reports;
+charts 02 and 05 include them, and chart 12 compares the released systems
+against Jev and Sonnet. The CT1–10 test suite contains **152 tests**. Broader local verification also
+passed 186 tests, including the independently-added CT11–20 extension tests.

@@ -7,11 +7,11 @@ quality *and* price?**
 
 This repo is the full benchmark: every corpus, every prediction, every dollar spent, every test
 that failed to find a difference as well as every one that did. Ten structurally distinct test
-suites, **nine models** (Jev, Claude Haiku 4.5, Claude Sonnet 5, OpenJev, plus four more
-self-hosted open-weight arms added later — Kev-4B, Nimble-9B, CLM-8B, Laya, see
-[Part 6](#part-6--four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b)), **143 passing tests**,
-**$110.11 total metered (Anthropic) spend** plus **~$1.03** in separate, real rented-GPU spend for
-the Part 6 arms, all of it reproducible from the seeds and scripts in this repo.
+suites, **thirteen models** including the NLI/embedding controls and later open-weight
+additions: Kev-4B, Nimble-9B, CLM-8B, Laya ([Part 6](#part-6--four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b)),
+then Cygnet, Winnow-Q8 and Strands Decider ([Part 7](#part-7--cygnet-winnow-q8-and-strands-decider)).
+**152 passing tests**, **$110.11 original CT1–10 metered Anthropic spend**, plus separate
+real GPU rental charges of **~$1.03** for Part 6 and **$2.11** for Part 7.
 
 <p align="center">
   <img src="charts/10_accuracy_vs_cost.png" width="640" alt="Accuracy vs. cost: Jev is both more accurate and ~50x cheaper than Claude Haiku 4.5">
@@ -62,6 +62,7 @@ did not transfer into more reliable batching; if anything, the opposite. Read on
    - [Part 4 — CT9: chained decision-tree execution](#part-4--ct9-chained-decision-tree-execution)
    - [Part 5 — CT10: AP World History exam grading](#part-5--ct10-ap-world-history-exam-grading)
    - [Part 6 — Four more open-weight arms](#part-6--four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b)
+   - [Part 7 — Cygnet, Winnow-Q8 and Strands Decider](#part-7--cygnet-winnow-q8-and-strands-decider)
    - [Calibration, across every task](#calibration-across-every-task)
 5. [Price, in full](#price-in-full)
 6. [Methodology highlights](#methodology-highlights)
@@ -110,6 +111,11 @@ approach turned out to be wrong and was replaced.
 | **OpenJev** | `razorback16/openjev`, an open-weights model (DiffusionGemma 26B-A4B, Apache-2.0) that speaks Jev's exact wire API. Tested via the free-hosted [Codiv](https://codiv.ai) endpoint — real cost here is $0.00, but self-hosting it (its actual real-world deployment path) is estimated at ~$0.028/Mtok input on a 24GB-class GPU. | **$0.00** (hosted tier used) / ~$0.028/Mtok (self-hosted est.) |
 | NLI (bart-large-mnli) / Embeddings (bge-m3) | Standard zero-shot classification baselines — the "does it actually read the rubric" control group for Part 1. Not real contenders (they can't follow a rubric at all), included to prove the point. Ran locally in this benchmark (real cost $0.00); self-hosting either commercially is estimated at ~$0.03/Mtok on a small cloud GPU. | Local, **$0.00** real / ~$0.03/Mtok (self-hosted est.) |
 | **Kev-4B** / **Nimble-9B** / **CLM-8B** / **Laya** | Four more real, independently-verified open-weight fine-tunes, added later, each testing a specific hypothesis (context ceiling, contrastive-curation generalization, cached-action-embedding architecture, and a deliberate context-length floor respectively — see [Part 6](#part-6--four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b)). Self-hosted: 3 on one rented GPU (~$1.03 real total), Laya on CPU ($0). | Real spend **$0.00** (self-hosted) / ~$0.05-0.83 total, self-hosted-compute estimate per arm |
+
+The latest additions are **Cygnet-12B** (frozen Gemma-4 decision readout),
+**Winnow-12B Q8** (fine-tuned Gemma-4, native typed-decision runtime) and
+**Strands Decider 2B v21** (Qwen3.5 pointer head). All run full CT1–10;
+see Part 7 for their results and separate rental accounting.
 
 ## The ten test suites
 
@@ -248,12 +254,12 @@ orthogonal axis — does the grading model need the answer key, or does it alrea
 material? Two grading modes: **chained** (1 call/question) and **whole-exam** (1 call, all 30
 questions at once).
 
-**A genuine architecture-driven finding**: Jev is essentially flat between chained and whole-exam
-grading (its `system_one` call natively evaluates multiple `Score` questions in parallel, so its
-"whole exam" call is structurally ~30 independent judgments). **Haiku, Sonnet, and OpenJev all
-lose ground in whole-exam mode** — their single-shared-JSON-object approach to "many answers in
-one call" is a genuinely harder task shape. This is avoidable by architecture, not an inherent
-model-quality gap. **Sonnet loses by far the most: 90% → 54% exact-match, a 36-point drop** —
+**A strong task-shape effect**: Jev is essentially flat between chained and whole-exam
+grading. **Haiku, Sonnet, and OpenJev all lose ground in whole-exam mode.** The Claude arms
+generate a shared JSON object; OpenJev, like Jev, receives 30 native `Score` questions.
+OpenJev's decline therefore cannot be attributed to lacking that API primitive, and this
+comparison does not isolate a causal architecture effect.
+**Sonnet loses by far the most: 90% → 54% exact-match, a 36-point drop** —
 more than double Haiku's 15pp drop and OpenJev's 19pp drop.
 
 **This is the sharpest, most decision-relevant Sonnet result in the whole benchmark.** In
@@ -300,19 +306,51 @@ and **Laya** (421M encoder, 512-token context — a deliberate floor datapoint).
 *Nimble's whole-exam mode is marked unsupported rather than run against a prompt at risk of
 truncating past its 8,192-token cap.
 
-**Two hypotheses confirmed, one falsified, one mixed** — reported honestly rather than smoothed
-into a clean story. Kev-4B's context-ceiling hypothesis **confirms cleanly**: CT8 is its *best*
-category, not its worst. Laya's floor/CT8-truncation hypothesis **does not hold up**: CT8 is
-*also* Laya's best category despite its 512-token window — its real weaknesses (CT7 multi-hop,
-CT2) are reasoning-shape problems, not context-length ones. Nimble's contrastive-curation
-hypothesis is **mixed, leaning positive**: its weakest category (CT5 arithmetic, 82.5%) is a
-modest dip from its 94.4% average, not a collapse. CLM-8B's architecture-vs-scaling hypothesis
-**does not clearly materialize**: at CT9 k=10 it lands at 20.0%, closer to OpenJev's 15.6%
-collapse than to any originally-tested arm — its action-embedding cache measurably speeds up
-inference (5,696 tok/s vs. Kev's 2,239 and Nimble's 1,213) but didn't translate into avoiding the
-same compounding-error pattern. Full mechanism analysis, including an honest small-n caveat on
+**The hypotheses produce mixed results.** Kev scores 100% on CT8, but without a context
+ablation this does not establish that a larger window caused the success. CT8 is also Laya's
+best category despite its 512-token window, undermining its intended use as a truncation floor.
+Nimble's weakest category is CT5 arithmetic (82.5%), below its 94.4% overall accuracy; this
+comparison does not isolate the effect of contrastive curation. CLM reaches 20.0% at CT9 k=10
+versus OpenJev's 15.6%, without a clear accuracy rescue. Its measured reported-token rate is
+higher, but different systems and token accounting prevent treating that as an isolated cache
+speedup. At k=10 there is only one call, so this result is not evidence of across-call
+compounding. Full analysis, including a small-n caveat on
 CLM's exact-tied accuracy figures across several k values: [methodology.md §18](./methodology.md#18-four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b),
 [results.md Part 6](./results.md#part-6--four-more-open-weight-arms-laya-kev-4b-nimble-9b-clm-8b).
+
+### Part 7 — Cygnet, Winnow-Q8 and Strands Decider
+
+<p align="center"><img src="charts/12_new_decision_systems.png" width="800"></p>
+
+Three more systems, each evaluated across **all CT1–10 conditions**, including
+both whole-exam and chained grading, with and without the answer key.
+
+| Metric | Cygnet-12B | Winnow-12B Q8 | Strands Decider 2B |
+|---|---|---|---|
+| CT1–8 overall accuracy | 87.45% | **94.32%** | 79.22% |
+| CT9 end-to-end, k=1 semantic | 58.33% | **63.33%** | 40.00% |
+| CT9 end-to-end, k=5 semantic | 33.33% | **41.67%** | 21.67% |
+| CT9 end-to-end, k=10 semantic | 21.67% | **30.00%** | 18.33% |
+| CT10 chained, with key | 62.07% | **80.97%** | 54.60% |
+| CT10 whole exam, with key | 80.30% | **81.40%** | 49.63% |
+
+**Winnow is the strongest of these additions.** Its k=5 CT9 point estimate is
+the highest observed across tested arms, though the 60-form cells have wide,
+overlapping confidence intervals. Cygnet's public composite leaderboard rank
+does not carry over uniformly: it scores 0% on CT7 under B/C/SHUFFLE, yet
+whole-exam grading is much stronger than its chained grading. Strands trails
+both larger systems and retains its released 4,096-token truncation policy.
+Winnow also has a sharp trap: CT7 Condition C is only **1.67%**, despite
+100% on CT7's other naming conditions.
+
+Cygnet versus Winnow is a released-system comparison, **not an isolated
+fine-tuning experiment**: precision, prompts, readout, calibration and runtime
+also differ. The shared rental cost **$2.11 actual**, with no new Anthropic
+calls, and the GPU was terminated after collection. Separate inference-only
+projections are $0.5687 / $0.5621 / $0.5073; they are not additional charges.
+See [results.md Part 7](./results.md#part-7--cygnet-winnow-q8-and-strands-decider),
+[methodology.md §19](./methodology.md#19-cygnet--winnow-q8--strands-decider-released-system-comparison),
+and [`results/gemma_strands_run.json`](./results/gemma_strands_run.json).
 
 ### Calibration, across every task
 
@@ -405,26 +443,36 @@ that matter most for trusting these results:
 uv sync
 cp .env.example .env   # fill in TYPESAFE_API_KEY, ANTHROPIC_API_KEY, CODIV_API_KEY
 
-# Everything below is already committed (corpus, predictions, spend ledger) --
-# these commands regenerate results from what's already here, or extend it.
-pytest tests/ -q                        # 143 tests, exercises every scoring function
-python -m harness.spend_ledger          # print the full price ledger (real, metered spend)
-python -m scripts.estimate_self_hosted_cost  # rebuild results/self_hosted_cost_estimate.json
-python -m scripts.generate_summary      # rebuild results/summary.{json,csv}
-python -m scripts.generate_charts       # rebuild every chart in charts/
+# The frozen corpus and saved predictions are included -- these commands
+# regenerate results from what's already here, or extend it.
+uv run pytest tests/ -q                  # 152 CT1–10 tests
+uv run python -m harness.spend_ledger     # print the API-token ledger
+uv run python -m scripts.estimate_self_hosted_cost
+uv run python -m scripts.generate_summary
+uv run python -m scripts.generate_charts
 
 # Re-running an arm against already-generated corpora (resumable, will skip
 # anything already in results/predictions/):
-python -m scripts.run_arm --arm nli-bart
-python -m scripts.run_api_arm --arm jev        # or haiku / sonnet / openjev / laya / kev / nimble
-python -m qtree.runner --arm jev               # CT9 (also: openjev / sonnet / laya / kev / nimble / clm)
-python -m examgrade.runner --arm jev           # CT10 (also: openjev / sonnet / laya / kev / nimble)
+uv run python -m scripts.run_arm --arm nli-bart
+uv run python -m scripts.run_api_arm --arm jev
+uv run python -m qtree.runner --arm jev
+uv run python -m examgrade.runner --arm jev
+
+# New systems: replace cygnet with winnow or strands.
+uv run python -m scripts.run_api_arm --arm cygnet --repeats 1
+uv run python -m qtree.runner --arm cygnet --repeats 1
+uv run python -m examgrade.runner --arm cygnet
 ```
 
 Kev-4B, Nimble-9B, and CLM-8B require self-hosting their own server process on a real GPU
 (`scripts/serving/README.md` has the exact setup/serve/teardown steps this project used against a
 rented RunPod instance) and `KEV_BASE_URL`/`NIMBLE_BASE_URL`/`CLM_BASE_URL` set in `.env`; Laya
 runs fully in-process on CPU, no server or extra env var needed.
+
+Cygnet, Winnow-Q8 and Strands use their pinned GPU servers and
+`CYGNET_BASE_URL` / `WINNOW_BASE_URL` / `STRANDS_BASE_URL`.
+See [`scripts/serving/gemma_strands.md`](./scripts/serving/gemma_strands.md)
+for exact setup, SSH tunneling, runtime pins and context policies.
 
 Regenerating the corpus from scratch (not needed — it's committed — but fully reproducible):
 `corpus/generate_metadata.py` → `corpus/generate_prose.py` (and the `qtree`/`examgrade`
@@ -436,18 +484,18 @@ equivalents), all seeded from `MASTER_SEED` in `harness/constants.py`.
 corpus/       CT1-8 document generator + frozen manifest + ground-truth engine
 rubrics/      Rubric clause text, folder-name conditions, shuffle-control permutation
 arms/         One module per CT1-8 arm: jev, haiku, sonnet, openjev, nli-bart, emb-bge,
-              laya, kev, nimble
-qtree/        CT9: decision tree, chunked execution arms (incl. laya/kev/nimble/clm), scoring
-examgrade/    CT10: exam questions/rubrics, student corpus, grading arms (incl. laya/kev/nimble),
+              laya, kev, nimble, cygnet, winnow, strands
+qtree/        CT9: decision tree, all decision arms plus CLM, scoring
+examgrade/    CT10: exam questions/rubrics, student corpus, all grading arms,
               scoring
 harness/      Shared scoring (bootstrap CI, ECE, disagreement), spend ledger, constants
 scripts/      run_arm / run_api_arm (CT1-8), generate_summary, generate_charts,
               estimate_self_hosted_cost, serving/ (RunPod provisioning + setup scripts
-              for self-hosting kev/nimble/clm, FastAPI wrapper for nimble)
+              for kev/nimble/clm/cygnet/winnow/strands, FastAPI wrapper for nimble)
 results/      Every raw prediction, the spend ledger, the self-hosted cost
               estimate, and the consolidated summary
 charts/       Every chart in this README, regenerable via scripts/generate_charts.py
-tests/        143 tests covering ground truth, RNG determinism, and every scoring function
+tests/        152 tests covering ground truth, RNG determinism, adapters and scoring
 ```
 
 ## Full documentation

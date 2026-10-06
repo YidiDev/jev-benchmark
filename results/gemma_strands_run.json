@@ -1,0 +1,75 @@
+{
+  "scope": "Frozen CT1-10; Cygnet, Winnow-Q8, Strands Decider; one repeat",
+  "infrastructure": {
+    "provider": "RunPod",
+    "pod_id": "fay9pekxn94dom",
+    "gpu": "RTX A6000 48GB",
+    "cloud": "SECURE",
+    "hourly_usd": 0.53,
+    "started_at_utc": "2026-10-05T23:30:35Z",
+    "teardown_verified_by_utc": "2026-10-06T03:30:19Z",
+    "active_spend_per_hour_after_teardown_usd": 0,
+    "actual_charge_usd": 2.1069514254,
+    "charge_measurement": "RunPod account balance delta; no other active account spend",
+    "note": "Real rental includes setup, compilation, debugging and idle time. Separate from zero API-token charges and inference-only projections."
+  },
+  "accounting": {
+    "rows_per_arm": 15060,
+    "document_rows": 1920,
+    "tree_chunks": 1140,
+    "question_grade_rows": 12000,
+    "primary_http_requests_per_arm": 9260,
+    "ct10_http_requests_per_arm": 6200,
+    "note": "One whole-exam request yields 30 grade rows; its usage and latency are apportioned across those rows. Warm-up probes and failed requests are not additional prediction rows. Reported-token rates are end-to-end logical usage, not raw fresh-prefill throughput or an isolated cache-speed comparison."
+  },
+  "arms": {
+    "cygnet": {
+      "source_revision": "10b4099a61e7dca6a82032b54c74dc0a8c496d4b",
+      "weights": "google/gemma-4-12B-it",
+      "weights_revision": "707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7",
+      "precision": "BF16",
+      "runtime": "vLLM 0.30.0; native sampler; automatic prefix cache enabled; decision_server.py",
+      "context_tokens": 16384,
+      "temperature": 3.4,
+      "input_tokens": 28773993,
+      "output_tokens": 15060,
+      "summed_client_latency_seconds": 3862.531321706949,
+      "reported_tokens_per_second": 7453.416063763439,
+      "inference_only_projection_usd": 0.5686504445846341
+    },
+    "winnow": {
+      "source_revision": "d4631fbf20b73e0372281a6bb5ca44322f173692",
+      "weights": "EldanRing/Winnow-12B/Winnow-12B-Q8_0.gguf",
+      "weights_verification": "Pinned upstream release manifest verified by winnow.py setup",
+      "precision": "Q8_0 weights; Q8 KV cache",
+      "context_tokens": 16384,
+      "temperature": 1.0,
+      "reasoning": false,
+      "mtp": false,
+      "vision": false,
+      "input_tokens": 8320636,
+      "output_tokens": 0,
+      "summed_client_latency_seconds": 3818.206559049897,
+      "reported_tokens_per_second": 2179.200069802003,
+      "inference_only_projection_usd": 0.5621248545267904
+    },
+    "strands": {
+      "source_revision": "3e94e9d84c620ed5a95f1a3310c3decb971e261c",
+      "weights": "StrandsAgents/strands-decider-2B-hobson-v21",
+      "weights_revision": "2b52a6235c1b8306bbfa30b00b9d4b74b63a39f5",
+      "base_weights": "Qwen/Qwen3.5-2B-Base",
+      "base_weights_revision": "b1485b2fa6dfa1287294f269f5fb618e03d52d7c",
+      "runtime": "Torch 2.7.1+cu126; Triton 3.3.1; Transformers 5.18.0; flash-linear-attention 0.5.0; causal-conv1d 1.7.0",
+      "context_tokens": 4096,
+      "state_truncation": "Native default",
+      "calibration": "Released per-question-kind temperatures",
+      "prefix_cache": true,
+      "max_question_batch": 4,
+      "input_tokens": 12741075,
+      "output_tokens": 15060,
+      "summed_client_latency_seconds": 3445.7625279743224,
+      "reported_tokens_per_second": 3701.97739874402,
+      "inference_only_projection_usd": 0.5072928166184419
+    }
+  }
+}

@@ -1,5 +1,5 @@
-"""Generic runner for stochastic, token-metered API arms (jev, haiku,
-openjev): executes `repeats` passes over the full corpus manifest under all
+"""Generic runner for rubric-reading decision/API arms: executes `repeats`
+passes over the full corpus manifest under all
 three folder-naming conditions PLUS the shuffle control, and writes
 results/predictions/{arm}.jsonl.
 
@@ -56,6 +56,10 @@ rationale scripts/run_arm.py already documents for nli-bart/emb-bge -- these
 three just also need the real-SHUFFLE condition list this runner (not that
 one) provides.
 
+Cygnet/Winnow/Strands (§19) also make real SHUFFLE calls. Their primary
+decision-readout grid defaults to one repeat, with an explicit --repeats
+override available. A single pass does not establish bitwise stability.
+
 Usage:
     python -m scripts.run_api_arm --arm jev
     python -m scripts.run_api_arm --arm jev --limit 5 --repeats 1   # debug
@@ -90,6 +94,12 @@ def _doc_text(doc_id: str) -> str:
 
 
 def _build_arm(name: str):
+    if name in ("cygnet", "winnow", "strands"):
+        from arms.cygnet import CygnetArm
+        from arms.winnow import WinnowArm
+        from arms.strands import StrandsArm
+
+        return {"cygnet": CygnetArm, "winnow": WinnowArm, "strands": StrandsArm}[name]()
     if name == "jev":
         from arms.jev import JevArm
 
@@ -127,7 +137,7 @@ def run(
     repeats: int | None = None,
     split: str | None = None,
 ) -> None:
-    repeats = repeats or REPEATS
+    repeats = repeats or (1 if arm_name in ("cygnet", "winnow", "strands") else REPEATS)
     print(f"[{arm_name}] initializing client (repeats={repeats})...")
     arm = _build_arm(arm_name)
 
@@ -197,7 +207,7 @@ def run(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble"])
+    parser.add_argument("--arm", required=True, choices=["jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble", "cygnet", "winnow", "strands"])
     parser.add_argument("--limit", type=int, default=None, help="limit to first N manifest rows (debug)")
     parser.add_argument("--repeats", type=int, default=None, help="override REPEATS (debug)")
     parser.add_argument("--split", choices=["validation", "test"], default=None, help="restrict to one split")

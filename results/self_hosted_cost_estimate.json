@@ -1,5 +1,5 @@
 {
-  "note": "Estimated self-hosted compute cost, NOT real metered spend. Real spend for these three arms is $0.00 (local hardware / free hosted tier) and stays that way in results/spend_ledger.jsonl. See harness/constants.py's SELF_HOSTED_PRICING and methodology.md \u00a717 for the hardware/throughput assumptions behind every number below.",
+  "note": "Estimated self-hosted compute cost, NOT real metered spend. API-token ledger charges for these arms are $0.00. Real rented infrastructure charges are separate; see methodology.md \u00a7\u00a718\u201319 and results/gemma_strands_run.json. See harness/constants.py's SELF_HOSTED_PRICING and methodology.md \u00a717 for the hardware/throughput assumptions behind every number below.",
   "arms": {
     "nli-bart": {
       "task": "ct1_8",
@@ -126,6 +126,81 @@
         "input_tokens": 2079688,
         "output_tokens": 0,
         "estimated_cost_usd": 0.05375097238314823
+      }
+    },
+    "cygnet-12b": {
+      "ct1_8": {
+        "n_rows": 1920,
+        "input_tokens": 1016340,
+        "output_tokens": 1920,
+        "estimated_cost_usd": 0.020112992313527985
+      },
+      "ct9": {
+        "n_rows": 1140,
+        "input_tokens": 2410069,
+        "output_tokens": 1140,
+        "estimated_cost_usd": 0.0476269597974088
+      },
+      "ct10": {
+        "n_rows": 12000,
+        "input_tokens": 25347584,
+        "output_tokens": 12000,
+        "estimated_cost_usd": 0.5009104924736975
+      },
+      "total": {
+        "input_tokens": 28773993,
+        "output_tokens": 15060,
+        "estimated_cost_usd": 0.5686504445846342
+      }
+    },
+    "winnow-12b-q8": {
+      "ct1_8": {
+        "n_rows": 1920,
+        "input_tokens": 1056404,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.07136845606772359
+      },
+      "ct9": {
+        "n_rows": 1140,
+        "input_tokens": 2451926,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.16564701857651926
+      },
+      "ct10": {
+        "n_rows": 12000,
+        "input_tokens": 4812306,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.3251093798825474
+      },
+      "total": {
+        "input_tokens": 8320636,
+        "output_tokens": 0,
+        "estimated_cost_usd": 0.5621248545267903
+      }
+    },
+    "strands-decider-2b": {
+      "ct1_8": {
+        "n_rows": 1920,
+        "input_tokens": 929724,
+        "output_tokens": 1920,
+        "estimated_cost_usd": 0.03705011814673266
+      },
+      "ct9": {
+        "n_rows": 1140,
+        "input_tokens": 2291941,
+        "output_tokens": 1140,
+        "estimated_cost_usd": 0.09119247477580264
+      },
+      "ct10": {
+        "n_rows": 12000,
+        "input_tokens": 9519410,
+        "output_tokens": 12000,
+        "estimated_cost_usd": 0.3790502236959066
+      },
+      "total": {
+        "input_tokens": 12741075,
+        "output_tokens": 15060,
+        "estimated_cost_usd": 0.5072928166184418
       }
     }
   }

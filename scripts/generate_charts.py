@@ -75,6 +75,9 @@ COLOR = {
     "kev": "#0891B2",       # teal -- Jev-clone family, closest architecture to Jev
     "nimble": "#CA8A04",    # dark gold -- contrastive-data-curation Qwen fine-tune
     "clm": "#4338CA",       # indigo -- the CT9-only architecture-hypothesis arm
+    "cygnet": "#DB2777",
+    "winnow": "#0F766E",
+    "strands": "#92400E",
 }
 LABEL = {
     "jev": "Jev",
@@ -87,6 +90,9 @@ LABEL = {
     "kev": "Kev-4B",
     "nimble": "Nimble-9B",
     "clm": "CLM-8B",
+    "cygnet": "Cygnet-12B",
+    "winnow": "Winnow-12B Q8",
+    "strands": "Strands Decider 2B",
 }
 
 plt.rcParams.update(
@@ -172,10 +178,10 @@ def chart_overall_accuracy() -> None:
     # read real rubric text like jev/haiku/sonnet/openjev (unlike nli-bart/
     # emb-bge), so they belong in this comparison. Smaller bar width to fit
     # seven arms without crowding.
-    arms = ["jev", "haiku", "sonnet", "openjev", "kev", "nimble", "laya"]
+    arms = ["jev", "haiku", "sonnet", "openjev", "kev", "nimble", "laya", "cygnet", "winnow", "strands"]
     groups = ["CT1-4\n(original)", "CT5-8\n(hard mode)"]
 
-    fig, ax = plt.subplots(figsize=(11, 5.5))
+    fig, ax = plt.subplots(figsize=(13, 6))
     n_arms = len(arms)
     width = 0.86 / n_arms
     x = range(len(groups))
@@ -197,7 +203,7 @@ def chart_overall_accuracy() -> None:
     ax.set_ylim(0, 1.1)
     _pct(ax)
     ax.set_ylabel("Overall accuracy")
-    ax.set_title("Classification accuracy: original corpus vs. corpus designed to break Jev\n(+ Kev-4B/Nimble-9B/Laya, self-hosted open-weight arms, Sep 2026 addition)")
+    ax.set_title("Classification accuracy: original corpus vs. hard-mode corpus\nRubric-reading arms, including Cygnet / Winnow-Q8 / Strands Decider")
     ax.legend(frameon=False, loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.32))
     _style_axes(ax)
     _save(fig, "02_overall_accuracy.png")
@@ -273,14 +279,14 @@ def chart_ct9_k_curve() -> None:
     # aggregates per (k, labeling) regardless of repeat count, so the curves
     # are directly comparable, just built from fewer traces per point for
     # the new arms).
-    arms = ["jev", "haiku", "sonnet", "openjev", "kev", "nimble", "clm", "laya"]
+    arms = ["jev", "haiku", "sonnet", "openjev", "kev", "nimble", "clm", "laya", "cygnet", "winnow", "strands"]
     k_values = [1, 2, 5, 10]
 
-    fig, ax = plt.subplots(figsize=(9, 6))
+    fig, ax = plt.subplots(figsize=(11, 6.5))
     for arm in arms:
         rows = {(r["k"], r["labeling"]): r["accuracy"] for r in end_to_end_accuracy(arm)}
         ys = [rows[(k, "semantic")] for k in k_values]
-        style = "--" if arm in ("kev", "nimble", "clm", "laya") else "-"
+        style = "--" if arm in ("kev", "nimble", "clm", "laya", "cygnet", "winnow", "strands") else "-"
         ax.plot(k_values, ys, marker="o", markersize=7, linewidth=2.5, linestyle=style, label=LABEL[arm], color=COLOR[arm])
 
     ax.set_xscale("log")
@@ -289,8 +295,8 @@ def chart_ct9_k_curve() -> None:
     ax.set_xlabel("Chunk size k (steps executed per model call)  \u2190 more handoffs        fewer handoffs \u2192")
     _pct(ax)
     ax.set_ylabel("End-to-end accuracy")
-    ax.set_title("CT9: chained decision-tree execution\nFrequent small handoffs beat one unassisted full-chain call, for every model")
-    ax.legend(frameon=False, loc="upper right", ncol=2, fontsize=9)
+    ax.set_title("CT9: chained decision-tree execution\nEffect of chunk size varies by model; CLM's end-to-end curve is flat")
+    ax.legend(frameon=False, loc="lower center", bbox_to_anchor=(0.5, -0.30), ncol=4, fontsize=9)
     _style_axes(ax)
     ax.grid(axis="x", visible=False)
     _save(fig, "05_ct9_k_curve.png")
@@ -616,6 +622,35 @@ def chart_ct9_architecture_comparison() -> None:
     _save(fig, "11_ct9_architecture_comparison.png")
 
 
+def chart_new_decision_systems() -> None:
+    """Keep the new comparison legible alongside original reference arms."""
+    from examgrade.scoring import question_level_error
+
+    arms = ["jev", "sonnet", "cygnet", "winnow", "strands"]
+    fig, axes = plt.subplots(2, 2, figsize=(12, 9))
+    values = {a: {(r["mode"], r["with_key"]): r["exact_match_rate"]
+                  for r in question_level_error(a)} for a in arms}
+    panels = [
+        ("CT1–8: document sorting", [ct1_8_overall_accuracy(a)["accuracy"] for a in arms]),
+        ("CT9: end-to-end, k=1 semantic", [next(r["accuracy"] for r in end_to_end_accuracy(a)
+                                              if r["k"] == 1 and r["labeling"] == "semantic") for a in arms]),
+        ("CT10: chained grading, with key", [values[a][("chained", True)] for a in arms]),
+        ("CT10: whole-exam grading, with key", [values[a][("whole_exam", True)] for a in arms]),
+    ]
+    for ax, (title, vals) in zip(axes.flat, panels):
+        bars = ax.bar([LABEL[a] for a in arms], vals, color=[COLOR[a] for a in arms])
+        for bar, value in zip(bars, vals):
+            ax.annotate(f"{value:.1%}", (bar.get_x() + bar.get_width()/2, value),
+                        ha="center", va="bottom", fontsize=9)
+        ax.set_ylim(0, 1.08)
+        ax.set_title(title)
+        ax.tick_params(axis="x", labelrotation=25, labelsize=9)
+        _pct(ax)
+        _style_axes(ax)
+    fig.suptitle("Released-system comparison: Cygnet, Winnow-Q8 and Strands Decider\nDifferent serving stacks, precision and context policies; not a causal fine-tuning ablation")
+    _save(fig, "12_new_decision_systems.png")
+
+
 if __name__ == "__main__":
     chart_shuffle_control()
     chart_overall_accuracy()
@@ -628,4 +663,5 @@ if __name__ == "__main__":
     chart_cost_per_1000_calls()
     chart_accuracy_vs_cost()
     chart_ct9_architecture_comparison()
+    chart_new_decision_systems()
     print("done")

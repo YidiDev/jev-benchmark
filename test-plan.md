@@ -13,7 +13,11 @@ Part 1 (vs NLI) is an existence proof. Part 2 (vs Haiku) is the harder compariso
 **Second addendum (see methodology.md §18):** Four more real, independently-verified open-weight models — Kev-4B, Nimble-9B, CLM-8B (CT9 only), and Laya — were added still later, each testing one specific, pre-stated hypothesis about its own architecture or training data (context-window ceiling, contrastive-data-curation generalization, cached-action-embedding execution, and a deliberate context-length floor, respectively) rather than expanding this original design's scope. None of the falsifiable predictions attached to these four arms were guaranteed to confirm going in, and in fact two did not (see methodology.md §18 findings 4 and 6) — reported as found. This document, again, is left as originally drafted; results.md Part 6 and README.md have the full comparison.
 
 
-Status: design only, not yet run. Drafted 2026-09-21.
+**Third addendum (2026-10-05):** Add Cygnet, Winnow-12B Q8 and Strands Decider 2B v21 to all CT1–10, including CT10 chained and whole-exam modes with/without the key. Retain the frozen corpus and unchanged rubrics. Primary grid: one repeat for decision readouts, real SHUFFLE calls, all CT9 k values. Serving contracts, pins and hypotheses are recorded before results in [`scripts/serving/gemma_strands.md`](./scripts/serving/gemma_strands.md). Cygnet/Winnow are a released-system comparison with a common base, not an isolated causal training ablation; Strands retains its native window and default truncation.
+
+**Completion note (2026-10-06):** All three full grids completed, including every CT10 mode/key cell. Results are reported in `results.md` Part 7 and `methodology.md` §19; actual rental and usage evidence is in `results/gemma_strands_run.json`. The GPU was terminated after evaluation. This note reports completion and does not amend the pre-run hypotheses.
+
+Status: original design drafted 2026-09-21; subsequent runs and addenda documented separately.
 
 ---
 

@@ -19,6 +19,9 @@ from typing import Optional
 
 import anthropic
 from typesafe_sdk import Choice, TypeSafeClient
+from arms.cygnet import CygnetArm
+from arms.winnow import WinnowArm
+from arms.strands import StrandsArm
 
 import harness.env  # noqa: F401 -- loads .env before any client init
 from harness.spend_ledger import record_spend
@@ -492,6 +495,53 @@ class CLMChunkArm:
 
     def __exit__(self, *exc_info: object) -> None:
         self.close()
+
+
+class _HostedChunkArm:
+    """Shared transport settings with the unchanged CT9 question."""
+    ARM_CLASS = None
+
+    def __init__(self, model: str | None = None, spend_source: str | None = None):
+        self._arm = self.ARM_CLASS(model=model, spend_source=spend_source or f"{self.name}_arm_ct9")
+
+    def predict_chunk(self, form_text: str, subtree_description: str, destinations: list[str]) -> ChunkPrediction:
+        question = Choice(instructions=f"{CHUNK_INSTRUCTIONS_PREFIX}\n\n{subtree_description}",
+                          criteria={d: f"Trace the decision logic and land on `{d}`." for d in destinations})
+        start = time.perf_counter()
+        response = self._arm._client.system_one(state=form_text, questions={"destination": question})
+        latency_ms = (time.perf_counter() - start) * 1000
+        answer = response.choices["destination"]
+        input_tokens = response.usage.input_tokens or 0
+        output_tokens = response.usage.output_tokens or 0
+        record_spend(source=self._arm._spend_source, model=self._arm.PRICING_KEY,
+                     input_tokens=input_tokens, output_tokens=output_tokens, note="ct9 chunk")
+        return ChunkPrediction(chosen=answer.choice, probabilities=dict(answer.probabilities),
+                               confidence=answer.confidence, latency_ms=latency_ms,
+                               input_tokens=input_tokens, output_tokens=output_tokens)
+
+    def close(self) -> None:
+        self._arm.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info: object) -> None:
+        self.close()
+
+
+class CygnetChunkArm(_HostedChunkArm):
+    name = "cygnet"
+    ARM_CLASS = CygnetArm
+
+
+class WinnowChunkArm(_HostedChunkArm):
+    name = "winnow"
+    ARM_CLASS = WinnowArm
+
+
+class StrandsChunkArm(_HostedChunkArm):
+    name = "strands"
+    ARM_CLASS = StrandsArm
 
 
 class SonnetChunkArm(HaikuChunkArm):

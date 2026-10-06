@@ -94,6 +94,9 @@ PRICING = {
     "kev-4b": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
     "nimble-9b": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
     "clm-8b": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
+    "cygnet-12b": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
+    "winnow-12b-q8": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
+    "strands-decider-2b": {"input_per_mtok": 0.0, "output_per_mtok": 0.0},
 }
 
 # --- Estimated self-hosted compute cost (USD), NOT real metered spend. ---
@@ -148,9 +151,9 @@ PRICING = {
 # improvement: unlike the entries above (rough per-model assumptions),
 # laya/kev/nimble/clm's throughput figures below are computed directly from
 # every real logged prediction's actual (input_tokens, output_tokens,
-# latency_ms) across the full CT1-8/CT9/CT10 run (laya: 15,060 calls on this
-# machine's own 8-core/16-thread CPU; kev: 15,060 calls; nimble: 9,060
-# calls; clm: 1,140 calls -- kev/nimble/clm all on the rented RunPod RTX
+# latency_ms) across the full CT1-8/CT9/CT10 run (laya: 15,060 stored rows on this
+# machine's own 8-core/16-thread CPU; kev: 15,060 rows; nimble: 9,060
+# rows; clm: 1,140 rows -- kev/nimble/clm all on the rented RunPod RTX
 # A6000), not a re-guessed community/spot estimate:
 #   laya:   6,120,208 input tok / 17,582.3s total latency =   348.1 tok/s
 #   kev:    (7,201,119 input + 1,824,723 output) tok / 4,031.1s = 2,239.1 tok/s
@@ -159,8 +162,7 @@ PRICING = {
 #           can't be cleanly separated from aggregate latency alone)
 #   nimble: 6,804,559 input tok / 5,607.2s total latency = 1,213.5 tok/s
 #   clm:    2,079,688 input tok /   365.1s total latency = 5,696.2 tok/s
-#           (CLM's action-cache is a big part of why this is so much
-#           higher than kev/nimble -- see qtree/arms.py's CLMChunkArm)
+#           (different token accounting and systems prevent isolating a cache speedup)
 # kev/nimble/clm's $/hr (0.53) is the REAL RunPod secure-cloud on-demand
 # rate actually paid for pod vloa78op9peabo (community cloud had no RTX
 # A6000 stock at request time, see methodology.md §18); laya's is a generic
@@ -171,6 +173,14 @@ SELF_HOSTED_GPU_HOURLY_USD = {
     "cpu_general": 0.05,  # generic small cloud CPU instance -- Laya needs no GPU at all
     "runpod_gpu_actual": 0.53,  # real on-demand rate paid for the Kev/Nimble/CLM session, see methodology.md §18
 }
+# October addition (§19): actual reported usage / summed client latency on the
+# same $0.53/hr A6000. These are end-to-end logical usage rates, not raw fresh
+# prefill throughput. Native prefix accounting differs across servers. Whole-
+# exam tokens/latency are apportioned across 30 rows, not duplicated requests.
+# Cygnet: (28,773,993 + 15,060) tokens / 3,862.531321707 s
+# Winnow: 8,320,636 tokens / 3,818.206559050 s
+# Strands: (12,741,075 + 15,060) tokens / 3,445.762527974 s
+# See results/gemma_strands_run.json for measured inputs and real rental charge.
 SELF_HOSTED_PRICING = {
     "nli-bart": {"input_per_mtok": 0.20 / (2_000 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
     "emb-bge": {"input_per_mtok": 0.20 / (1_800 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
@@ -185,6 +195,18 @@ SELF_HOSTED_PRICING = {
     },
     "nimble-9b": {"input_per_mtok": 0.53 / (1_213.5 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
     "clm-8b": {"input_per_mtok": 0.53 / (5_696.2 * 3_600) * 1_000_000, "output_per_mtok": 0.0},
+    "cygnet-12b": {
+        "input_per_mtok": 0.53 / (7_453.416063763439 * 3_600) * 1_000_000,
+        "output_per_mtok": 0.53 / (7_453.416063763439 * 3_600) * 1_000_000,
+    },
+    "winnow-12b-q8": {
+        "input_per_mtok": 0.53 / (2_179.200069802003 * 3_600) * 1_000_000,
+        "output_per_mtok": 0.0,
+    },
+    "strands-decider-2b": {
+        "input_per_mtok": 0.53 / (3_701.97739874402 * 3_600) * 1_000_000,
+        "output_per_mtok": 0.53 / (3_701.97739874402 * 3_600) * 1_000_000,
+    },
 }
 
 # Hard budget guardrails. See results.md / conversation log: user-provided

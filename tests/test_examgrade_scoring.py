@@ -12,7 +12,7 @@ from examgrade.scoring import (
 # Arms with both chained and whole-exam data (Nimble is chained-only -- its
 # whole-exam mode is documented unsupported, see examgrade/arms.py's
 # NimbleExamArm -- so it's tested separately below, not in this set).
-FULL_MODE_ARMS = ("jev", "haiku", "sonnet", "openjev", "kev", "laya")
+FULL_MODE_ARMS = ("jev", "haiku", "sonnet", "openjev", "kev", "laya", "cygnet", "winnow", "strands")
 
 
 def test_question_level_error_structure():

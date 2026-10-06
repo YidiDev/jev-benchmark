@@ -36,9 +36,9 @@ ARMS_SYNTHESIZE_SHUFFLE_FROM_B = {"nli-bart", "emb-bge"}
 # laya ships a fitted-temperature calibrated confidence (see arms/laya.py);
 # kev/nimble likewise ship genuine calibrated/uncalibrated-but-real
 # confidence estimates worth reporting alongside jev/haiku/openjev/sonnet.
-CALIBRATION_ARMS = {"jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble"}
+CALIBRATION_ARMS = {"jev", "haiku", "openjev", "sonnet", "laya", "kev", "nimble", "cygnet", "winnow", "strands"}
 
-ALL_KNOWN_ARMS = ("jev", "haiku", "nli-bart", "emb-bge", "openjev", "sonnet", "laya", "kev", "nimble")
+ALL_KNOWN_ARMS = ("jev", "haiku", "nli-bart", "emb-bge", "openjev", "sonnet", "laya", "kev", "nimble", "cygnet", "winnow", "strands")
 
 
 def _manifest_index() -> dict[str, DocumentMetadata]:
@@ -205,6 +205,9 @@ def cost_latency_table() -> list[dict]:
         "laya": "laya_arm",
         "kev": "kev_arm",
         "nimble": "nimble_arm",
+        "cygnet": "cygnet_arm",
+        "winnow": "winnow_arm",
+        "strands": "strands_arm",
     }
 
     out = []
